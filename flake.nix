@@ -17,6 +17,7 @@
           buildInputs = with pkgs; [
             (agda.withPackages (ps: [
               ps.standard-library
+              ps.agda-categories
             ]))
           ];
         };
