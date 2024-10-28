@@ -17,11 +17,19 @@ open import Categories.Adjoint.Properties using (adjoint⇒monad; adjoint⇒como
 
 pollo : { F : Functor C D } { G : Functor D C } → ( Adj : F ⊣ G )
   → Functor (Kleisli (adjoint⇒monad Adj)) (CoKleisli (adjoint⇒comonad Adj))
-pollo = {! !}
+pollo {F} {G} Adj = record
+  { F₀ = F.F₀
+  ; F₁ = λ { f → Adj.counit.η (F.F₀ _) D.∘ (F.F₁ f) D.∘ Adj.counit.η (F.F₀ _) }
+  ; identity = {! !}
+  ; homomorphism = {! !}
+  ; F-resp-≈ = {! !}
+  } where module F = Functor F
+          module D = Category D
+          module Adj = Adjoint Adj
 
 gallo : { F : Functor C D } { G : Functor D C } → ( Adj : F ⊣ G )
   → Functor (CoKleisli (adjoint⇒comonad Adj)) (Kleisli (adjoint⇒monad Adj))
-gallo = {! !}
+gallo {F} {G} Adj = ?
 
 gallo⊣pollo : { F : Functor C D } { G : Functor D C } → (Adj : F ⊣ G) → ( (gallo Adj) ⊣ (pollo Adj) )
 gallo⊣pollo = {! !}
