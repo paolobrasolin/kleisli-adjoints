@@ -22,8 +22,8 @@ pollo {F} {G} Adj = record
   { F₀ = F.F₀
   ; F₁ = λ { f → Adj.counit.η (F.F₀ _) D.∘ (F.F₁ f) D.∘ Adj.counit.η (F.F₀ _) }
   ; identity = λ { {A} → begin
-      _ ≈⟨ MR.cancelˡ D Adj.zig ⟩
-      _ ∎
+      Adj.counit.η (F.F₀ A) D.∘ F.F₁ (Adj.unit.η A) D.∘ Adj.counit.η (F.F₀ A) ≈⟨ MR.cancelˡ D Adj.zig ⟩
+      Adj.counit.η (F.F₀ A) ∎
     }
   ; homomorphism = {! !}
   ; F-resp-≈ = {! !}
