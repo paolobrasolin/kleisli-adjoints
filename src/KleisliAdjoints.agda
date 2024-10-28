@@ -25,7 +25,14 @@ pollo {F} {G} Adj = record
       Adj.counit.η (F.F₀ A) D.∘ F.F₁ (Adj.unit.η A) D.∘ Adj.counit.η (F.F₀ A) ≈⟨ MR.cancelˡ D Adj.zig ⟩
       Adj.counit.η (F.F₀ A) ∎
     }
-  ; homomorphism = {! !}
+  ; homomorphism = λ { {X} {Y} {Z} {f} {g} → begin
+      Adj.counit.η (F.F₀ Z) D.∘ F.F₁ (Kleisli (adjoint⇒monad Adj) [ g ∘ f ]) D.∘ Adj.counit.η (F.F₀ X) ≈⟨ ? ⟩
+      CoKleisli (adjoint⇒comonad Adj) [
+        (Adj.counit.η (F.F₀ Z) D.∘ F.F₁ g D.∘ Adj.counit.η (F.F₀ Y))
+        ∘
+        (Adj.counit.η (F.F₀ Y) D.∘ F.F₁ f D.∘ Adj.counit.η (F.F₀ X))
+      ] ∎
+    }
   ; F-resp-≈ = {! !}
   } where module F = Functor F
           module D = Category D
@@ -35,7 +42,7 @@ pollo {F} {G} Adj = record
 
 gallo : { F : Functor C D } { G : Functor D C } → ( Adj : F ⊣ G )
   → Functor (CoKleisli (adjoint⇒comonad Adj)) (Kleisli (adjoint⇒monad Adj))
-gallo {F} {G} Adj = ?
+gallo {F} {G} Adj = {! !}
 
 gallo⊣pollo : { F : Functor C D } { G : Functor D C } → (Adj : F ⊣ G) → ( (gallo Adj) ⊣ (pollo Adj) )
 gallo⊣pollo = {! !}
