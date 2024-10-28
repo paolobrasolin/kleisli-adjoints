@@ -1,20 +1,14 @@
-open import Categories.Category
+open import Categories.Category using (Category; _[_∘_])
 
 module KleisliAdjoints { o l e o' l' e' } { C : Category o l e } { D : Category o' l' e' } where
 
-open import Categories.Adjoint
-open import Categories.Functor
-open import Categories.Monad
-open import Categories.Comonad
-
--- open import Categories.Adjoint.Construction.Kleisli
+open import Categories.Adjoint using (Adjoint; _⊣_)
+open import Categories.Functor using (Functor)
 open import Categories.Category.Construction.Kleisli using (Kleisli)
 open import Categories.Category.Construction.CoKleisli using (CoKleisli)
-open import Categories.Adjoint.Construction.CoKleisli
-
 open import Categories.Adjoint.Properties using (adjoint⇒monad; adjoint⇒comonad)
 
-open import Categories.Morphism.Reasoning as MR
+import Categories.Morphism.Reasoning as MR
 
 pollo : { F : Functor C D } { G : Functor D C } → ( Adj : F ⊣ G )
   → Functor (Kleisli (adjoint⇒monad Adj)) (CoKleisli (adjoint⇒comonad Adj))
