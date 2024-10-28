@@ -1,0 +1,6 @@
+name: KleisliAdjoints
+include:
+  src
+depend:
+  standard-library
+
