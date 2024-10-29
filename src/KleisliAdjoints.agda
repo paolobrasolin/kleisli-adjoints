@@ -1,9 +1,10 @@
+import Level
 open import Categories.Category using (Category; _[_∘_])
-
-module KleisliAdjoints { o l e o' l' e' } { C : Category o l e } { D : Category o' l' e' } where
-
+open import Categories.Functor using (Functor; _∘F_)
 open import Categories.Adjoint using (Adjoint; _⊣_)
-open import Categories.Functor using (Functor)
+
+module KleisliAdjoints {o l e o' l' e'} {C : Category o l e} {D : Category o' l' e'} {F : Functor C D} {G : Functor D C} (Adj : F ⊣ G) where
+
 open import Categories.Category.Construction.Kleisli using (Kleisli)
 open import Categories.Category.Construction.CoKleisli using (CoKleisli)
 open import Categories.Adjoint.Properties using (adjoint⇒monad; adjoint⇒comonad)
@@ -11,9 +12,8 @@ open import Categories.NaturalTransformation as NT using (ntHelper)
 
 import Categories.Morphism.Reasoning as MR
 
-pollo : { F : Functor C D } { G : Functor D C } → ( Adj : F ⊣ G )
-  → Functor (Kleisli (adjoint⇒monad Adj)) (CoKleisli (adjoint⇒comonad Adj))
-pollo {F} {G} Adj = record
+pollo : Functor (Kleisli (adjoint⇒monad Adj)) (CoKleisli (adjoint⇒comonad Adj))
+pollo = record
   { F₀ = F.F₀
   ; F₁ = let ε = Adj.counit.η in 
        λ { f → ε (F.F₀ _) D.∘ (F.F₁ f) D.∘ ε (F.F₀ _) }
@@ -24,7 +24,7 @@ pollo {F} {G} Adj = record
   ; homomorphism = let ε = Adj.counit.η in begin 
     {!   !} ≈⟨ {!   !} ⟩ 
     {!   !} ≈⟨ {!   !} ⟩ 
-    {!   !} ≈⟨ {!   !} ⟩ 
+    {!   !} ≈˘⟨ {!   !} ⟩ 
     {!   !} ∎
   ; F-resp-≈ = λ { x → refl⟩∘⟨ (F.F-resp-≈ x ⟩∘⟨refl) }
   } where module F = Functor F
@@ -34,9 +34,8 @@ pollo {F} {G} Adj = record
           open D.HomReasoning
           open MR D
 
-gallo : { F : Functor C D } { G : Functor D C } → ( Adj : F ⊣ G )
-  → Functor (CoKleisli (adjoint⇒comonad Adj)) (Kleisli (adjoint⇒monad Adj))
-gallo {F} {G} Adj = record
+gallo : Functor (CoKleisli (adjoint⇒comonad Adj)) (Kleisli (adjoint⇒monad Adj))
+gallo = record
   { F₀ = G.F₀
   ; F₁ = λ { f → Adj.unit.η (G.F₀ _) C.∘ (G.F₁ f) C.∘ Adj.unit.η (G.F₀ _) }
   ; identity = λ {A} → begin
@@ -50,20 +49,28 @@ gallo {F} {G} Adj = record
           open C.HomReasoning
           open MR C
 
-gallo⊣pollo : { F : Functor C D } { G : Functor D C } → (Adj : F ⊣ G) → ( (gallo Adj) ⊣ (pollo Adj) )
-gallo⊣pollo Adj = record 
-  { unit = ntHelper (record 
+gallo⊣pollo : gallo ⊣ pollo
+gallo⊣pollo = record 
+  { unit = ntHelper (let open D.HomReasoning 
+                         open MR D in record 
     { η = λ X → D.id 
-    ; commute = {!   !} 
+    ; commute = λ { f → begin 
+        {!   !} ≈⟨ D.identityˡ ⟩ 
+        {!   !} ≈⟨ {!   !} ⟩ 
+        {!   !} ≈⟨ {!   !} ⟩ 
+        {!   !} ≈⟨ MR.elim-center D F.identity ⟩
+        {!   !}  ∎ }
     })
-  ; counit = ntHelper (record 
+  ; counit = ntHelper (let open C.HomReasoning 
+                           open MR C in record 
     { η = λ X → C.id 
-    ; commute = {!   !} 
+    ; commute = λ { f → {!    !} }
     }) 
-  ; zig = {!   !} 
-  ; zag = {!   !} 
-  } where open Functor
+  ; zig = λ {A} → {!   !}
+  ; zag = λ {B} → {!   !} 
+  } where module F = Functor F 
+          module G = Functor G
+          module F∘G = Functor (F ∘F G)
           open NT.NaturalTransformation
           module C = Category C
           module D = Category D
-
