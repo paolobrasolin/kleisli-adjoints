@@ -28,7 +28,19 @@ pollo {F} {G} Adj = record
 
 gallo : { F : Functor C D } { G : Functor D C } → ( Adj : F ⊣ G )
   → Functor (CoKleisli (adjoint⇒comonad Adj)) (Kleisli (adjoint⇒monad Adj))
-gallo {F} {G} Adj = {! !}
+gallo {F} {G} Adj = record
+  { F₀ = G.F₀
+  ; F₁ = λ { f → Adj.unit.η (G.F₀ _) C.∘ (G.F₁ f) C.∘ Adj.unit.η (G.F₀ _) }
+  ; identity = λ {A} → begin
+    _ ≈⟨ elimʳ Adj.zag ⟩
+    _ ∎
+  ; homomorphism = {! !}
+  ; F-resp-≈ = λ { x → refl⟩∘⟨ (G.F-resp-≈ x ⟩∘⟨refl) }
+  } where module G = Functor G
+          module C = Category C
+          module Adj = Adjoint Adj
+          open C.HomReasoning
+          open MR C
 
 gallo⊣pollo : { F : Functor C D } { G : Functor D C } → (Adj : F ⊣ G) → ( (gallo Adj) ⊣ (pollo Adj) )
 gallo⊣pollo = {! !}
