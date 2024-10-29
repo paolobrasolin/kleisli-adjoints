@@ -43,5 +43,19 @@ gallo {F} {G} Adj = record
           open MR C
 
 gallo⊣pollo : { F : Functor C D } { G : Functor D C } → (Adj : F ⊣ G) → ( (gallo Adj) ⊣ (pollo Adj) )
-gallo⊣pollo = {! !}
+gallo⊣pollo Adj = record 
+  { unit = ntHelper (record 
+    { η = λ X → D.id 
+    ; commute = {!   !} 
+    })
+  ; counit = ntHelper (record 
+    { η = λ X → C.id 
+    ; commute = {!   !} 
+    }) 
+  ; zig = {!   !} 
+  ; zag = {!   !} 
+  } where open Functor
+          open NT.NaturalTransformation
+          module C = Category C
+          module D = Category D
 
