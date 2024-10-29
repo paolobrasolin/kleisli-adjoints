@@ -7,6 +7,7 @@ open import Categories.Functor using (Functor)
 open import Categories.Category.Construction.Kleisli using (Kleisli)
 open import Categories.Category.Construction.CoKleisli using (CoKleisli)
 open import Categories.Adjoint.Properties using (adjoint⇒monad; adjoint⇒comonad)
+open import Categories.NaturalTransformation as NT using (ntHelper)
 
 import Categories.Morphism.Reasoning as MR
 
