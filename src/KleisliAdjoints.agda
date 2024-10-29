@@ -14,13 +14,20 @@ pollo : { F : Functor C D } { G : Functor D C } → ( Adj : F ⊣ G )
   → Functor (Kleisli (adjoint⇒monad Adj)) (CoKleisli (adjoint⇒comonad Adj))
 pollo {F} {G} Adj = record
   { F₀ = F.F₀
-  ; F₁ = λ { f → Adj.counit.η (F.F₀ _) D.∘ (F.F₁ f) D.∘ Adj.counit.η (F.F₀ _) }
-  ; identity = λ {A} → begin
-    Adj.counit.η (F.F₀ A) D.∘ F.F₁ (Adj.unit.η A) D.∘ Adj.counit.η (F.F₀ A) ≈⟨ cancelˡ Adj.zig ⟩
-    Adj.counit.η (F.F₀ A)                                                   ∎
-  ; homomorphism = {! !}
-  ; F-resp-≈ = {! !}
+  ; F₁ = let ε = Adj.counit.η in 
+       λ { f → ε (F.F₀ _) D.∘ (F.F₁ f) D.∘ ε (F.F₀ _) }
+  ; identity = λ {A} → cancelˡ Adj.zig
+    -- begin
+    -- Adj.counit.η (F.F₀ A) D.∘ F.F₁ (Adj.unit.η A) D.∘ Adj.counit.η (F.F₀ A) ≈⟨ cancelˡ Adj.zig ⟩
+    -- Adj.counit.η (F.F₀ A)                                                   ∎
+  ; homomorphism = let ε = Adj.counit.η in begin 
+    {!   !} ≈⟨ {!   !} ⟩ 
+    {!   !} ≈⟨ {!   !} ⟩ 
+    {!   !} ≈⟨ {!   !} ⟩ 
+    {!   !} ∎
+  ; F-resp-≈ = λ { x → refl⟩∘⟨ (F.F-resp-≈ x ⟩∘⟨refl) }
   } where module F = Functor F
+          module C = Category C
           module D = Category D
           module Adj = Adjoint Adj
           open D.HomReasoning
