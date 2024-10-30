@@ -79,9 +79,16 @@ gallo⊣pollo = record
                          open MR D in record
     { η = λ X → D.id
     ; commute = λ { {X} {Y} f → begin
-        {!   !} ≈⟨ D.identityˡ ⟩
-        {!   !} ≈⟨ {!   !} ⟩
-        _ ≈˘⟨ ({!   !} ⟩∘⟨refl) ○ assoc²'' ⟩∘⟨refl ⟩
+        _ ≈⟨ D.identityˡ ⟩
+        _ ≈˘⟨ MR.cancelInner D (zig Adj) ⟩
+        _ ≈˘⟨ refl⟩∘⟨ F.homomorphism ⟩
+        _ ≈⟨ refl⟩∘⟨ F.F-resp-≈ (commute (unit Adj) _) ⟩
+        _ ≈˘⟨ refl⟩∘⟨ D.Equiv.sym F.homomorphism ⟩
+        _ ≈˘⟨ D.∘-resp-≈ˡ D.sym-assoc ○ D.assoc ⟩ -- assoc²βγ
+        _ ≈˘⟨ MR.pullʳ D (sym-commute (counit Adj) _) ⟩∘⟨refl ⟩
+        _ ≈˘⟨ F.homomorphism ⟩∘⟨refl ⟩∘⟨refl ⟩
+        _ ≈˘⟨ MR.elimˡ D (zig Adj) ⟩∘⟨refl ⟩
+        _ ≈˘⟨ (D.∘-resp-≈ʳ D.assoc ○ D.sym-assoc) ⟩∘⟨refl ⟩ -- assoc²δγ
         _ ≈˘⟨ (refl⟩∘⟨ (F.homomorphism ⟩∘⟨refl)) ⟩∘⟨refl ⟩
         _ ≈˘⟨ refl⟩∘⟨ MR.elimˡ D F∘G.identity ⟩
         _ ≈˘⟨ refl⟩∘⟨ MR.elimˡ D F.identity ⟩
@@ -93,11 +100,12 @@ gallo⊣pollo = record
     { η = λ X → C.id
     ; commute = λ { f → {!    !} }
     })
-  ; zig = λ {A} → {!   !}
+  ; zig = λ {A} → {! !}
   ; zag = λ {B} → {!   !}
   } where module F = Functor F
           module G = Functor G
           module F∘G = Functor (F ∘F G)
+          open Adjoint
           open NT.NaturalTransformation
           module C = Category C
           module D = Category D
