@@ -81,12 +81,12 @@ gallo⊣pollo = record
     ; commute = λ { {X} {Y} f → begin
         {!   !} ≈⟨ D.identityˡ ⟩
         {!   !} ≈⟨ {!   !} ⟩
-        {!   !} ≈⟨ (MR.pullˡ D {!   !}) ⟩∘⟨refl ⟩
-        {!   !} ≈˘⟨ (refl⟩∘⟨ (F.homomorphism ⟩∘⟨refl)) ⟩∘⟨refl ⟩
-        {!   !} ≈˘⟨ refl⟩∘⟨ MR.elimˡ D F∘G.identity ⟩
-        {!   !} ≈˘⟨ refl⟩∘⟨ MR.elimˡ D F.identity ⟩
-        {!   !} ≈⟨ MR.elim-center D F.identity ⟩
-        {!   !}  ∎ }
+        _ ≈˘⟨ ({!   !} ⟩∘⟨refl) ○ assoc²'' ⟩∘⟨refl ⟩
+        _ ≈˘⟨ (refl⟩∘⟨ (F.homomorphism ⟩∘⟨refl)) ⟩∘⟨refl ⟩
+        _ ≈˘⟨ refl⟩∘⟨ MR.elimˡ D F∘G.identity ⟩
+        _ ≈˘⟨ refl⟩∘⟨ MR.elimˡ D F.identity ⟩
+        _ ≈⟨ MR.elim-center D F.identity ⟩
+        _  ∎ }
     })
   ; counit = ntHelper (let open C.HomReasoning
                            open MR C in record
