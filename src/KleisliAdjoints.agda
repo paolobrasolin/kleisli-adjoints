@@ -12,6 +12,7 @@ open import Categories.NaturalTransformation as NT using (ntHelper)
 
 import Categories.Morphism.Reasoning as MR
 
+
 pollo : Functor (Kleisli (adjoint⇒monad Adj)) (CoKleisli (adjoint⇒comonad Adj))
 pollo = record
   { F₀ = F.F₀
@@ -77,10 +78,13 @@ gallo⊣pollo = record
   { unit = ntHelper (let open D.HomReasoning
                          open MR D in record
     { η = λ X → D.id
-    ; commute = λ { f → begin
+    ; commute = λ { {X} {Y} f → begin
         {!   !} ≈⟨ D.identityˡ ⟩
         {!   !} ≈⟨ {!   !} ⟩
-        {!   !} ≈⟨ {!   !} ⟩
+        {!   !} ≈⟨ (MR.pullˡ D {!   !}) ⟩∘⟨refl ⟩
+        {!   !} ≈˘⟨ (refl⟩∘⟨ (F.homomorphism ⟩∘⟨refl)) ⟩∘⟨refl ⟩
+        {!   !} ≈˘⟨ refl⟩∘⟨ MR.elimˡ D F∘G.identity ⟩
+        {!   !} ≈˘⟨ refl⟩∘⟨ MR.elimˡ D F.identity ⟩
         {!   !} ≈⟨ MR.elim-center D F.identity ⟩
         {!   !}  ∎ }
     })
