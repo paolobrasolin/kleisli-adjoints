@@ -108,7 +108,14 @@ gallo⊣pollo = record
       _ ≈⟨ (elimʳ G∘F.identity) ⟩∘⟨refl ⟩
       _ ≈⟨ cancelˡ (zag Adj) ⟩
       _ ∎ }
-  ; zag = λ {B} → {!   !}
+  ; zag = λ { {B} →
+    let open D.HomReasoning
+        open MR D in
+    begin
+      _ ≈⟨ elim-center F∘G.identity ⟩
+      _ ≈⟨ elim-center F.identity ⟩∘⟨refl ⟩
+      _ ≈⟨ cancelʳ (zig Adj) ⟩
+      _ ∎ }
   } where module F = Functor F
           module G = Functor G
           module F∘G = Functor (F ∘F G)
