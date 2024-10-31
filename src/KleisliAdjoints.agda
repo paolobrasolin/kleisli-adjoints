@@ -16,12 +16,8 @@ import Categories.Morphism.Reasoning as MR
 pollo : Functor (Kleisli (adjoint⇒monad Adj)) (CoKleisli (adjoint⇒comonad Adj))
 pollo = record
   { F₀ = F.F₀
-  ; F₁ = let ε = Adj.counit.η in
-       λ { f → ε (F.F₀ _) D.∘ (F.F₁ f) D.∘ ε (F.F₀ _) }
-  ; identity = λ {A} → cancelˡ Adj.zig
-    -- begin
-    -- Adj.counit.η (F.F₀ A) D.∘ F.F₁ (Adj.unit.η A) D.∘ Adj.counit.η (F.F₀ A) ≈⟨ cancelˡ Adj.zig ⟩
-    -- Adj.counit.η (F.F₀ A)                                                   ∎
+  ; F₁ = let ε = Adj.counit.η in λ { f → ε (F.F₀ _) D.∘ (F.F₁ f) D.∘ ε (F.F₀ _) }
+  ; identity = cancelˡ Adj.zig
   ; homomorphism = begin
     _ ≈⟨ refl⟩∘⟨ F.homomorphism ⟩∘⟨refl ⟩
     _ ≈⟨ refl⟩∘⟨ F.homomorphism ⟩∘⟨refl ⟩∘⟨refl ⟩
@@ -49,7 +45,7 @@ pollo = record
     _ ≈⟨ refl⟩∘⟨ F.F-resp-≈ (G.F-resp-≈ D.assoc) ⟩∘⟨refl ⟩
     _ ≈⟨ refl⟩∘⟨ D.Equiv.refl ⟩∘⟨refl ⟩
     _ ∎
-  ; F-resp-≈ = λ { x → refl⟩∘⟨ (F.F-resp-≈ x ⟩∘⟨refl) }
+  ; F-resp-≈ = λ { x → refl⟩∘⟨ F.F-resp-≈ x ⟩∘⟨refl }
   } where module F = Functor F
           module G = Functor G
           module C = Category C
@@ -61,12 +57,10 @@ pollo = record
 gallo : Functor (CoKleisli (adjoint⇒comonad Adj)) (Kleisli (adjoint⇒monad Adj))
 gallo = record
   { F₀ = G.F₀
-  ; F₁ = λ { f → Adj.unit.η (G.F₀ _) C.∘ (G.F₁ f) C.∘ Adj.unit.η (G.F₀ _) }
-  ; identity = λ {A} → begin
-    _ ≈⟨ elimʳ Adj.zag ⟩
-    _ ∎
+  ; F₁ = let η = Adj.unit.η in λ { f → η (G.F₀ _) C.∘ (G.F₁ f) C.∘ η (G.F₀ _) }
+  ; identity = elimʳ Adj.zag
   ; homomorphism = {! !}
-  ; F-resp-≈ = λ { x → refl⟩∘⟨ (G.F-resp-≈ x ⟩∘⟨refl) }
+  ; F-resp-≈ = λ { x → refl⟩∘⟨ G.F-resp-≈ x ⟩∘⟨refl }
   } where module G = Functor G
           module C = Category C
           module Adj = Adjoint Adj
@@ -112,8 +106,8 @@ gallo⊣pollo = record
     let open C.HomReasoning
         open MR C in
     begin
-      _ ≈⟨ refl⟩∘⟨ (elim-center G.identity) ⟩
-      _ ≈⟨ (elimʳ G∘F.identity) ⟩∘⟨refl ⟩
+      _ ≈⟨ refl⟩∘⟨ elim-center G.identity ⟩
+      _ ≈⟨ elimʳ G∘F.identity ⟩∘⟨refl ⟩
       _ ≈⟨ cancelˡ (zag Adj) ⟩
       _ ∎ }
   ; zag = λ { {B} →
