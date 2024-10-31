@@ -102,14 +102,15 @@ gallo⊣pollo = record
     })
   ; zig = λ { {A} → let open C.HomReasoning
                         open MR C in
-            begin {!   !} ≈⟨ (refl⟩∘⟨ elim-center G.identity) ⟩
-                  {!   !} ≈⟨ ({!!} ⟩∘⟨refl) ⟩
-                  {!   !} ≈⟨ {!   !} ⟩
-                  {!   !} ∎ }
+            begin _ ≈⟨ refl⟩∘⟨ (elim-center G.identity) ⟩
+                  _ ≈⟨ (elimʳ G∘F.identity) ⟩∘⟨refl ⟩
+                  _ ≈⟨ cancelˡ (zag Adj) ⟩
+                  _ ∎ }
   ; zag = λ {B} → {!   !}
   } where module F = Functor F
           module G = Functor G
           module F∘G = Functor (F ∘F G)
+          module G∘F = Functor (G ∘F F)
           open Adjoint
           open NT.NaturalTransformation
           module C = Category C
