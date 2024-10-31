@@ -100,7 +100,8 @@ gallo⊣pollo = record
     { η = λ X → C.id
     ; commute = λ { f → begin 
       {! !} ≈⟨ elimʳ G∘F.identity ⟩∘⟨refl ⟩ -- (GeFY ∘ GF1) ∘ (hGFY ∘ (G(eFY ∘ Ff ∘ eFX) ∘ hGFX))
-      {! !} ≈⟨ {! !} ⟩ -- (GeFY ∘ GF1) ∘ (hGFY ∘ (G(eFY ∘ Ff ∘ eFX) ∘ hGFX))
+      {! !} ≈⟨ cancelˡ (zag Adj) ⟩ -- GeFY ∘ (hGFY ∘ (G(eFY ∘ Ff ∘ eFX) ∘ hGFX))
+      {! !} ≈⟨ {! !} ⟩ -- GeFY ∘ (hGFY ∘ (G(eFY ∘ Ff ∘ eFX) ∘ hGFX))
       {! !} ∎  } -- GeFY ∘ GFf ∘ 1
     })
   ; zig = λ { {A} →
