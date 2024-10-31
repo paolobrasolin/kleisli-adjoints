@@ -100,12 +100,14 @@ gallo⊣pollo = record
     { η = λ X → C.id
     ; commute = λ { f → {!    !} }
     })
-  ; zig = λ { {A} → let open C.HomReasoning
-                        open MR C in
-            begin _ ≈⟨ refl⟩∘⟨ (elim-center G.identity) ⟩
-                  _ ≈⟨ (elimʳ G∘F.identity) ⟩∘⟨refl ⟩
-                  _ ≈⟨ cancelˡ (zag Adj) ⟩
-                  _ ∎ }
+  ; zig = λ { {A} →
+    let open C.HomReasoning
+        open MR C in
+    begin
+      _ ≈⟨ refl⟩∘⟨ (elim-center G.identity) ⟩
+      _ ≈⟨ (elimʳ G∘F.identity) ⟩∘⟨refl ⟩
+      _ ≈⟨ cancelˡ (zag Adj) ⟩
+      _ ∎ }
   ; zag = λ {B} → {!   !}
   } where module F = Functor F
           module G = Functor G
