@@ -99,10 +99,14 @@ gallo⊣pollo = record
                            open MR C in record
     { η = λ X → C.id
     ; commute = λ { f → begin 
-      {! !} ≈⟨ elimʳ G∘F.identity ⟩∘⟨refl ⟩ -- (GeFY ∘ GF1) ∘ (hGFY ∘ (G(eFY ∘ Ff ∘ eFX) ∘ hGFX))
-      {! !} ≈⟨ cancelˡ (zag Adj) ⟩ -- GeFY ∘ (hGFY ∘ (G(eFY ∘ Ff ∘ eFX) ∘ hGFX))
-      {! !} ≈⟨ {! !} ⟩ -- GeFY ∘ (hGFY ∘ (G(eFY ∘ Ff ∘ eFX) ∘ hGFX))
-      {! !} ∎  } -- GeFY ∘ GFf ∘ 1
+      _ ≈⟨ elimʳ G∘F.identity ⟩∘⟨refl ⟩ -- (GeFY ∘ GF1) ∘ (hGFY ∘ (G(eFY ∘ Ff ∘ eFX) ∘ hGFX))
+      _ ≈⟨ cancelˡ (zag Adj) ⟩ -- GeFY ∘ (hGFY ∘ (G(eFY ∘ Ff ∘ eFX) ∘ hGFX))
+      _ ≈⟨ G.homomorphism ⟩∘⟨refl ⟩ -- G(eFY ∘ Ff ∘ eFX) ∘ hGFX
+      _ ≈⟨ (refl⟩∘⟨ G.homomorphism) ⟩∘⟨refl ⟩ -- G(eFY) ∘ G(Ff ∘ eFX) ∘ hGFX
+      _ ≈⟨ C.assoc ⟩ -- (G(eFY) ∘ (GFf ∘ GeFX)) ∘ hGFX
+      _ ≈⟨ refl⟩∘⟨ pullʳ (zag Adj)  ⟩ -- G(eFY) ∘ ((GFf ∘ GeFX) ∘ hGFX)
+      _ ≈⟨ C.sym-assoc ⟩
+      _ ∎  }
     })
   ; zig = λ { {A} →
     let open C.HomReasoning
