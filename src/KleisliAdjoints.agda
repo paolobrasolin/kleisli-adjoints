@@ -98,7 +98,10 @@ gallo⊣pollo = record
   ; counit = ntHelper (let open C.HomReasoning
                            open MR C in record
     { η = λ X → C.id
-    ; commute = λ { f → {!    !} }
+    ; commute = λ { f → begin 
+      {! !} ≈⟨ elimʳ G∘F.identity ⟩∘⟨refl ⟩ -- (GeFY ∘ GF1) ∘ (hGFY ∘ (G(eFY ∘ Ff ∘ eFX) ∘ hGFX))
+      {! !} ≈⟨ {! !} ⟩ -- (GeFY ∘ GF1) ∘ (hGFY ∘ (G(eFY ∘ Ff ∘ eFX) ∘ hGFX))
+      {! !} ∎  } -- GeFY ∘ GFf ∘ 1
     })
   ; zig = λ { {A} →
     let open C.HomReasoning
