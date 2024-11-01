@@ -1,4 +1,8 @@
-- [ ] find compelling names for pollo and gallo (working names are Operationalise and Contextualise)
+- [ ] rename pollo and gallo
+  - [ ] apply working names (Operationalise and Contextualise)
+  - [ ] find more compelling names
+- [ ] refactor KleisliAdjoints module
+- [ ] golf proofs in KleisliAdjoints
 - [ ] compute some examples for known monads
   - [ ] list
   - [ ] maybe
