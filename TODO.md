@@ -1,0 +1,13 @@
+- [ ] find compelling names for pollo and gallo (working names are Operationalise and Contextualise)
+- [ ] compute some examples for known monads
+  - [ ] list
+  - [ ] maybe
+  - [ ] powerset
+  - [ ] state
+  - [ ] continuation
+  - [ ] [A, _] (writer) (dual of A x _)
+- [ ] compute some examples for known comonads
+  - [ ] stream
+  - [ ] store
+  - [ ] A x _ (reader) (dual of [A, _])
+
