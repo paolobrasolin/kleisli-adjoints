@@ -40,3 +40,20 @@ _ : let
   }
 _ = refl
 
+module _ where
+  open module C = Category C
+  module G = Functor G
+  module F = Functor F
+  module H = NaturalTransformation (Adjoint.unit Adj)
+  open H renaming (η to η)
+  module E = NaturalTransformation (Adjoint.counit Adj)
+  open E renaming (η to ϵ)
+  _ : Functor.F₀ gallo ≡ λ x → G.F₀ (F.F₀ x)
+  _ = refl
+  _ : Functor.F₁ gallo ≡ λ f → η (G.F₀ (F.F₀ _)) ∘ (G.F₁ (ϵ (F.F₀ _)) ∘ G.F₁ (F.F₁ f)) ∘ η (G.F₀ (F.F₀ _))
+  -- ηGF_ ∘ GϵF_ ∘ GFf ∘ ηGF_
+  -- ηT_ ∘ μ_ ∘ Tf ∘ ηT_
+  -- ηT_ ∘ μ_ ∘ Tf ∘ ηT_
+  _ = refl
+
+
