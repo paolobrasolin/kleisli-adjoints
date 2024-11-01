@@ -1,5 +1,3 @@
-{-# OPTIONS --allow-unsolved-metas #-}
-
 import Level
 open import Categories.Category using (Category; _[_∘_])
 open import Categories.Functor using (Functor; _∘F_)
