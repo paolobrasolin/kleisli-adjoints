@@ -59,10 +59,16 @@ gallo = record
   { F₀ = G.F₀
   ; F₁ = let η = Adj.unit.η in λ { f → η (G.F₀ _) C.∘ (G.F₁ f) C.∘ η (G.F₀ _) }
   ; identity = elimʳ Adj.zag
-  ; homomorphism = {! !}
+  ; homomorphism = begin 
+      {! !} ≈⟨ refl⟩∘⟨ ((G.homomorphism ○ (refl⟩∘⟨ G.homomorphism)) ⟩∘⟨refl) ⟩ -- hGZ . G(g . FGf . FhGX) . hGX 
+      {! !} ≈⟨ {! !} ⟩ -- hGZ . ((Gg . (GFGf . GFhGX)) . hGX)
+      {! !} ≈⟨ {! !} ⟩ -- (GeFGZ . GF(hGZ . Gf . hGY)) . hGY . Gf . hGX
+      {! !} ∎  
   ; F-resp-≈ = λ { x → refl⟩∘⟨ G.F-resp-≈ x ⟩∘⟨refl }
   } where module G = Functor G
           module C = Category C
+          module D = Category D
+          module F = Functor F
           module Adj = Adjoint Adj
           open C.HomReasoning
           open MR C
@@ -93,12 +99,12 @@ gallo⊣pollo = record
                            open MR C in record
     { η = λ X → C.id
     ; commute = λ { f → begin 
-      _ ≈⟨ elimʳ G∘F.identity ⟩∘⟨refl ⟩ -- (GeFY ∘ GF1) ∘ (hGFY ∘ (G(eFY ∘ Ff ∘ eFX) ∘ hGFX))
-      _ ≈⟨ cancelˡ (zag Adj) ⟩ -- GeFY ∘ (hGFY ∘ (G(eFY ∘ Ff ∘ eFX) ∘ hGFX))
-      _ ≈⟨ G.homomorphism ⟩∘⟨refl ⟩ -- G(eFY ∘ Ff ∘ eFX) ∘ hGFX
+      _ ≈⟨ elimʳ G∘F.identity ⟩∘⟨refl ⟩       -- (GeFY ∘ GF1) ∘ (hGFY ∘ (G(eFY ∘ Ff ∘ eFX) ∘ hGFX))
+      _ ≈⟨ cancelˡ (zag Adj) ⟩                -- GeFY ∘ (hGFY ∘ (G(eFY ∘ Ff ∘ eFX) ∘ hGFX))
+      _ ≈⟨ G.homomorphism ⟩∘⟨refl ⟩           -- G(eFY ∘ Ff ∘ eFX) ∘ hGFX
       _ ≈⟨ (refl⟩∘⟨ G.homomorphism) ⟩∘⟨refl ⟩ -- G(eFY) ∘ G(Ff ∘ eFX) ∘ hGFX
-      _ ≈⟨ C.assoc ⟩ -- (G(eFY) ∘ (GFf ∘ GeFX)) ∘ hGFX
-      _ ≈⟨ refl⟩∘⟨ pullʳ (zag Adj)  ⟩ -- G(eFY) ∘ ((GFf ∘ GeFX) ∘ hGFX)
+      _ ≈⟨ C.assoc ⟩                          -- (G(eFY) ∘ (GFf ∘ GeFX)) ∘ hGFX
+      _ ≈⟨ refl⟩∘⟨ pullʳ (zag Adj)  ⟩         -- G(eFY) ∘ ((GFf ∘ GeFX) ∘ hGFX)
       _ ≈⟨ C.sym-assoc ⟩
       _ ∎  }
     })
