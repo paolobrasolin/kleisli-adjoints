@@ -1,7 +1,7 @@
 - [ ] rename pollo and gallo
-  - [ ] apply working names (Operationalise and Contextualise)
+  - [X] apply working names (Operationalise and Contextualise)
   - [ ] find more compelling names
-- [ ] refactor KleisliAdjoints module
+- [X] refactor KleisliAdjoints module to agda-categories style
 - [ ] golf proofs in KleisliAdjoints
 - [ ] compute some examples for known monads
   - [ ] list
