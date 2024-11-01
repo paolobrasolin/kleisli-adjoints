@@ -67,8 +67,9 @@ gallo = record
       _ ≈⟨ refl⟩∘⟨ MR.pull-center C (Adj.unit.sym-commute _) ⟩
       _ ≈⟨ refl⟩∘⟨ (refl⟩∘⟨ C.assoc) ⟩
       {! !} ≈⟨ {! !} ⟩ -- hGZ . Gg . hGY . Gf . hGX 
-      {! !} ≈⟨ {! !} ⟩ -- G(F(Gg . hGY)) . hGY . Gf . hGX
-      _ ≈˘⟨ G.F-resp-≈ (MR.cancelˡ D Adj.zig) ⟩∘⟨refl ⟩ -- eFGZ . (FhGZ . F(roba))
+      {! !} ≈˘⟨ {!  !} ⟩∘⟨refl ⟩ -- (GFGg . GFhGY) . hGY . Gf . hGX
+      _ ≈˘⟨ G∘F.homomorphism ⟩∘⟨refl ⟩
+      _ ≈˘⟨ G.F-resp-≈ (MR.cancelˡ D Adj.zig) ⟩∘⟨refl ⟩
       _ ≈˘⟨ G.F-resp-≈ (D.∘-resp-≈ʳ F.homomorphism) ⟩∘⟨refl ⟩
       _ ≈⟨ G.homomorphism ⟩∘⟨refl ⟩
       {! !} ∎  
@@ -77,6 +78,7 @@ gallo = record
           module C = Category C
           module D = Category D
           module F = Functor F
+          module G∘F = Functor (G ∘F F)
           module Adj = Adjoint Adj
           open C.HomReasoning
           open MR C
