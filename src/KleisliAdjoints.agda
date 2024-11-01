@@ -10,10 +10,13 @@ open import Categories.Category.Construction.CoKleisli using (CoKleisli)
 open import Categories.Adjoint.Properties using (adjoint⇒monad; adjoint⇒comonad)
 open import Categories.NaturalTransformation as NT using (ntHelper)
 
+open import Categories.Adjoint.Construction.Kleisli
 import Categories.Morphism.Reasoning as MR
 
+GF = adjoint⇒monad Adj
+FG = adjoint⇒comonad Adj
 
-pollo : Functor (Kleisli (adjoint⇒monad Adj)) (CoKleisli (adjoint⇒comonad Adj))
+pollo : Functor (Kleisli GF) (CoKleisli FG)
 pollo = record
   { F₀ = F.F₀
   ; F₁ = let ε = Adj.counit.η in λ { f → ε (F.F₀ _) D.∘ (F.F₁ f) D.∘ ε (F.F₀ _) }
@@ -109,13 +112,13 @@ gallo⊣pollo = record
                            open MR C in record
     { η = λ X → C.id
     ; commute = λ { f → begin
-      _ ≈⟨ elimʳ G∘F.identity ⟩∘⟨refl ⟩       -- (GeFY ∘ GF1) ∘ (hGFY ∘ (G(eFY ∘ Ff ∘ eFX) ∘ hGFX))
-      _ ≈⟨ cancelˡ (zag Adj) ⟩                -- GeFY ∘ (hGFY ∘ (G(eFY ∘ Ff ∘ eFX) ∘ hGFX))
-      _ ≈⟨ pushˡ G.homomorphism ⟩             -- G(eFY ∘ Ff ∘ eFX) ∘ hGFX
-      _ ≈⟨ refl⟩∘⟨ pushˡ G.homomorphism ⟩     -- G(eFY) ∘ G(Ff ∘ eFX) ∘ hGFX
-      _ ≈⟨ refl⟩∘⟨ refl⟩∘⟨ zag Adj ⟩          -- G(eFY) ∘ GFf ∘ GeFX ∘ hGFX
-      _ ≈⟨ C.sym-assoc ⟩                      -- G(eFY) ∘ GFf ∘ 1
-      _ ∎  }                                  -- (G(eFY) ∘ GFf) ∘ 1
+      _ ≈⟨ elimʳ G∘F.identity ⟩∘⟨refl ⟩
+      _ ≈⟨ cancelˡ (zag Adj) ⟩
+      _ ≈⟨ pushˡ G.homomorphism ⟩
+      _ ≈⟨ refl⟩∘⟨ pushˡ G.homomorphism ⟩
+      _ ≈⟨ refl⟩∘⟨ refl⟩∘⟨ zag Adj ⟩
+      _ ≈⟨ C.sym-assoc ⟩
+      _ ∎  }
     })
   ; zig = λ { {A} →
     let open C.HomReasoning
