@@ -10,7 +10,6 @@ open import Categories.Category.Construction.CoKleisli using (CoKleisli)
 open import Categories.Adjoint.Properties using (adjoint⇒monad; adjoint⇒comonad)
 open import Categories.NaturalTransformation as NT using (ntHelper)
 
-open import Categories.Adjoint.Construction.Kleisli
 import Categories.Morphism.Reasoning as MR
 
 GF = adjoint⇒monad Adj
@@ -57,7 +56,7 @@ pollo = record
           open D.HomReasoning
           open MR D
 
-gallo : Functor (CoKleisli (adjoint⇒comonad Adj)) (Kleisli (adjoint⇒monad Adj))
+gallo : Functor (CoKleisli FG) (Kleisli GF)
 gallo = record
   { F₀ = G.F₀
   ; F₁ = let η = Adj.unit.η in λ { f → η (G.F₀ _) C.∘ (G.F₁ f) C.∘ η (G.F₀ _) }
