@@ -68,15 +68,17 @@ gallo = record
       _ ≈⟨ refl⟩∘⟨ (C.sym-assoc ⟩∘⟨refl) ⟩
       _ ≈⟨ refl⟩∘⟨ (MR.pullʳ C (Adj.unit.sym-commute _) ) ⟩
       _ ≈⟨ refl⟩∘⟨ C.assoc ⟩
-      _ ≈⟨ refl⟩∘⟨ MR.pull-center C (Adj.unit.sym-commute _) ⟩
+      _ ≈⟨ refl⟩∘⟨ MR.pull-center C (Adj.unit.sym-commute _) ⟩
       _ ≈⟨ refl⟩∘⟨ (refl⟩∘⟨ C.assoc) ⟩
-      {! !} ≈⟨ {! !} ⟩ -- hGZ . Gg . hGY . Gf . hGX
-      {! !} ≈˘⟨ {!  !} ⟩∘⟨refl ⟩ -- (GFGg . GFhGY) . hGY . Gf . hGX
+      _ ≈⟨ pullˡ (Adj.unit.commute _) ⟩
+      _ ≈⟨ C.assoc ○ C.∘-resp-≈ʳ C.sym-assoc ⟩ -- assoc²γδ
+      _ ≈⟨ refl⟩∘⟨ Adj.unit.commute _ ⟩∘⟨refl ⟩
+      _ ≈⟨ C.∘-resp-≈ʳ C.assoc ○ C.sym-assoc ⟩ -- assoc²δγ
       _ ≈˘⟨ G∘F.homomorphism ⟩∘⟨refl ⟩
       _ ≈˘⟨ G.F-resp-≈ (MR.cancelˡ D Adj.zig) ⟩∘⟨refl ⟩
       _ ≈˘⟨ G.F-resp-≈ (D.∘-resp-≈ʳ F.homomorphism) ⟩∘⟨refl ⟩
       _ ≈⟨ G.homomorphism ⟩∘⟨refl ⟩
-      {! !} ∎
+      _ ∎
   ; F-resp-≈ = λ { x → refl⟩∘⟨ G.F-resp-≈ x ⟩∘⟨refl }
   } where module G = Functor G
           module C = Category C
