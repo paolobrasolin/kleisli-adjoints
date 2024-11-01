@@ -72,49 +72,49 @@ module _ {F : Functor C D} {G : Functor D C} (Adj : F ⊣ G) where
     ; F₁ = let η = Adj.unit.η in λ { f → η (G.F₀ _) C.∘ (G.F₁ f) C.∘ η (G.F₀ _) }
     ; identity = elimʳ Adj.zag
     ; homomorphism = begin
-        _ ≈⟨ refl⟩∘⟨ ((G.homomorphism ○ (refl⟩∘⟨ G.homomorphism)) ⟩∘⟨refl) ⟩
-        _ ≈⟨ refl⟩∘⟨ (C.sym-assoc ⟩∘⟨refl) ⟩
-        _ ≈⟨ refl⟩∘⟨ (MR.pullʳ C (Adj.unit.sym-commute _) ) ⟩
-        _ ≈⟨ refl⟩∘⟨ C.assoc ⟩
-        _ ≈⟨ refl⟩∘⟨ MR.pull-center C (Adj.unit.sym-commute _) ⟩
-        _ ≈⟨ refl⟩∘⟨ (refl⟩∘⟨ C.assoc) ⟩
-        _ ≈⟨ pullˡ (Adj.unit.commute _) ⟩
-        _ ≈⟨ C.assoc ○ C.∘-resp-≈ʳ C.sym-assoc ⟩ -- assoc²γδ
-        _ ≈⟨ refl⟩∘⟨ Adj.unit.commute _ ⟩∘⟨refl ⟩
-        _ ≈⟨ C.∘-resp-≈ʳ C.assoc ○ C.sym-assoc ⟩ -- assoc²δγ
-        _ ≈˘⟨ G∘F.homomorphism ⟩∘⟨refl ⟩
-        _ ≈˘⟨ G.F-resp-≈ (MR.cancelˡ D Adj.zig) ⟩∘⟨refl ⟩
-        _ ≈˘⟨ G.F-resp-≈ (D.∘-resp-≈ʳ F.homomorphism) ⟩∘⟨refl ⟩
-        _ ≈⟨ G.homomorphism ⟩∘⟨refl ⟩
-        _ ∎
+      _ ≈⟨ refl⟩∘⟨ ((G.homomorphism ○ (refl⟩∘⟨ G.homomorphism)) ⟩∘⟨refl) ⟩
+      _ ≈⟨ refl⟩∘⟨ (C.sym-assoc ⟩∘⟨refl) ⟩
+      _ ≈⟨ refl⟩∘⟨ (pullʳ (Adj.unit.sym-commute _) ) ⟩
+      _ ≈⟨ refl⟩∘⟨ C.assoc ⟩
+      _ ≈⟨ refl⟩∘⟨ pull-center (Adj.unit.sym-commute _) ⟩
+      _ ≈⟨ refl⟩∘⟨ (refl⟩∘⟨ C.assoc) ⟩
+      _ ≈⟨ pullˡ (Adj.unit.commute _) ⟩
+      _ ≈⟨ C.assoc ○ C.∘-resp-≈ʳ C.sym-assoc ⟩ -- assoc²γδ
+      _ ≈⟨ refl⟩∘⟨ Adj.unit.commute _ ⟩∘⟨refl ⟩
+      _ ≈⟨ C.∘-resp-≈ʳ C.assoc ○ C.sym-assoc ⟩ -- assoc²δγ
+      _ ≈˘⟨ G∘F.homomorphism ⟩∘⟨refl ⟩
+      _ ≈˘⟨ G.F-resp-≈ (MR.cancelˡ D Adj.zig) ⟩∘⟨refl ⟩
+      _ ≈˘⟨ G.F-resp-≈ (D.∘-resp-≈ʳ F.homomorphism) ⟩∘⟨refl ⟩
+      _ ≈⟨ G.homomorphism ⟩∘⟨refl ⟩
+      _ ∎
     ; F-resp-≈ = λ { x → refl⟩∘⟨ G.F-resp-≈ x ⟩∘⟨refl }
     } where open C.HomReasoning
             open MR C
 
   KleisliAdjoints : Operationalise ⊣ Contextualise
   KleisliAdjoints = record
-    { unit = ntHelper (let open D.HomReasoning
-                           open MR D in record
+    { unit = let open D.HomReasoning
+                 open MR D in ntHelper record
       { η = λ X → D.id
-      ; commute = λ { {X} {Y} f → begin
-          _ ≈⟨ D.identityˡ ⟩
-          _ ≈˘⟨ MR.cancelInner D Adj.zig ⟩
-          _ ≈˘⟨ refl⟩∘⟨ F.homomorphism ⟩
-          _ ≈⟨ refl⟩∘⟨ F.F-resp-≈ (Adj.unit.commute _) ⟩
-          _ ≈˘⟨ refl⟩∘⟨ D.Equiv.sym F.homomorphism ⟩
-          _ ≈˘⟨ D.∘-resp-≈ˡ D.sym-assoc ○ D.assoc ⟩ -- assoc²βγ
-          _ ≈˘⟨ MR.pullʳ D (Adj.counit.sym-commute _) ⟩∘⟨refl ⟩
-          _ ≈˘⟨ F.homomorphism ⟩∘⟨refl ⟩∘⟨refl ⟩
-          _ ≈˘⟨ MR.elimˡ D Adj.zig ⟩∘⟨refl ⟩
-          _ ≈˘⟨ (D.∘-resp-≈ʳ D.assoc ○ D.sym-assoc) ⟩∘⟨refl ⟩ -- assoc²δγ
-          _ ≈˘⟨ (refl⟩∘⟨ (F.homomorphism ⟩∘⟨refl)) ⟩∘⟨refl ⟩
-          _ ≈˘⟨ refl⟩∘⟨ MR.elimˡ D F∘G.identity ⟩
-          _ ≈˘⟨ refl⟩∘⟨ MR.elimˡ D F.identity ⟩
-          _ ≈⟨ MR.elim-center D F.identity ⟩
-          _  ∎ }
-      })
-    ; counit = ntHelper (let open C.HomReasoning
-                             open MR C in record
+      ; commute = λ { f → begin
+        _ ≈⟨ D.identityˡ ⟩
+        _ ≈˘⟨ cancelInner Adj.zig ⟩
+        _ ≈˘⟨ refl⟩∘⟨ F.homomorphism ⟩
+        _ ≈⟨ refl⟩∘⟨ F.F-resp-≈ (Adj.unit.commute _) ⟩
+        _ ≈˘⟨ refl⟩∘⟨ D.Equiv.sym F.homomorphism ⟩
+        _ ≈˘⟨ D.∘-resp-≈ˡ D.sym-assoc ○ D.assoc ⟩ -- assoc²βγ
+        _ ≈˘⟨ pullʳ (Adj.counit.sym-commute _) ⟩∘⟨refl ⟩
+        _ ≈˘⟨ F.homomorphism ⟩∘⟨refl ⟩∘⟨refl ⟩
+        _ ≈˘⟨ elimˡ Adj.zig ⟩∘⟨refl ⟩
+        _ ≈˘⟨ (D.∘-resp-≈ʳ D.assoc ○ D.sym-assoc) ⟩∘⟨refl ⟩ -- assoc²δγ
+        _ ≈˘⟨ (refl⟩∘⟨ (F.homomorphism ⟩∘⟨refl)) ⟩∘⟨refl ⟩
+        _ ≈˘⟨ refl⟩∘⟨ elimˡ F∘G.identity ⟩
+        _ ≈˘⟨ refl⟩∘⟨ elimˡ F.identity ⟩
+        _ ≈⟨ elim-center F.identity ⟩
+        _ ∎ }
+      }
+    ; counit = let open C.HomReasoning
+                   open MR C in ntHelper record
       { η = λ X → C.id
       ; commute = λ { f → begin
         _ ≈⟨ elimʳ G∘F.identity ⟩∘⟨refl ⟩
@@ -123,23 +123,19 @@ module _ {F : Functor C D} {G : Functor D C} (Adj : F ⊣ G) where
         _ ≈⟨ refl⟩∘⟨ pushˡ G.homomorphism ⟩
         _ ≈⟨ refl⟩∘⟨ refl⟩∘⟨ Adj.zag ⟩
         _ ≈⟨ C.sym-assoc ⟩
-        _ ∎  }
-      })
-    ; zig = λ { {A} →
-      let open C.HomReasoning
-          open MR C in
-      begin
-        _ ≈⟨ refl⟩∘⟨ elim-center G.identity ⟩
-        _ ≈⟨ elimʳ G∘F.identity ⟩∘⟨refl ⟩
-        _ ≈⟨ cancelˡ Adj.zag ⟩
         _ ∎ }
-    ; zag = λ { {B} →
-      let open D.HomReasoning
-          open MR D in
-      begin
-        _ ≈⟨ elim-center F∘G.identity ⟩
-        _ ≈⟨ elim-center F.identity ⟩∘⟨refl ⟩
-        _ ≈⟨ cancelʳ Adj.zig ⟩
-        _ ∎ }
+      }
+    ; zig = let open C.HomReasoning
+                open MR C in begin
+      _ ≈⟨ refl⟩∘⟨ elim-center G.identity ⟩
+      _ ≈⟨ elimʳ G∘F.identity ⟩∘⟨refl ⟩
+      _ ≈⟨ cancelˡ Adj.zag ⟩
+      _ ∎
+    ; zag = let open D.HomReasoning
+                open MR D in begin
+      _ ≈⟨ elim-center F∘G.identity ⟩
+      _ ≈⟨ elim-center F.identity ⟩∘⟨refl ⟩
+      _ ≈⟨ cancelʳ Adj.zig ⟩
+      _ ∎
     }
 
