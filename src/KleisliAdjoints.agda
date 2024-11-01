@@ -61,8 +61,15 @@ gallo = record
   ; identity = elimʳ Adj.zag
   ; homomorphism = begin 
       {! !} ≈⟨ refl⟩∘⟨ ((G.homomorphism ○ (refl⟩∘⟨ G.homomorphism)) ⟩∘⟨refl) ⟩ -- hGZ . G(g . FGf . FhGX) . hGX 
-      {! !} ≈⟨ {! !} ⟩ -- hGZ . ((Gg . (GFGf . GFhGX)) . hGX)
-      {! !} ≈⟨ {! !} ⟩ -- (GeFGZ . GF(hGZ . Gf . hGY)) . hGY . Gf . hGX
+      {! !} ≈⟨ refl⟩∘⟨ (C.sym-assoc ⟩∘⟨refl) ⟩ -- hGZ . ((Gg . (GFGf . GFhGX)) . hGX)
+      {! !} ≈⟨ refl⟩∘⟨ (MR.pullʳ C (Adj.unit.sym-commute _) ) ⟩
+      {! !} ≈⟨ refl⟩∘⟨ C.assoc ⟩ --  (Gg . GFGf) . hGFGX . hGX
+      {! !} ≈⟨ refl⟩∘⟨ MR.pull-center C (Adj.unit.sym-commute _) ⟩
+      {! !} ≈⟨ refl⟩∘⟨ (refl⟩∘⟨ C.assoc) ⟩ -- hGZ . Gg . hGY . Gf . hGX
+      {! !} ≈⟨ {! !} ⟩ -- (G(eFGZ . F(hGZ . Gg . hGY)) . hGY . Gf . hGX
+      {! !} ≈⟨ {! !} ⟩ -- (G(eFGZ . F(hGZ . Gg . hGY)) . hGY . Gf . hGX
+      {! !} ≈⟨ G.F-resp-≈ {!   !} ⟩∘⟨refl ⟩ -- (G(eFGZ . F(hGZ . Gg . hGY)) . hGY . Gf . hGX
+      {! !} ≈⟨ G.homomorphism ⟩∘⟨refl ⟩ -- (GeFGZ . GF(hGZ . Gg . hGY)) . hGY . Gf . hGX
       {! !} ∎  
   ; F-resp-≈ = λ { x → refl⟩∘⟨ G.F-resp-≈ x ⟩∘⟨refl }
   } where module G = Functor G
