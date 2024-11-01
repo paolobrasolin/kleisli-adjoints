@@ -9,7 +9,7 @@ open import Categories.Adjoint using (Adjoint; _⊣_)
 open import Categories.Category.Construction.Kleisli using (Kleisli)
 open import Categories.Category.Construction.CoKleisli using (CoKleisli)
 open import Categories.Adjoint.Properties using (adjoint⇒monad; adjoint⇒comonad)
-open import Categories.NaturalTransformation using (ntHelper)
+open import Categories.NaturalTransformation using (ntHelper; NaturalTransformation)
 import Categories.Morphism.Reasoning as MR
 
 private
@@ -25,6 +25,8 @@ module _ {F : Functor C D} {G : Functor D C} (Adj : F ⊣ G) where
     module F = Functor F
     module G = Functor G
     module Adj = Adjoint Adj
+    module η = NaturalTransformation (Adjoint.unit Adj)
+    module ε = NaturalTransformation (Adjoint.counit Adj)
     module G∘F = Functor (G ∘F F)
     module F∘G = Functor (F ∘F G)
     GF = adjoint⇒monad Adj
@@ -33,20 +35,20 @@ module _ {F : Functor C D} {G : Functor D C} (Adj : F ⊣ G) where
   Contextualise : Functor (Kleisli GF) (CoKleisli FG)
   Contextualise = record
     { F₀ = F.F₀
-    ; F₁ = let ε = Adj.counit.η in λ { f → ε (F.F₀ _) D.∘ (F.F₁ f) D.∘ ε (F.F₀ _) }
+    ; F₁ = λ { f → ε.η (F.F₀ _) D.∘ (F.F₁ f) D.∘ ε.η (F.F₀ _) }
     ; identity = cancelˡ Adj.zig
     ; homomorphism = begin
       _ ≈⟨ refl⟩∘⟨ F.homomorphism ⟩∘⟨refl ⟩
       _ ≈⟨ refl⟩∘⟨ F.homomorphism ⟩∘⟨refl ⟩∘⟨refl ⟩
       _ ≈⟨ D.∘-resp-≈ʳ D.assoc ○ D.sym-assoc ⟩ -- TODO: use assoc²δγ
       _ ≈⟨ D.sym-assoc ⟩∘⟨refl ⟩
-      _ ≈⟨ Adj.counit.commute _ ⟩∘⟨refl ⟩∘⟨refl ⟩
+      _ ≈⟨ ε.commute _ ⟩∘⟨refl ⟩∘⟨refl ⟩
       _ ≈⟨ D.assoc ⟩∘⟨refl ⟩
-      _ ≈⟨ ( refl⟩∘⟨ Adj.counit.commute _ ) ⟩∘⟨refl ⟩
+      _ ≈⟨ ( refl⟩∘⟨ ε.commute _ ) ⟩∘⟨refl ⟩
       _ ≈⟨ D.sym-assoc ⟩∘⟨refl ⟩
       _ ≈⟨ D.assoc ○ D.∘-resp-≈ʳ D.sym-assoc ⟩ -- TODO: use assoc²γδ
-      _ ≈⟨ refl⟩∘⟨ pullʳ (D.Equiv.sym (Adj.counit.commute _)) ⟩
-      _ ≈⟨ refl⟩∘⟨ pullˡ (D.Equiv.sym (Adj.counit.commute _)) ⟩
+      _ ≈⟨ refl⟩∘⟨ pullʳ (D.Equiv.sym (ε.commute _)) ⟩
+      _ ≈⟨ refl⟩∘⟨ pullˡ (D.Equiv.sym (ε.commute _)) ⟩
       _ ≈⟨ introʳ F.identity ⟩
       _ ≈⟨ refl⟩∘⟨ F.F-resp-≈ (C.Equiv.sym Adj.zag) ⟩
       _ ≈⟨ refl⟩∘⟨ F.homomorphism ⟩
@@ -69,18 +71,18 @@ module _ {F : Functor C D} {G : Functor D C} (Adj : F ⊣ G) where
   Operationalise : Functor (CoKleisli FG) (Kleisli GF)
   Operationalise = record
     { F₀ = G.F₀
-    ; F₁ = let η = Adj.unit.η in λ { f → η (G.F₀ _) C.∘ (G.F₁ f) C.∘ η (G.F₀ _) }
+    ; F₁ = λ { f → η.η (G.F₀ _) C.∘ (G.F₁ f) C.∘ η.η (G.F₀ _) }
     ; identity = elimʳ Adj.zag
     ; homomorphism = begin
       _ ≈⟨ refl⟩∘⟨ ((G.homomorphism ○ (refl⟩∘⟨ G.homomorphism)) ⟩∘⟨refl) ⟩
       _ ≈⟨ refl⟩∘⟨ (C.sym-assoc ⟩∘⟨refl) ⟩
-      _ ≈⟨ refl⟩∘⟨ (pullʳ (Adj.unit.sym-commute _) ) ⟩
+      _ ≈⟨ refl⟩∘⟨ (pullʳ (η.sym-commute _) ) ⟩
       _ ≈⟨ refl⟩∘⟨ C.assoc ⟩
-      _ ≈⟨ refl⟩∘⟨ pull-center (Adj.unit.sym-commute _) ⟩
+      _ ≈⟨ refl⟩∘⟨ pull-center (η.sym-commute _) ⟩
       _ ≈⟨ refl⟩∘⟨ (refl⟩∘⟨ C.assoc) ⟩
-      _ ≈⟨ pullˡ (Adj.unit.commute _) ⟩
+      _ ≈⟨ pullˡ (η.commute _) ⟩
       _ ≈⟨ C.assoc ○ C.∘-resp-≈ʳ C.sym-assoc ⟩ -- assoc²γδ
-      _ ≈⟨ refl⟩∘⟨ Adj.unit.commute _ ⟩∘⟨refl ⟩
+      _ ≈⟨ refl⟩∘⟨ η.commute _ ⟩∘⟨refl ⟩
       _ ≈⟨ C.∘-resp-≈ʳ C.assoc ○ C.sym-assoc ⟩ -- assoc²δγ
       _ ≈˘⟨ G∘F.homomorphism ⟩∘⟨refl ⟩
       _ ≈˘⟨ G.F-resp-≈ (MR.cancelˡ D Adj.zig) ⟩∘⟨refl ⟩
@@ -100,10 +102,10 @@ module _ {F : Functor C D} {G : Functor D C} (Adj : F ⊣ G) where
         _ ≈⟨ D.identityˡ ⟩
         _ ≈˘⟨ cancelInner Adj.zig ⟩
         _ ≈˘⟨ refl⟩∘⟨ F.homomorphism ⟩
-        _ ≈⟨ refl⟩∘⟨ F.F-resp-≈ (Adj.unit.commute _) ⟩
+        _ ≈⟨ refl⟩∘⟨ F.F-resp-≈ (η.commute _) ⟩
         _ ≈˘⟨ refl⟩∘⟨ D.Equiv.sym F.homomorphism ⟩
         _ ≈˘⟨ D.∘-resp-≈ˡ D.sym-assoc ○ D.assoc ⟩ -- assoc²βγ
-        _ ≈˘⟨ pullʳ (Adj.counit.sym-commute _) ⟩∘⟨refl ⟩
+        _ ≈˘⟨ pullʳ (ε.sym-commute _) ⟩∘⟨refl ⟩
         _ ≈˘⟨ F.homomorphism ⟩∘⟨refl ⟩∘⟨refl ⟩
         _ ≈˘⟨ elimˡ Adj.zig ⟩∘⟨refl ⟩
         _ ≈˘⟨ (D.∘-resp-≈ʳ D.assoc ○ D.sym-assoc) ⟩∘⟨refl ⟩ -- assoc²δγ
