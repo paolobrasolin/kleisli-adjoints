@@ -62,20 +62,20 @@ gallo = record
   { F₀ = G.F₀
   ; F₁ = let η = Adj.unit.η in λ { f → η (G.F₀ _) C.∘ (G.F₁ f) C.∘ η (G.F₀ _) }
   ; identity = elimʳ Adj.zag
-  ; homomorphism = begin 
+  ; homomorphism = begin
       _ ≈⟨ refl⟩∘⟨ ((G.homomorphism ○ (refl⟩∘⟨ G.homomorphism)) ⟩∘⟨refl) ⟩
       _ ≈⟨ refl⟩∘⟨ (C.sym-assoc ⟩∘⟨refl) ⟩
       _ ≈⟨ refl⟩∘⟨ (MR.pullʳ C (Adj.unit.sym-commute _) ) ⟩
       _ ≈⟨ refl⟩∘⟨ C.assoc ⟩
       _ ≈⟨ refl⟩∘⟨ MR.pull-center C (Adj.unit.sym-commute _) ⟩
       _ ≈⟨ refl⟩∘⟨ (refl⟩∘⟨ C.assoc) ⟩
-      {! !} ≈⟨ {! !} ⟩ -- hGZ . Gg . hGY . Gf . hGX 
+      {! !} ≈⟨ {! !} ⟩ -- hGZ . Gg . hGY . Gf . hGX
       {! !} ≈˘⟨ {!  !} ⟩∘⟨refl ⟩ -- (GFGg . GFhGY) . hGY . Gf . hGX
       _ ≈˘⟨ G∘F.homomorphism ⟩∘⟨refl ⟩
       _ ≈˘⟨ G.F-resp-≈ (MR.cancelˡ D Adj.zig) ⟩∘⟨refl ⟩
       _ ≈˘⟨ G.F-resp-≈ (D.∘-resp-≈ʳ F.homomorphism) ⟩∘⟨refl ⟩
       _ ≈⟨ G.homomorphism ⟩∘⟨refl ⟩
-      {! !} ∎  
+      {! !} ∎
   ; F-resp-≈ = λ { x → refl⟩∘⟨ G.F-resp-≈ x ⟩∘⟨refl }
   } where module G = Functor G
           module C = Category C
@@ -144,5 +144,4 @@ gallo⊣pollo = record
           open NT.NaturalTransformation
           module C = Category C
           module D = Category D
-
 
