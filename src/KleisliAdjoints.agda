@@ -9,7 +9,7 @@ open import Categories.Adjoint using (Adjoint; _⊣_)
 open import Categories.Category.Construction.Kleisli using (Kleisli)
 open import Categories.Category.Construction.CoKleisli using (CoKleisli)
 open import Categories.Adjoint.Properties using (adjoint⇒monad; adjoint⇒comonad)
-open import Categories.NaturalTransformation as NT using (ntHelper)
+open import Categories.NaturalTransformation using (ntHelper)
 import Categories.Morphism.Reasoning as MR
 
 private
@@ -20,6 +20,13 @@ private
 
 module _ {F : Functor C D} {G : Functor D C} (Adj : F ⊣ G) where
   private
+    module C = Category C
+    module D = Category D
+    module F = Functor F
+    module G = Functor G
+    module Adj = Adjoint Adj
+    module G∘F = Functor (G ∘F F)
+    module F∘G = Functor (F ∘F G)
     GF = adjoint⇒monad Adj
     FG = adjoint⇒comonad Adj
 
@@ -56,12 +63,7 @@ module _ {F : Functor C D} {G : Functor D C} (Adj : F ⊣ G) where
       _ ≈⟨ refl⟩∘⟨ D.Equiv.refl ⟩∘⟨refl ⟩
       _ ∎
     ; F-resp-≈ = λ { x → refl⟩∘⟨ F.F-resp-≈ x ⟩∘⟨refl }
-    } where module F = Functor F
-            module G = Functor G
-            module C = Category C
-            module D = Category D
-            module Adj = Adjoint Adj
-            open D.HomReasoning
+    } where open D.HomReasoning
             open MR D
 
   Operationalise : Functor (CoKleisli FG) (Kleisli GF)
@@ -86,13 +88,7 @@ module _ {F : Functor C D} {G : Functor D C} (Adj : F ⊣ G) where
         _ ≈⟨ G.homomorphism ⟩∘⟨refl ⟩
         _ ∎
     ; F-resp-≈ = λ { x → refl⟩∘⟨ G.F-resp-≈ x ⟩∘⟨refl }
-    } where module G = Functor G
-            module C = Category C
-            module D = Category D
-            module F = Functor F
-            module G∘F = Functor (G ∘F F)
-            module Adj = Adjoint Adj
-            open C.HomReasoning
+    } where open C.HomReasoning
             open MR C
 
   KleisliAdjoints : Operationalise ⊣ Contextualise
@@ -102,14 +98,14 @@ module _ {F : Functor C D} {G : Functor D C} (Adj : F ⊣ G) where
       { η = λ X → D.id
       ; commute = λ { {X} {Y} f → begin
           _ ≈⟨ D.identityˡ ⟩
-          _ ≈˘⟨ MR.cancelInner D (zig Adj) ⟩
+          _ ≈˘⟨ MR.cancelInner D Adj.zig ⟩
           _ ≈˘⟨ refl⟩∘⟨ F.homomorphism ⟩
-          _ ≈⟨ refl⟩∘⟨ F.F-resp-≈ (commute (unit Adj) _) ⟩
+          _ ≈⟨ refl⟩∘⟨ F.F-resp-≈ (Adj.unit.commute _) ⟩
           _ ≈˘⟨ refl⟩∘⟨ D.Equiv.sym F.homomorphism ⟩
           _ ≈˘⟨ D.∘-resp-≈ˡ D.sym-assoc ○ D.assoc ⟩ -- assoc²βγ
-          _ ≈˘⟨ MR.pullʳ D (sym-commute (counit Adj) _) ⟩∘⟨refl ⟩
+          _ ≈˘⟨ MR.pullʳ D (Adj.counit.sym-commute _) ⟩∘⟨refl ⟩
           _ ≈˘⟨ F.homomorphism ⟩∘⟨refl ⟩∘⟨refl ⟩
-          _ ≈˘⟨ MR.elimˡ D (zig Adj) ⟩∘⟨refl ⟩
+          _ ≈˘⟨ MR.elimˡ D Adj.zig ⟩∘⟨refl ⟩
           _ ≈˘⟨ (D.∘-resp-≈ʳ D.assoc ○ D.sym-assoc) ⟩∘⟨refl ⟩ -- assoc²δγ
           _ ≈˘⟨ (refl⟩∘⟨ (F.homomorphism ⟩∘⟨refl)) ⟩∘⟨refl ⟩
           _ ≈˘⟨ refl⟩∘⟨ MR.elimˡ D F∘G.identity ⟩
@@ -122,10 +118,10 @@ module _ {F : Functor C D} {G : Functor D C} (Adj : F ⊣ G) where
       { η = λ X → C.id
       ; commute = λ { f → begin
         _ ≈⟨ elimʳ G∘F.identity ⟩∘⟨refl ⟩
-        _ ≈⟨ cancelˡ (zag Adj) ⟩
+        _ ≈⟨ cancelˡ Adj.zag ⟩
         _ ≈⟨ pushˡ G.homomorphism ⟩
         _ ≈⟨ refl⟩∘⟨ pushˡ G.homomorphism ⟩
-        _ ≈⟨ refl⟩∘⟨ refl⟩∘⟨ zag Adj ⟩
+        _ ≈⟨ refl⟩∘⟨ refl⟩∘⟨ Adj.zag ⟩
         _ ≈⟨ C.sym-assoc ⟩
         _ ∎  }
       })
@@ -135,7 +131,7 @@ module _ {F : Functor C D} {G : Functor D C} (Adj : F ⊣ G) where
       begin
         _ ≈⟨ refl⟩∘⟨ elim-center G.identity ⟩
         _ ≈⟨ elimʳ G∘F.identity ⟩∘⟨refl ⟩
-        _ ≈⟨ cancelˡ (zag Adj) ⟩
+        _ ≈⟨ cancelˡ Adj.zag ⟩
         _ ∎ }
     ; zag = λ { {B} →
       let open D.HomReasoning
@@ -143,14 +139,7 @@ module _ {F : Functor C D} {G : Functor D C} (Adj : F ⊣ G) where
       begin
         _ ≈⟨ elim-center F∘G.identity ⟩
         _ ≈⟨ elim-center F.identity ⟩∘⟨refl ⟩
-        _ ≈⟨ cancelʳ (zig Adj) ⟩
+        _ ≈⟨ cancelʳ Adj.zig ⟩
         _ ∎ }
-    } where module F = Functor F
-            module G = Functor G
-            module F∘G = Functor (F ∘F G)
-            module G∘F = Functor (G ∘F F)
-            open Adjoint
-            open NT.NaturalTransformation
-            module C = Category C
-            module D = Category D
+    }
 
