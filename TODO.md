@@ -8,7 +8,7 @@
   - [X] cartesian closure (state/store)
   - [ ] free monoid (list/?)
   - [ ] ? (powerset/?)
-  - [ ] ? (continuation/?)
+  - [X] exponentiation (continuation/continuation)
   - [ ] ? (?/stream)
   - [ ] ? (writer/reader)
 
