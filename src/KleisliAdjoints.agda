@@ -38,31 +38,19 @@ module _ {F : Functor C D} {G : Functor D C} (Adj : F ⊣ G) where
     ; F₁ = λ { f → ε.η (F.F₀ _) D.∘ (F.F₁ f) D.∘ ε.η (F.F₀ _) }
     ; identity = cancelˡ Adj.zig
     ; homomorphism = begin
-      _ ≈⟨ refl⟩∘⟨ F.homomorphism ⟩∘⟨refl ⟩
-      _ ≈⟨ refl⟩∘⟨ F.homomorphism ⟩∘⟨refl ⟩∘⟨refl ⟩
-      _ ≈⟨ D.∘-resp-≈ʳ D.assoc ○ D.sym-assoc ⟩ -- TODO: use assoc²δγ
-      _ ≈⟨ D.sym-assoc ⟩∘⟨refl ⟩
-      _ ≈⟨ ε.commute _ ⟩∘⟨refl ⟩∘⟨refl ⟩
-      _ ≈⟨ D.assoc ⟩∘⟨refl ⟩
-      _ ≈⟨ ( refl⟩∘⟨ ε.commute _ ) ⟩∘⟨refl ⟩
-      _ ≈⟨ D.sym-assoc ⟩∘⟨refl ⟩
-      _ ≈⟨ D.assoc ○ D.∘-resp-≈ʳ D.sym-assoc ⟩ -- TODO: use assoc²γδ
-      _ ≈⟨ refl⟩∘⟨ pullʳ (D.Equiv.sym (ε.commute _)) ⟩
-      _ ≈⟨ refl⟩∘⟨ pullˡ (D.Equiv.sym (ε.commute _)) ⟩
+      _ ≈⟨ refl⟩∘⟨ pushˡ F.homomorphism ⟩
+      _ ≈⟨ refl⟩∘⟨ pushˡ F.homomorphism ⟩
+      _ ≈⟨ pullˡ (ε.commute _) ⟩
+      _ ≈⟨ center (ε.commute _) ⟩
+      _ ≈⟨ refl⟩∘⟨ refl⟩∘⟨ ε.sym-commute _ ⟩
+      _ ≈⟨ refl⟩∘⟨ center (ε.sym-commute _) ⟩
       _ ≈⟨ introʳ F.identity ⟩
       _ ≈⟨ refl⟩∘⟨ F.F-resp-≈ (C.Equiv.sym Adj.zag) ⟩
       _ ≈⟨ refl⟩∘⟨ F.homomorphism ⟩
-      _ ≈⟨ ( refl⟩∘⟨ D.assoc) ⟩∘⟨refl ⟩
-      _ ≈⟨ D.sym-assoc ⟩∘⟨refl ⟩
-      _ ≈⟨ D.assoc ⟩∘⟨refl ⟩∘⟨refl ⟩
-      _ ≈⟨ D.assoc ⟩
-      _ ≈⟨ refl⟩∘⟨ (D.sym-assoc ○ D.∘-resp-≈ˡ D.assoc) ⟩ -- TODO: use assoc²γβ
-      _ ≈⟨ refl⟩∘⟨ pullˡ (D.Equiv.sym F.homomorphism) ⟩∘⟨refl ⟩
-      _ ≈⟨ refl⟩∘⟨ F.F-resp-≈ (C.Equiv.sym G.homomorphism) ⟩∘⟨refl ⟩∘⟨refl ⟩
-      _ ≈⟨ refl⟩∘⟨ D.Equiv.sym F.homomorphism ⟩∘⟨refl ⟩
-      _ ≈⟨ refl⟩∘⟨ F.F-resp-≈ (C.Equiv.sym G.homomorphism) ⟩∘⟨refl ⟩
-      _ ≈⟨ refl⟩∘⟨ F.F-resp-≈ (G.F-resp-≈ D.assoc) ⟩∘⟨refl ⟩
-      _ ≈⟨ refl⟩∘⟨ D.Equiv.refl ⟩∘⟨refl ⟩
+      _ ≈⟨ center (pullʳ (pullʳ (D.Equiv.sym F∘G.homomorphism))) ⟩
+      _ ≈⟨ pullˡ (refl⟩∘⟨ refl⟩∘⟨ pullʳ (D.Equiv.sym F∘G.homomorphism)) ⟩
+      _ ≈⟨ (D.∘-resp-≈ʳ D.sym-assoc ○ D.sym-assoc) ⟩∘⟨refl ⟩ -- assoc²εβ
+      _ ≈⟨ D.assoc  ⟩
       _ ∎
     ; F-resp-≈ = λ { x → refl⟩∘⟨ F.F-resp-≈ x ⟩∘⟨refl }
     } where open D.HomReasoning
