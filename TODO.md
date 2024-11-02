@@ -5,7 +5,7 @@
 - [ ] golf proofs in KleisliAdjoints
 - [ ] compute some examples for known monads
   - [ ] list
-  - [ ] maybe
+  - [X] maybe
   - [ ] powerset
   - [ ] state
   - [ ] continuation
