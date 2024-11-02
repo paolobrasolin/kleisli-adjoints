@@ -8,7 +8,7 @@ open import Categories.Adjoint using (Adjoint; _⊣_)
 -- open import Categories.Adjoint.Properties using (adjoint⇒monad; adjoint⇒comonad)
 -- open import Categories.Adjoint.Construction.Kleisli using (Free⊣Forgetful)
 
-open import Data.Product
+open import Data.Product using (_×_; _,_; map₁; proj₁; proj₂; Σ)
 open import Data.Sum using (_⊎_; inj₁; inj₂)
 open import Data.Unit.Base using (⊤; tt)
 open import Agda.Builtin.Equality using (_≡_; refl)
@@ -58,5 +58,52 @@ module Maybe {o : Level} where
   _ = refl
 
   _ : Functor.F₁ (Operationalise +1⊣Underlying) ≡ λ { (f , _) x → inj₁ (f (inj₁ x)) }
+  _ = refl
+
+module State {o : Level} {S : Set o} where
+  _×S : Functor (Sets o) (Sets o)
+  _×S = record
+    { F₀ = λ { X → X × S }
+    ; F₁ = map₁
+    ; identity = {! !}
+    ; homomorphism = {! !}
+    ; F-resp-≈ = {! !}
+    }
+
+  _^S : Functor (Sets o) (Sets o)
+  _^S = record
+    { F₀ = λ { X → S → X }
+    ; F₁ = λ { f g s → f (g s) }
+    ; identity = {! !}
+    ; homomorphism = {! !}
+    ; F-resp-≈ = {! !}
+    }
+
+  ×S⊣^S : _×S ⊣ _^S
+  ×S⊣^S = record
+    { unit = record
+      { η = λ { X x s → x , s }
+      ; commute = {! !}
+      ; sym-commute = {! !}
+      }
+    ; counit = record
+      { η = λ { X (f , s) → f s }
+      ; commute = {! !}
+      ; sym-commute = {! !}
+      }
+    ; zig = {! !}
+    ; zag = {! !}
+    }
+
+  _ : Functor.F₀ (Contextualise ×S⊣^S) ≡ λ { X → Σ X (λ _ → S) }
+  _ = refl
+
+  _ : Functor.F₁ (Contextualise ×S⊣^S) ≡ λ { f (g , s) → f (proj₁ (g s)) (proj₂ (g s)) }
+  _ = refl
+
+  _ : Functor.F₀ (Operationalise ×S⊣^S) ≡ λ { X → S → X }
+  _ = refl
+
+  _ : Functor.F₁ (Operationalise ×S⊣^S) ≡ λ { f g s → (λ { x → f (g , x) }) , s }
   _ = refl
 

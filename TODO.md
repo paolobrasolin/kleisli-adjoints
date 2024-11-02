@@ -7,7 +7,7 @@
   - [ ] list
   - [X] maybe
   - [ ] powerset
-  - [ ] state
+  - [X] state
   - [ ] continuation
   - [ ] [A, _] (writer) (dual of A x _)
 - [ ] compute some examples for known comonads
