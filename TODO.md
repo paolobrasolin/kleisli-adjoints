@@ -3,15 +3,12 @@
   - [ ] find more compelling names
 - [X] refactor KleisliAdjoints module to agda-categories style
 - [ ] golf proofs in KleisliAdjoints
-- [ ] compute some examples for known monads
-  - [ ] list
-  - [X] maybe
-  - [ ] powerset
-  - [X] state
-  - [ ] continuation
-  - [ ] [A, _] (writer) (dual of A x _)
-- [ ] compute some examples for known comonads
-  - [ ] stream
-  - [ ] store
-  - [ ] A x _ (reader) (dual of [A, _])
+- [ ] compute some examples for ajunctions (monad/comonad)
+  - [X] free pointing (maybe/?)
+  - [X] cartesian closure (state/store)
+  - [ ] free monoid (list/?)
+  - [ ] ? (powerset/?)
+  - [ ] ? (continuation/?)
+  - [ ] ? (?/stream)
+  - [ ] ? (writer/reader)
 

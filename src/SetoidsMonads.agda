@@ -18,7 +18,8 @@ open import Relation.Binary.PropositionalEquality as ≡ using (_≡_; _≗_)
 
 open import KleisliAdjoints using (Contextualise; Operationalise)
 
-module Maybe {o : Level} where
+-- adjunction: free pointing, monad: maybe, comonad: ?
+module FreePointing {o : Level} where
   _+1 : Functor (Sets o) (PointedSets o)
   _+1 = record
     { F₀ = λ { x → (x ⊎ ⊤) , inj₂ tt }
@@ -60,7 +61,8 @@ module Maybe {o : Level} where
   _ : Functor.F₁ (Operationalise +1⊣Underlying) ≡ λ { (f , _) x → inj₁ (f (inj₁ x)) }
   _ = refl
 
-module State {o : Level} {S : Set o} where
+-- adjunction: cartesian closed, monad: state, comonad: store
+module CartesianClosure {o : Level} {S : Set o} where
   _×S : Functor (Sets o) (Sets o)
   _×S = record
     { F₀ = λ { X → X × S }
