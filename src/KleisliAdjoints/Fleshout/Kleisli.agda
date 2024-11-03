@@ -1,22 +1,24 @@
-import Level
-open import Categories.Category using (Category; _[_∘_])
-open import Categories.Functor using (Functor; _∘F_)
-open import Categories.Adjoint using (Adjoint; _⊣_)
+module KleisliAdjoints.Fleshout.Kleisli where
 
-open import Categories.Adjoint.Properties using (adjoint⇒monad; adjoint⇒comonad)
-open import Categories.Adjoint.Construction.Kleisli using (Free⊣Forgetful)
-
-module KleisliExample  {o l e o' l' e'} {C : Category o l e} {D : Category o' l' e'} {F : Functor C D} {G : Functor D C} (Adj : F ⊣ G) where
-
-open import KleisliAdjoints using (Contextualise; Operationalise)
-
+open import Level
 open import Relation.Binary.PropositionalEquality using (_≡_; refl)
 
-open import Categories.NaturalTransformation.Core
-open import Categories.Monad
-open import Categories.Category.Construction.Kleisli
+open import Categories.Adjoint using (Adjoint; _⊣_)
+open import Categories.Adjoint.Construction.Kleisli using (Free⊣Forgetful)
+open import Categories.Adjoint.Properties using (adjoint⇒monad)
+open import Categories.Category using (Category)
+open import Categories.Functor using (Functor)
+open import Categories.NaturalTransformation.Core using (NaturalTransformation)
 
-module _ where
+open import KleisliAdjoints using (Contextualise; Operationalise; KleisliAdjoints)
+
+private
+  variable
+    o o′ ℓ ℓ′ e e′ : Level
+    C : Category o ℓ e
+    D : Category o′ ℓ′ e′
+
+module _ {F : Functor C D} {G : Functor D C} (Adj : F ⊣ G) where
   F⊣G = Free⊣Forgetful (adjoint⇒monad Adj)
 
   open module C = Category C
@@ -46,5 +48,4 @@ module _ where
   -- ηT_ ∘ μ_ ∘ Tf ∘ ηT_
   -- ηT_ ∘ μ_ ∘ Tf ∘ ηT_
   _ = refl
-
 
