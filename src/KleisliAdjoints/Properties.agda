@@ -7,7 +7,7 @@ open import Relation.Binary.PropositionalEquality as ≡ using (_≡_)
 
 open import Categories.Adjoint using (Adjoint; _⊣_)
 open import Categories.Adjoint.Construction.Kleisli using (Free⊣Forgetful)
-open import Categories.Adjoint.Properties using (adjoint⇒monad)
+open import Categories.Adjoint.Properties using (adjoint⇒monad; adjoint⇒comonad)
 open import Categories.Category using (Category)
 open import Categories.Functor using (Functor)
 open import Categories.NaturalTransformation.Core using (NaturalTransformation)
@@ -20,6 +20,10 @@ open import Categories.Functor using (Functor; _∘F_)
 open import Categories.Adjoint using (Adjoint; _⊣_)
 open import Categories.Category.Construction.Kleisli using (Kleisli)
 open import Categories.Category.Construction.CoKleisli using (CoKleisli)
+
+open import Categories.Adjoint.Construction.CoKleisli using (Cofree) renaming (Forgetful to Coforgetful)
+open import Categories.Adjoint.Construction.Kleisli using (Forgetful; Free)
+
 open import Categories.Adjoint.Properties using (adjoint⇒monad; adjoint⇒comonad)
 open import Categories.NaturalTransformation using (ntHelper; NaturalTransformation)
 import Categories.Morphism.Reasoning as MR
@@ -64,6 +68,11 @@ module InvolutionOnSelf {F : Functor C D} {G : Functor D C} (KA0 : F ⊣ G) wher
 
   _ : NaturalIsomorphism (Contextualise KA0 ∘F DomEq.G) (CodEq.G ∘F Contextualise KA2)
   _ = ?
+  ble = adjoint⇒comonad KA2
+  gne = adjoint⇒monad KA1
+
+  _ : Functor (codOf (Contextualise KA0)) (codOf (Contextualise KA2))
+  _ = (Cofree  ble) ∘F (Free gne)
 
   _ : NaturalIsomorphism (CodEq.F ∘F Contextualise KA0) (Contextualise KA2 ∘F DomEq.F)
   _ = ?
