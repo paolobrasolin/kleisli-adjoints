@@ -47,17 +47,17 @@ module _ {F : Functor C D} {G : Functor D C} (F⊣G : F ⊣ G) where
   -- The adjunction induced by this construction "swaps" the direction of the initial adjunction.
   -- Noticing this and book-keeping with the facts above, we can iterate the construction as follows:
   --
-  --            Fri             For             Fri             For
+  --            Fri            Cofor            Fri            Cofor
   --         ————————▸       ◂————————       ————————▸       ◂————————       ———∙∙∙
   --     C       ⊥     Kl(GF)    ⊥   CoKl(O₁C₁)  ⊥    Kl(C₂O₂)   ⊥   CoKl(O₃C₃)
   --         ◂————————       ————————▸       ◂————————       ————————▸       ◂——∙∙∙
-  --   │   ▴    For    ▴   │    Cof    │   ▴    For    ▴   │    Cof    │   ▴
+  --   │   ▴    For    ▴   │   Cofri   │   ▴    For    ▴   │   Cofri   │   ▴
   --   │   │           │   │           │   │           │   │           │   │
   -- F │ ⊣ │ G       O₁│ ⊣ │ C₁      O₂│ ⊣ │ C₂      O₃│ ⊣ │ C₃      O₄│ ⊣ │ C₄
   --   │   │           │   │           │   │           │   │           │   │
-  --   ▾   │    For    │   ▾    Fri    ▾   │    For    │   ▾    Fri    ▾   │
+  --   ▾   │   Cofor   │   ▾    Fri    ▾   │   Cofor   │   ▾    Fri    ▾   │
   --         ◂————————       ————————▸       ◂————————       ————————▸       ◂——∙∙∙
   --     D       ⊥    CoKl(FG)   ⊥    Kl(C₁O₁)   ⊥   CoKl(O₂C₂)  ⊥    Kl(C₃O₃)
   --         ————————▸       ◂————————       ————————▸       ◂————————       ———∙∙∙
-  --            Cof             For             Cof             For
+  --           Cofri            For            Cofri            For
 
