@@ -102,11 +102,18 @@ module _ {F : Functor C D} {G : Functor D C} (F⊣G : F ⊣ G) where
     _ ≈⟨ refl⟩∘⟨ G∘F.F-resp-≈ (G.F-resp-≈ (D.HomReasoning.refl⟩∘⟨ F.F-resp-≈ (refl⟩∘⟨ (G∘F.F-resp-≈ (η.sym-commute _) ○ G∘F.homomorphism) ○ cancelˡ ((C.Equiv.sym G.homomorphism ○ G.F-resp-≈ (Adjoint.zig F⊣G)) ○ G.identity)))) ⟩∘⟨refl ⟩
     -- (G (ϵ (F (G (F Y)))) ∘ G (F (G (ϵ (F (G (F Y))))))) ∘ G (F (G (ϵ (F (G (F (G (F Y))))) ∘ F (G (F f))))) ∘ η (G (F (G (F (G (F X)))))) ∘ η (G (F (G (F X))))
     -- GϵFGFY ∘ GFGϵFGFY ∘ GFGϵFGFGFY ∘ GFGFGFf ∘ ηGFGFGFX ∘ ηGFGFX
-    -- what now?
+    -- TODO:
     -- μTY ∘ TμTY ∘ TμTTY ∘ TTTf ∘ ηTTTX ∘ ηTTX
+    -- μTY ∘ μTTY ∘ μTTTY ∘ TTTf ∘ ηTTTX ∘ ηTTX
+    -- μTY ∘ μTTY ∘ G ϵ FG FGFGFY ∘ G FG FGFf ∘ ηTTTX ∘ ηTTX
+    -- μTY ∘ μTTY ∘ G FG Ff ∘ Gϵ FGFGFX ∘ ηG FGFGFX ∘ ηTTX
+    -- μTY ∘ G ϵFGFGFY ∘ G FGFf ∘ ηTTX
+    -- μTY ∘ G Ff ∘ Gϵ FGFX ∘ ηG FGFX
+    -- μTY ∘ Tf -- wat?! cool!
+    --
     -- ϵFGFGFY ∘ FGFf   ≈   Ff ∘ ϵFGFX
     -- ηGFGFY ∘ f       ≈   GFf ∘ ηGFX
-    _ ≈⟨ ? ⟩
+    _ ≈⟨ {! !} ⟩
     _ ∎
     where open C.HomReasoning
           open MR C
