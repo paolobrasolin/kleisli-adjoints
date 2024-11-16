@@ -83,6 +83,44 @@ module _ {F : Functor C D} {G : Functor D C} (F⊣G : F ⊣ G) where
   module ϵ = NaturalTransformation (Adjoint.counit F⊣G)
   module η = NaturalTransformation (Adjoint.unit F⊣G)
 
+  -- The Kleisli construction over the monad induced by a KleisliAdjoints construction reduces as follows.
+  _ : Functor.F₀ (Free (adjoint⇒monad KA1)) ≡ λ X → X
+  _ = refl
+  _ : Functor.F₁ (Free (adjoint⇒monad KA1)) ≡ λ g → D.id D.∘ F.F₁ (G.F₁ g) D.∘ F.F₁ (η.η (G.F₀ _))
+  -- FGg ∘ FηG_
+  _ = refl
+  _ : Functor.F₀ (Forgetful (adjoint⇒monad KA1)) ≡ λ x → F.F₀ (G.F₀ x)
+  _ = refl
+  _ : Functor.F₁ (Forgetful (adjoint⇒monad KA1)) ≡ λ f → (ϵ.η (F.F₀ (G.F₀ _)) D.∘ F.F₁ C.id D.∘ ϵ.η (F.F₀ (G.F₀ (F.F₀ (G.F₀ _))))) D.∘ F.F₁ (G.F₁ (ϵ.η (F.F₀ (G.F₀ (F.F₀ (G.F₀ _)))) D.∘ F.F₁ (η.η (G.F₀ (F.F₀ (G.F₀ _))) C.∘ G.F₁ f C.∘ η.η (G.F₀ _)) D.∘ ϵ.η (F.F₀ (G.F₀ _)))) D.∘ F.F₁ (η.η (G.F₀ (F.F₀ (G.F₀ _))))
+  -- ϵFG_ ∘ ϵFGFG_ ∘ FGϵFGFG_ ∘ FGFηGFG_ ∘ FGFGf ∘ FGFηG_ ∘ FGϵFG_ ∘ FηGFG_
+  -- ϵFG_ ∘ ϵFGFG_ ∘ (FG ϵF GFG_ ∘ FG Fη GFG_) ∘ FGFGf ∘ FGFηG_ ∘ (F Gϵ FG_ ∘ F ηG FG_)
+  -- ϵFG_ ∘ ϵFGFG_ ∘ FGFGf ∘ FGFηG_
+  -- ... and then it would be very nice if...
+  -- ϵFG_ ∘ FGf
+  _ = refl
+
+  -- The CoKleisli construction over the comonad induced by a KleisliAdjoints construction reduces as follows.
+  _ : Functor.F₀ (Cofree (adjoint⇒comonad KA1)) ≡ λ X → X
+  _ = refl
+  _ : Functor.F₁ (Cofree (adjoint⇒comonad KA1)) ≡ λ f → (G.F₁ (ϵ.η (F.F₀ _)) C.∘ G.F₁ (F.F₁ f)) C.∘ C.id
+  _ = refl
+  -- GϵF_ ∘ GFf
+  _ : Functor.F₀ (Coforgetful (adjoint⇒comonad KA1)) ≡ λ x → G.F₀ (F.F₀ x)
+  _ = refl
+  _ : Functor.F₁ (Coforgetful (adjoint⇒comonad KA1)) ≡ λ f → (G.F₁ (ϵ.η (F.F₀ (G.F₀ (F.F₀ _)))) C.∘ G.F₁ (F.F₁ (η.η (G.F₀ (F.F₀ _)) C.∘ G.F₁ (ϵ.η (F.F₀ _) D.∘ F.F₁ f D.∘ ϵ.η (F.F₀ (G.F₀ (F.F₀ _)))) C.∘ η.η (G.F₀ (F.F₀ (G.F₀ (F.F₀ _))))))) C.∘ η.η (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))) C.∘ G.F₁ D.id C.∘ η.η (G.F₀ (F.F₀ _))
+  _ = refl
+  -- GϵFGF_ ∘ GFηGF_ ∘ GFGϵF_ ∘ GFGFf ∘ GFGϵFGF_ ∘ GFηGFGF_ ∘ ηGFGF_ ∘ ηGF_
+  -- GϵFGF_ ∘ (GF ηG F_ ∘ GF Gϵ F_) ∘ GFGFf ∘ (GF Gϵ FGF_ ∘ GF ηG FGF_) ∘ ηGFGF_ ∘ ηGF_
+  -- GϵFGF_ ∘ GFGFf ∘ ηGFGF_ ∘ ηGF_
+  -- (G ϵFGF_ ∘ G FGFf) ∘ ηGFGF_ ∘ ηGF_
+  -- (G Ff ∘ G ϵFGF_) ∘ ηGFGF_ ∘ ηGF_
+  -- GFf ∘ (Gϵ FGF_ ∘ ηG FGF_) ∘ ηGF_
+  -- GFf ∘ ηGF_
+
+  -- TODO: the best course of action is probably formalizing the above simplifications as Categories.NaturalTransformation.NaturalIsomorphism and use them to rewrite the second floor of the tower too.
+
+  --
+
   _ : Functor.F₀ (Forgetful (adjoint⇒monad KA2)) ≡ λ x → G.F₀ (F.F₀ x)
   _ = refl
   _ : Functor.F₀ (Coforgetful (adjoint⇒comonad KA1)) ≡ λ x → G.F₀ (F.F₀ x)
