@@ -92,7 +92,7 @@ module _ {F : Functor C D} {G : Functor D C} (F⊣G : F ⊣ G) where
 
   -- _ : Functor.F₁ (Forgetful (adjoint⇒monad KA2)) ≡ ?
   -- _ = refl
-  lemmino : {X Y : C.Obj} {f : G.F₀ (F.F₀ X) C.⇒ G.F₀ (F.F₀ (G.F₀ (F.F₀ Y)))} → (G.F₁ (ϵ.η (F.F₀ (G.F₀ (F.F₀ _)))) C.∘ G.F₁ (F.F₁ ((G.F₁ (ϵ.η (F.F₀ (G.F₀ (F.F₀ _)))) C.∘ G.F₁ (F.F₁ C.id)) C.∘ (G.F₁ (ϵ.η (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))))) C.∘ G.F₁ (F.F₁ (η.η (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))) C.∘ G.F₁ (ϵ.η (F.F₀ (G.F₀ (F.F₀ _)))) C.∘ η.η (G.F₀ (F.F₀ (G.F₀ (F.F₀ _))))))) C.∘ C.id))) C.∘ (G.F₁ (ϵ.η (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))))))) C.∘ G.F₁ (F.F₁ (η.η (G.F₀ (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))))) C.∘ G.F₁ (ϵ.η (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _))))) D.∘ F.F₁ ((G.F₁ (ϵ.η (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))))) C.∘ G.F₁ (F.F₁ C.id)) C.∘ (G.F₁ (ϵ.η (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))))))) C.∘ G.F₁ (F.F₁ (η.η (G.F₀ (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))))) C.∘ G.F₁ (D.id D.∘ F.F₁ (G.F₁ ((ϵ.η (F.F₀ (G.F₀ (F.F₀ _))) D.∘ F.F₁ f D.∘ ϵ.η (F.F₀ (G.F₀ (F.F₀ _)))) D.∘ F.F₁ (G.F₁ D.id) D.∘ F.F₁ (η.η (G.F₀ (F.F₀ _))))) D.∘ F.F₁ (η.η (G.F₀ (F.F₀ _)))) C.∘ η.η (G.F₀ (F.F₀ _))))) C.∘ C.id) D.∘ ϵ.η (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))))) C.∘ η.η (G.F₀ (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _))))))))) C.∘ η.η (G.F₀ (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))))) C.∘ G.F₁ D.id C.∘ η.η (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))) C.≈ (G.F₁ (ϵ.η (F.F₀ (G.F₀ (F.F₀ Y)))) C.∘ G.F₁ (F.F₁ (G.F₁ (ϵ.η (F.F₀ (G.F₀ (F.F₀ Y))))))) C.∘ G.F₁ (F.F₁ (G.F₁ (ϵ.η (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ Y))))) D.∘ F.F₁ (G.F₁ (F.F₁ f))))) C.∘ η.η (G.F₀ (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ X)))))) C.∘ η.η (G.F₀ (F.F₀ (G.F₀ (F.F₀ X))))
+  lemmino : {X Y : C.Obj} {f : G.F₀ (F.F₀ X) C.⇒ G.F₀ (F.F₀ (G.F₀ (F.F₀ Y)))} → (G.F₁ (ϵ.η (F.F₀ (G.F₀ (F.F₀ _)))) C.∘ G.F₁ (F.F₁ ((G.F₁ (ϵ.η (F.F₀ (G.F₀ (F.F₀ _)))) C.∘ G.F₁ (F.F₁ C.id)) C.∘ (G.F₁ (ϵ.η (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))))) C.∘ G.F₁ (F.F₁ (η.η (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))) C.∘ G.F₁ (ϵ.η (F.F₀ (G.F₀ (F.F₀ _)))) C.∘ η.η (G.F₀ (F.F₀ (G.F₀ (F.F₀ _))))))) C.∘ C.id))) C.∘ (G.F₁ (ϵ.η (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))))))) C.∘ G.F₁ (F.F₁ (η.η (G.F₀ (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))))) C.∘ G.F₁ (ϵ.η (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _))))) D.∘ F.F₁ ((G.F₁ (ϵ.η (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))))) C.∘ G.F₁ (F.F₁ C.id)) C.∘ (G.F₁ (ϵ.η (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))))))) C.∘ G.F₁ (F.F₁ (η.η (G.F₀ (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))))) C.∘ G.F₁ (D.id D.∘ F.F₁ (G.F₁ ((ϵ.η (F.F₀ (G.F₀ (F.F₀ _))) D.∘ F.F₁ f D.∘ ϵ.η (F.F₀ (G.F₀ (F.F₀ _)))) D.∘ F.F₁ (G.F₁ D.id) D.∘ F.F₁ (η.η (G.F₀ (F.F₀ _))))) D.∘ F.F₁ (η.η (G.F₀ (F.F₀ _)))) C.∘ η.η (G.F₀ (F.F₀ _))))) C.∘ C.id) D.∘ ϵ.η (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))))) C.∘ η.η (G.F₀ (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _))))))))) C.∘ η.η (G.F₀ (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))))) C.∘ G.F₁ D.id C.∘ η.η (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))) C.≈ (G.F₁ (ϵ.η (F.F₀ (G.F₀ (F.F₀ Y))))) C.∘ G.F₁ (F.F₁ f)
   lemmino {X} {Y} {f} = begin
     -- (G (ϵ (F (G (F _)))) ∘ G (F ((G (ϵ (F (G (F _))))) ∘ (G (ϵ (F (G (F (G (F _)))))) ∘ G (F (η (G (F (G (F _)))) ∘ G (ϵ (F (G (F _)))) ∘ η (G (F (G (F _)))))))))) ∘ (G (ϵ (F (G (F (G (F (G (F _)))))))) ∘ G (F (η (G (F (G (F (G (F _)))))) ∘ G (ϵ (F (G (F (G (F _))))) ∘ F ((G (ϵ (F (G (F (G (F _))))))) ∘ (G (ϵ (F (G (F (G (F (G (F _)))))))) ∘ G (F (η (G (F (G (F (G (F _)))))) ∘ G (F (G ((ϵ (F (G (F _))) ∘ F f ∘ ϵ (F (G (F _)))) ∘ F (η (G (F _))))) ∘ F (η (G (F _)))) ∘ η (G (F _)))))) ∘ ϵ (F (G (F (G (F _)))))) ∘ η (G (F (G (F (G (F _))))))))) ∘ η (G (F (G (F (G (F _)))))) ∘ η (G (F (G (F _))))
     _ ≈⟨ ( refl⟩∘⟨ G∘F.F-resp-≈ ( elimʳ G∘F.identity ⟩∘⟨ elimʳ C.Equiv.refl ) ) ⟩∘⟨ ( refl⟩∘⟨ G∘F.F-resp-≈ ( refl⟩∘⟨ G.F-resp-≈ ( D.HomReasoning.refl⟩∘⟨ F.F-resp-≈ ( elimʳ G∘F.identity ⟩∘⟨ (elimʳ C.Equiv.refl ○ ( refl⟩∘⟨ G∘F.F-resp-≈ ( refl⟩∘⟨ G.F-resp-≈ ( MR.elimˡ D D.Equiv.refl D.HomReasoning.○ ( F∘G.F-resp-≈ (MR.elim-center D F∘G.identity) D.HomReasoning.⟩∘⟨refl ) ) ⟩∘⟨refl ) ) ) ) D.HomReasoning.⟩∘⟨refl ) ⟩∘⟨refl ) ) ⟩∘⟨ elim-center G.identity ⟩
@@ -100,21 +100,12 @@ module _ {F : Functor C D} {G : Functor D C} (F⊣G : F ⊣ G) where
     _ ≈⟨ ( refl⟩∘⟨ G∘F.F-resp-≈ ( refl⟩∘⟨ ( C.Equiv.sym G.homomorphism ○ ( G.F-resp-≈ ( D.HomReasoning.refl⟩∘⟨ F.F-resp-≈ ( elimʳ (Adjoint.zag F⊣G) ) ) ) ) ○ ( elimʳ (G.F-resp-≈ (Adjoint.zig F⊣G) ○ G.identity) ) ) ) ⟩∘⟨ ( C.Equiv.sym G.homomorphism ○ G.F-resp-≈ ( ( D.HomReasoning.refl⟩∘⟨ F.homomorphism ) D.HomReasoning.○ (MR.cancelˡ D (Adjoint.zig F⊣G)) D.HomReasoning.○ F.F-resp-≈ (pushˡ (G.F-resp-≈ (D.Equiv.sym D.assoc) ○ G.homomorphism ) ○ elimʳ (Adjoint.zag F⊣G) ○ G.F-resp-≈ (D.HomReasoning.refl⟩∘⟨ F.F-resp-≈ (refl⟩∘⟨ (C.Equiv.sym G.homomorphism ○ G.F-resp-≈ (D.HomReasoning.refl⟩∘⟨ F.homomorphism D.HomReasoning.○ MR.cancelˡ D (Adjoint.zig F⊣G) D.HomReasoning.○ F.F-resp-≈ (G.F-resp-≈ (F∘G.F-resp-≈ (( D.∘-resp-≈ˡ D.sym-assoc D.HomReasoning.○ D.assoc) D.HomReasoning.○ MR.elimʳ D (Adjoint.zig F⊣G)) D.HomReasoning.⟩∘⟨refl) ⟩∘⟨refl))))) ) ) ) ⟩∘⟨refl ⟩
     _ ≈⟨ refl⟩∘⟨ G∘F.F-resp-≈ (G.F-resp-≈ (D.HomReasoning.refl⟩∘⟨ F.F-resp-≈ (refl⟩∘⟨ G.F-resp-≈ (F.F-resp-≈ (G.F-resp-≈ (D.Equiv.sym F.homomorphism D.HomReasoning.○ F.F-resp-≈ (pushˡ G.homomorphism ○ (refl⟩∘⟨ η.sym-commute _) ○ cancelˡ (Adjoint.zag F⊣G) )) ⟩∘⟨refl))))) ⟩∘⟨refl ⟩
     _ ≈⟨ refl⟩∘⟨ G∘F.F-resp-≈ (G.F-resp-≈ (D.HomReasoning.refl⟩∘⟨ F.F-resp-≈ (refl⟩∘⟨ (G∘F.F-resp-≈ (η.sym-commute _) ○ G∘F.homomorphism) ○ cancelˡ ((C.Equiv.sym G.homomorphism ○ G.F-resp-≈ (Adjoint.zig F⊣G)) ○ G.identity)))) ⟩∘⟨refl ⟩
-    -- (G (ϵ (F (G (F Y)))) ∘ G (F (G (ϵ (F (G (F Y))))))) ∘ G (F (G (ϵ (F (G (F (G (F Y))))) ∘ F (G (F f))))) ∘ η (G (F (G (F (G (F X)))))) ∘ η (G (F (G (F X))))
-    -- GϵFGFY ∘ GFGϵFGFY ∘ GFGϵFGFGFY ∘ GFGFGFf ∘ ηGFGFGFX ∘ ηGFGFX
-    -- TODO:
-    -- μTY ∘ TμTY ∘ TμTTY ∘ TTTf ∘ ηTTTX ∘ ηTTX
-    -- μTY ∘ μTTY ∘ μTTTY ∘ TTTf ∘ ηTTTX ∘ ηTTX
-    -- μTY ∘ μTTY ∘ G ϵ FG FGFGFY ∘ G FG FGFf ∘ ηTTTX ∘ ηTTX
-    -- μTY ∘ μTTY ∘ G FG Ff ∘ Gϵ FGFGFX ∘ ηG FGFGFX ∘ ηTTX
-    -- μTY ∘ G ϵFGFGFY ∘ G FGFf ∘ ηTTX
-    -- μTY ∘ G Ff ∘ Gϵ FGFX ∘ ηG FGFX
-    -- μTY ∘ Tf -- wat?! cool!
-    --
-    -- ϵFGFGFY ∘ FGFf   ≈   Ff ∘ ϵFGFX
-    -- ηGFGFY ∘ f       ≈   GFf ∘ ηGFX
-    _ ≈⟨ {! !} ⟩
+    _ ≈⟨ T.assoc ⟩∘⟨ pushˡ (Functor.homomorphism (G ∘F F ∘F G)) ⟩
+    _ ≈⟨ center T.assoc ⟩
+    _ ≈⟨ refl⟩∘⟨ refl⟩∘⟨ (C.sym-assoc ○ (η.sym-commute _ ⟩∘⟨refl) ○ C.assoc ○ (refl⟩∘⟨ η.sym-commute _)) ⟩
+    _ ≈⟨ refl⟩∘⟨ (cancelInner (Adjoint.zag F⊣G) ○ cancelˡ (Adjoint.zag F⊣G)) ⟩
     _ ∎
     where open C.HomReasoning
           open MR C
+          module T = Monad (adjoint⇒monad F⊣G)
 
