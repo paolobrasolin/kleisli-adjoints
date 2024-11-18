@@ -1,5 +1,5 @@
 {-# OPTIONS --without-K #-}
-module KleisliAdjoints.Fleshout.Tower where
+module KleisliAdjoints.Tower.Core where
 
 open import Level
 
