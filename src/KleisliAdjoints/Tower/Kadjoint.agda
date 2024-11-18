@@ -1,0 +1,118 @@
+{-# OPTIONS --without-K --allow-unsolved-metas #-}
+module KleisliAdjoints.Tower.Kadjoint where
+
+open import Level
+
+open import Categories.Category using (Category)
+open import Categories.Category.Construction.Kleisli using (Kleisli)
+open import Categories.Category.Construction.CoKleisli using (CoKleisli)
+open import Categories.Functor using (Functor)
+open import Categories.NaturalTransformation.Core using (NaturalTransformation)
+open import Categories.Adjoint using (Adjoint; _⊣_)
+open import Categories.Adjoint.Properties using (adjoint⇒monad; adjoint⇒comonad)
+open import Categories.Monad using (Monad)
+open import Categories.Comonad using (Comonad)
+open import Agda.Builtin.Equality using (_≡_; refl)
+
+open import KleisliAdjoints using (KleisliAdjoints)
+
+private
+  variable
+    o o′ ℓ ℓ′ e e′ : Level
+    C : Category o ℓ e
+    D : Category o′ ℓ′ e′
+
+module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
+  private
+    module C = Category C
+    module D = Category D
+    module L = Functor L
+    module R = Functor R
+    module ϵ = NaturalTransformation (Adjoint.counit L⊣R)
+    module η = NaturalTransformation (Adjoint.unit L⊣R)
+    O⊣C = KleisliAdjoints L⊣R
+
+  _ : adjoint⇒monad (O⊣C) ≡ record
+    { F = record
+      { F₀ = λ x → L.F₀ (R.F₀ x)
+      ; F₁ = λ x → ϵ.η (L.F₀ (R.F₀ _)) D.∘ L.F₁ (η.η (R.F₀ _) C.∘ R.F₁ x C.∘ η.η (R.F₀ _)) D.∘ ϵ.η (L.F₀ (R.F₀ _))
+      -- ϵ (L (R _)) ∘ L (η (R _) ∘ R x ∘ η (R _)) ∘ ϵ (L (R _))
+      -- ϵLR_ ∘ LηR_ ∘ LRx ∘ LηR_ ∘ ϵLR_
+      -- (ϵL R_ ∘ Lη R_) ∘ LRx ∘ LηR_ ∘ ϵLR_
+      -- LRx ∘ LηR_ ∘ ϵLR_
+      -- Sx ∘ δ_ ∘ ϵS_
+      ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
+    ; η = record
+      { η = λ X → D.id
+      ; commute = {! !} ; sym-commute = {! !} }
+    ; μ = record
+      { η = λ X → ϵ.η (L.F₀ (R.F₀ X)) D.∘ L.F₁ C.id D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ X))))
+      -- ϵ (L (R X)) ∘ L 1 ∘ ϵ (L (R (L (R X))))
+      -- ϵLRX ∘ ϵLRLRX
+      -- ϵSX ∘ ϵSSX
+      ; commute = {! !} ; sym-commute = {! !} }
+    ; assoc = {! !} ; sym-assoc = {! !} ; identityˡ = {! !} ; identityʳ = {! !} }
+  _ = refl
+
+  _ : adjoint⇒comonad (O⊣C) ≡ record
+    { F = record
+      { F₀ = λ x → R.F₀ (L.F₀ x)
+      ; F₁ = λ x → η.η (R.F₀ (L.F₀ _)) C.∘ R.F₁ (ϵ.η (L.F₀ _) D.∘ L.F₁ x D.∘ ϵ.η (L.F₀ _)) C.∘ η.η (R.F₀ (L.F₀ _))
+      -- η (R (L _)) ∘ R (ϵ (L _) ∘ L x ∘ ϵ (L _)) ∘ η (R (L _))
+      -- ηRL_ ∘ RϵL_ ∘ RLx ∘ RϵL_ ∘ ηRL_
+      -- ηRL_ ∘ RϵL_ ∘ RLx ∘ (Rϵ L_ ∘ ηR L_)
+      -- ηRL_ ∘ RϵL_ ∘ RLx
+      -- ηT_ ∘ μ_ ∘ Tx
+      ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
+    ; ε = record
+      { η = λ X → C.id
+      ; commute = {! !} ; sym-commute = {! !} }
+    ; δ = record
+      { η = λ X → η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))) C.∘ R.F₁ D.id C.∘ η.η (R.F₀ (L.F₀ X))
+      -- η (R (L (R (L X)))) ∘ R 1 ∘ η (R (L X))
+      -- ηRLRLX ∘ ηRLX
+      -- ηTTX ∘ ηTX
+      ; commute = {! !} ; sym-commute = {! !} }
+    ; assoc = {! !} ; sym-assoc = {! !} ; identityˡ = {! !} ; identityʳ = {! !} }
+  _ = refl
+
+module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
+  private
+    module C = Category C
+    module D = Category D
+    module S = Comonad (adjoint⇒comonad L⊣R)
+    module T = Monad (adjoint⇒monad L⊣R)
+    O⊣C = KleisliAdjoints L⊣R
+
+  kadjoint⇒monad : Monad (CoKleisli (adjoint⇒comonad L⊣R))
+  kadjoint⇒monad = record
+    { F = record
+      { F₀ = F.F₀
+      ; F₁ = λ {A} {_} f → F.F₁ f ∘ δ.η A ∘ ε.η (F.F₀ A)
+      ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
+    ; η = record
+      { η = λ X → id {F.F₀ X}
+      ; commute = {! !} ; sym-commute = {! !} }
+    ; μ = record
+      { η = λ X → ε.η (F.F₀ X) ∘ ε.η (F.F₀ (F.F₀ X))
+      ; commute = {! !} ; sym-commute = {! !} }
+    ; assoc = {! !} ; sym-assoc = {! !} ; identityˡ = {! !} ; identityʳ = {! !} }
+    where open D
+          open S
+
+  kadjoint⇒comonad : Comonad (Kleisli (adjoint⇒monad L⊣R))
+  kadjoint⇒comonad = record
+    { F = record
+      { F₀ = F.F₀
+      ; F₁ = λ {_} {B} f → η.η (F.F₀ B) ∘ μ.η B ∘ F.F₁ f
+      ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
+    ; ε = record
+      { η = λ X → id {F.F₀ X}
+      ; commute = {! !} ; sym-commute = {! !} }
+    ; δ = record
+      { η = λ X → η.η (F.F₀ (F.F₀ X)) ∘ η.η (F.F₀ X)
+      ; commute = {! !} ; sym-commute = {! !} }
+    ; assoc = {! !} ; sym-assoc = {! !} ; identityˡ = {! !} ; identityʳ = {! !} }
+    where open C
+          open T
+
