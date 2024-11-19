@@ -50,13 +50,25 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
 
   _ : Op1 ≡ record
     { F₀ = R.F₀
-    ; F₁ = λ f → η.η (R.F₀ _) C.∘ R.F₁ f C.∘ η.η (R.F₀ _)
+    ; F₁ = λ {X} {Y} f → η.η (R.F₀ Y) C.∘ R.F₁ f C.∘ η.η (R.F₀ X)
+    -- ηRY ∘ Rf ∘ ηRX where f : SX → Y
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
 
   _ : Op3 ≡ record
     { F₀ = R.F₀
-    ; F₁ = λ {X} {Y} f → (R.F₁ (ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y))))) C.∘ R.F₁ (L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ Y))) C.∘ R.F₁ (ϵ.η (L.F₀ (R.F₀ Y)) D.∘ L.F₁ C.id D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y))))) C.∘ η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y)))))))) C.∘ (R.F₁ (ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y))))))) C.∘ R.F₁ (L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y))))) C.∘ R.F₁ (ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y)))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ Y))) C.∘ R.F₁ f C.∘ η.η (R.F₀ (L.F₀ (R.F₀ X)))) D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ X))))) C.∘ η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ X)))))))) C.∘ η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ X))))) C.∘ R.F₁ D.id C.∘ η.η (R.F₀ (L.F₀ (R.F₀ X)))
+    ; F₁ = λ {X} {Y} f → (R.F₁ (ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y))))) C.∘ R.F₁ (L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ Y))) C.∘ R.F₁ (ϵ.η (L.F₀ (R.F₀ Y)) D.∘ L.F₁ C.id D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y))))) C.∘ η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y)))))))) C.∘ (R.F₁ (ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y))))))) C.∘ R.F₁ (L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y))))) C.∘ R.F₁ (ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y)))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ Y))) C.∘ R.F₁ ? C.∘ η.η (R.F₀ (L.F₀ (R.F₀ X)))) D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ X))))) C.∘ η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ X)))))))) C.∘ η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ X))))) C.∘ R.F₁ D.id C.∘ η.η (R.F₀ (L.F₀ (R.F₀ X)))
+    -- RϵLRLRY ∘ RLηRLRY ∘ RLRϵLRY ∘ RLRϵLRLRY ∘ RLηRLRLRY ∘ RϵLRLRLRY ∘ RLηRLRLRY ∘ RLRϵLRLRY ∘ RLRLηRLRY ∘ RLRLRf ∘ RLRLηRLRX ∘ RLRϵLRLRX ∘ RLηRLRLRX ∘ ηRLRLRX ∘ ηRLRX
+    -- (R ϵL RLRY ∘ R Lη RLRY) ∘ RLRϵLRY ∘ (RL Rϵ LRLRY ∘ RL ηR LRLRY) ∘ (R ϵL RLRLRY ∘ R Lη RLRLRY) ∘ (RLR ϵL RLRY ∘ RLR Lη RLRY) ∘ RLRLRf ∘ RLRLηRLRX ∘ (RL Rϵ LRLRX ∘ RL ηR LRLRX) ∘ ηRLRLRX ∘ ηRLRX
+    -- RLRϵLRY ∘ RLRLRf ∘ RLRLηRLRX ∘ ηRLRLRX ∘ ηRLRX
+    -- RLRϵLRY ∘ RLRLRf ∘ RLRLηRLRX ∘ ηRLRLRX ∘ ηRLRX
+    -- RSϵSY ∘ RSSf ∘ RSδSX ∘ ηRSSX ∘ ηRSX
+    --
+    -- (RSf ∘ RSϵSSX) ∘ RSδSX ∘ ηRSSX ∘ ηRSX -- naturality
+    -- RSf ∘ (RS ϵS SX ∘ RS δ SX) ∘ ηRSSX ∘ ηRSX -- comonad law
+    -- (RSf ∘ ηRSSX) ∘ ηRSX -- naturality
+    -- ηRSY ∘ Rf ∘ ηRSX
+    -- ηRSY ∘ Rf ∘ ηRSX where f : SSX → SY
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
 
@@ -69,5 +81,8 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
   _ : Co3 ≡ record
     { F₀ = L.F₀
     ; F₁ = λ {X} {Y} f → (ϵ.η (L.F₀ (R.F₀ (L.F₀ Y))) D.∘ L.F₁ C.id D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ Y)))))) D.∘ L.F₁ (R.F₁ ((ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ Y))))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ Y)))) C.∘ R.F₁ (ϵ.η (L.F₀ (R.F₀ (L.F₀ Y))) D.∘ L.F₁ f D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ X)))) C.∘ η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X))))) D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))))) D.∘ L.F₁ (R.F₁ (ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ X))))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))) C.∘ R.F₁ D.id C.∘ η.η (R.F₀ (L.F₀ X))) D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ X))))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X))))))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))))
+    -- ϵLRLY ∘ ϵLRLRLY ∘ LRϵLRLRLY ∘ LRLηRLRLY ∘ LRLRϵLRLY ∘ LRLRLf ∘ LRLRϵLRLX ∘ LRLηRLRLX ∘ LRϵLRLRLX ∘ LRLRϵLRLRLX ∘ LRLRLηRLRLX ∘ LRLRLηRLX ∘ LRLRϵLRLX ∘ LRLηRLRLX ∘ LηRLRLX
+    -- ϵLRLY ∘ ϵLRLRLY ∘ (LR ϵL RLRLY ∘ LR Lη RLRLY) ∘ LRLRϵLRLY ∘ LRLRLf ∘ (LRL Rϵ LRLX ∘ LRL ηR LRLX) ∘ LRϵLRLRLX ∘ (LRLR ϵL RLRLX ∘ LRLR Lη RLRLX) ∘ LRLRLηRLX ∘ (LRL Rϵ LRLX ∘ LRL ηR LRLX) ∘ LηRLRLX
+    -- ϵLRLY ∘ ϵLRLRLY ∘ LRLRϵLRLY ∘ LRLRLf ∘ LRϵLRLRLX ∘ LRLRLηRLX ∘ LηRLRLX
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
