@@ -14,7 +14,7 @@ open import Categories.Monad using (Monad)
 open import Categories.Comonad using (Comonad)
 open import Agda.Builtin.Equality using (_≡_; refl)
 
-open import KleisliAdjoints using (KleisliAdjoints)
+open import KleisliAdjoints using (Operationalise; Contextualise; KleisliAdjoints)
 
 private
   variable
@@ -116,3 +116,32 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     where open C
           open T
 
+module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
+  private
+    module C = Category C
+    module D = Category D
+    module L = Functor L
+    module R = Functor R
+    module ϵ = NaturalTransformation (Adjoint.counit L⊣R)
+    module η = NaturalTransformation (Adjoint.unit L⊣R)
+    O⊣C = KleisliAdjoints L⊣R
+
+  _ : Contextualise O⊣C ≡ record
+    { F₀ = R.F₀
+    ; F₁ = λ f → (R.F₁ (ϵ.η (L.F₀ (R.F₀ _))) C.∘ R.F₁ (L.F₁ C.id)) C.∘ (R.F₁ (ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ _))))) C.∘ R.F₁ (L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ _))) C.∘ R.F₁ f C.∘ η.η (R.F₀ _)))) C.∘ C.id
+    -- (R (ϵ (L (R _))) ∘ R (L 1)) ∘ (R (ϵ (L (R (L (R _))))) ∘ R (L (η (R (L (R _))) ∘ R f ∘ η (R _)))) ∘ 1
+    -- RϵLR_ ∘ RϵLRLR_ ∘ RLηRLR_ ∘ RLRf ∘ RLηR_
+    -- RϵLR_ ∘ (R ϵL RLR_ ∘ R Lη RLR_) ∘ RLRf ∘ RLηR_
+    -- RϵLR_ ∘ RLRf ∘ RLηR_
+    ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
+  _ = refl
+
+  _ : Operationalise O⊣C ≡ record
+    { F₀ = L.F₀
+    ; F₁ = λ f → D.id D.∘ L.F₁ (R.F₁ ((ϵ.η (L.F₀ _) D.∘ L.F₁ f D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ _)))) D.∘ L.F₁ (R.F₁ D.id) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ _))))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ _)))
+    -- 1 ∘ L (R ((ϵ (L _) ∘ L f ∘ ϵ (L (R (L _)))) ∘ L (R 1) ∘ L (η (R (L _))))) ∘ L (η (R (L _)))
+    -- LRϵL_ ∘ LRLf ∘ LRϵLRL_ ∘ LRLηRL_ ∘ LηRL_
+    -- LRϵL_ ∘ LRLf ∘ (LR ϵL RL_ ∘ LR Lη RL_) ∘ LηRL_
+    -- LRϵL_ ∘ LRLf ∘ LηRL_
+    ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
+  _ = refl
