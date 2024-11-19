@@ -29,6 +29,8 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     module D = Category D
     module L = Functor L
     module R = Functor R
+    module ϵ = NaturalTransformation (Adjoint.counit L⊣R)
+    module η = NaturalTransformation (Adjoint.unit L⊣R)
     module S = Comonad (adjoint⇒comonad L⊣R)
     module T = Monad (adjoint⇒monad L⊣R)
 
@@ -44,26 +46,28 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     Co3 = kContextualise O⊣C
     KA3 = kKleisliAdjoints O⊣C
 
+  -- Ok, overall doing the following is much simpler: almost instantaneous and much simpler terms.
+
   _ : Op1 ≡ record
-    { F₀ = ?
-    ; F₁ = ?
+    { F₀ = R.F₀
+    ; F₁ = λ f → η.η (R.F₀ _) C.∘ R.F₁ f C.∘ η.η (R.F₀ _)
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
 
   _ : Op3 ≡ record
-    { F₀ = ?
-    ; F₁ = ?
+    { F₀ = R.F₀
+    ; F₁ = λ {X} {Y} f → (R.F₁ (ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y))))) C.∘ R.F₁ (L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ Y))) C.∘ R.F₁ (ϵ.η (L.F₀ (R.F₀ Y)) D.∘ L.F₁ C.id D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y))))) C.∘ η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y)))))))) C.∘ (R.F₁ (ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y))))))) C.∘ R.F₁ (L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y))))) C.∘ R.F₁ (ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y)))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ Y))) C.∘ R.F₁ f C.∘ η.η (R.F₀ (L.F₀ (R.F₀ X)))) D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ X))))) C.∘ η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ X)))))))) C.∘ η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ X))))) C.∘ R.F₁ D.id C.∘ η.η (R.F₀ (L.F₀ (R.F₀ X)))
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
 
   _ : Co1 ≡ record
-    { F₀ = ?
-    ; F₁ = ?
+    { F₀ = L.F₀
+    ; F₁ = λ f → ϵ.η (L.F₀ _) D.∘ L.F₁ f D.∘ ϵ.η (L.F₀ _)
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
 
   _ : Co3 ≡ record
-    { F₀ = ?
-    ; F₁ = ?
+    { F₀ = L.F₀
+    ; F₁ = λ {X} {Y} f → (ϵ.η (L.F₀ (R.F₀ (L.F₀ Y))) D.∘ L.F₁ C.id D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ Y)))))) D.∘ L.F₁ (R.F₁ ((ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ Y))))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ Y)))) C.∘ R.F₁ (ϵ.η (L.F₀ (R.F₀ (L.F₀ Y))) D.∘ L.F₁ f D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ X)))) C.∘ η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X))))) D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))))) D.∘ L.F₁ (R.F₁ (ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ X))))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))) C.∘ R.F₁ D.id C.∘ η.η (R.F₀ (L.F₀ X))) D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ X))))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X))))))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))))
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
