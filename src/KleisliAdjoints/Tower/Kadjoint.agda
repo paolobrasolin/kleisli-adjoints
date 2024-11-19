@@ -145,3 +145,16 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     -- LRϵL_ ∘ LRLf ∘ LηRL_
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
+
+  _ : KleisliAdjoints O⊣C ≡ record
+    { unit = record
+      { η = λ X → η.η (R.F₀ (L.F₀ X))
+      ; commute = {! !} ; sym-commute = {! !} }
+    ; counit = record
+      { η = λ X → ϵ.η (L.F₀ (R.F₀ X))
+      ; commute = {! !} ; sym-commute = {! !} }
+    ; zig = {! !}
+    ; zag = {! !}
+    }
+  _ = refl
+
