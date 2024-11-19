@@ -93,6 +93,10 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     -- RϵLR_ ∘ RϵLRLR_ ∘ RLηRLR_ ∘ RLRf ∘ RLηR_
     -- RϵLR_ ∘ (R ϵL RLR_ ∘ R Lη RLR_) ∘ RLRf ∘ RLηR_
     -- RϵLR_ ∘ RLRf ∘ RLηR_
+    --
+    -- μ  R_ ∘ T Rf ∘ T ηR_  ≈  (μ_ ∘ T# ∘ Tη_) (R f)
+    -- RϵLR_ ∘ RLRf ∘ RLηR_  ≈  R ((ϵL_ ∘ L# ∘ Lη_) (R f))
+    -- RϵS _ ∘ RS f ∘ Rδ  _  ≈  R ((ϵS_ ∘ S# ∘ δ_) f)
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
 
@@ -103,6 +107,10 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     -- LRϵL_ ∘ LRLf ∘ LRϵLRL_ ∘ LRLηRL_ ∘ LηRL_
     -- LRϵL_ ∘ LRLf ∘ (LR ϵL RL_ ∘ LR Lη RL_) ∘ LηRL_
     -- LRϵL_ ∘ LRLf ∘ LηRL_
+    --
+    -- S ϵL_ ∘ S Lf ∘ δ  L_  ≈  (Sϵ_ ∘ S# ∘ δ_) (L f)
+    -- LRϵL_ ∘ LRLf ∘ LηRL_  ≈  L ((Rϵ_ ∘ R# ∘ ηR_) (L f))
+    -- Lμ  _ ∘ LT f ∘ LηT _  ≈  L ((μ_ ∘ T# ∘ ηT_) f)
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
 
