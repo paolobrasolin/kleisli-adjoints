@@ -26,6 +26,8 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
   private
     module C = Category C
     module D = Category D
+    module L = Functor L
+    module R = Functor R
     module S = Comonad (adjoint⇒comonad L⊣R)
     module T = Monad (adjoint⇒monad L⊣R)
     O⊣C = KleisliAdjoints L⊣R
@@ -61,4 +63,34 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     ; assoc = {! !} ; sym-assoc = {! !} ; identityˡ = {! !} ; identityʳ = {! !} }
     where open C
           open T
+
+  kContextualise : Functor (Kleisli (kadjoint⇒monad)) (CoKleisli (kadjoint⇒comonad))
+  kContextualise = record
+    { F₀ = R.F₀
+    ; F₁ = λ {X} {Y} (f : L.F₀ (R.F₀ X) D.⇒ L.F₀ (R.F₀ Y)) → R.F₁ (ϵ.η (L.F₀ (R.F₀ Y))) C.∘ R.F₁ (L.F₁ (R.F₁ f)) C.∘ R.F₁ (L.F₁ (η.η (R.F₀ X)))
+    ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
+    where module ϵ = NaturalTransformation (Adjoint.counit L⊣R)
+          module η = NaturalTransformation (Adjoint.unit L⊣R)
+
+  kOperationalise : Functor (CoKleisli (kadjoint⇒comonad)) (Kleisli (kadjoint⇒monad))
+  kOperationalise = record
+    { F₀ = L.F₀
+    ; F₁ = λ {X} {Y} (f : R.F₀ (L.F₀ X) C.⇒ R.F₀ (L.F₀ Y)) → L.F₁ (R.F₁ (ϵ.η (L.F₀ Y))) D.∘ L.F₁ (R.F₁ (L.F₁ f)) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ X)))
+    ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
+    where module ϵ = NaturalTransformation (Adjoint.counit L⊣R)
+          module η = NaturalTransformation (Adjoint.unit L⊣R)
+
+  kKleisliAdjoints : kOperationalise ⊣ kContextualise
+  kKleisliAdjoints = record
+    { unit = record
+      { η = λ X → η.η (R.F₀ (L.F₀ X))
+      ; commute = {! !} ; sym-commute = {! !} }
+    ; counit = record
+      { η = λ X → ϵ.η (L.F₀ (R.F₀ X))
+      ; commute = {! !} ; sym-commute = {! !} }
+    ; zig = {! !}
+    ; zag = {! !}
+    }
+    where module ϵ = NaturalTransformation (Adjoint.counit L⊣R)
+          module η = NaturalTransformation (Adjoint.unit L⊣R)
 
