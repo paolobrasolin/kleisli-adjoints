@@ -1,5 +1,5 @@
 {-# OPTIONS --without-K --allow-unsolved-metas #-}
-module KleisliAdjoints.Tower.Kadjoint where
+module KleisliAdjoints.Tower.Fleshouts where
 
 open import Level
 
@@ -75,46 +75,6 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
       ; commute = {! !} ; sym-commute = {! !} }
     ; assoc = {! !} ; sym-assoc = {! !} ; identityˡ = {! !} ; identityʳ = {! !} }
   _ = refl
-
-module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
-  private
-    module C = Category C
-    module D = Category D
-    module S = Comonad (adjoint⇒comonad L⊣R)
-    module T = Monad (adjoint⇒monad L⊣R)
-    O⊣C = KleisliAdjoints L⊣R
-
-  kadjoint⇒monad : Monad (CoKleisli (adjoint⇒comonad L⊣R))
-  kadjoint⇒monad = record
-    { F = record
-      { F₀ = F.F₀
-      ; F₁ = λ {A} {_} f → F.F₁ f ∘ δ.η A ∘ ε.η (F.F₀ A)
-      ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
-    ; η = record
-      { η = λ X → id {F.F₀ X}
-      ; commute = {! !} ; sym-commute = {! !} }
-    ; μ = record
-      { η = λ X → ε.η (F.F₀ X) ∘ ε.η (F.F₀ (F.F₀ X))
-      ; commute = {! !} ; sym-commute = {! !} }
-    ; assoc = {! !} ; sym-assoc = {! !} ; identityˡ = {! !} ; identityʳ = {! !} }
-    where open D
-          open S
-
-  kadjoint⇒comonad : Comonad (Kleisli (adjoint⇒monad L⊣R))
-  kadjoint⇒comonad = record
-    { F = record
-      { F₀ = F.F₀
-      ; F₁ = λ {_} {B} f → η.η (F.F₀ B) ∘ μ.η B ∘ F.F₁ f
-      ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
-    ; ε = record
-      { η = λ X → id {F.F₀ X}
-      ; commute = {! !} ; sym-commute = {! !} }
-    ; δ = record
-      { η = λ X → η.η (F.F₀ (F.F₀ X)) ∘ η.η (F.F₀ X)
-      ; commute = {! !} ; sym-commute = {! !} }
-    ; assoc = {! !} ; sym-assoc = {! !} ; identityˡ = {! !} ; identityʳ = {! !} }
-    where open C
-          open T
 
 module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
   private
