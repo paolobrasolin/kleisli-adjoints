@@ -34,8 +34,8 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
 
   _ : adjoint⇒monad (O⊣C) ≡ record
     { F = record
-      { F₀ = λ x → L.F₀ (R.F₀ x)
-      ; F₁ = λ x → ϵ.η (L.F₀ (R.F₀ _)) D.∘ L.F₁ (η.η (R.F₀ _) C.∘ R.F₁ x C.∘ η.η (R.F₀ _)) D.∘ ϵ.η (L.F₀ (R.F₀ _))
+      { F₀ = λ X → L.F₀ (R.F₀ X)
+      ; F₁ = λ {X} {Y} (f : L.F₀ (R.F₀ X) D.⇒ Y) → ϵ.η (L.F₀ (R.F₀ Y)) D.∘ L.F₁ (η.η (R.F₀ Y) C.∘ R.F₁ f C.∘ η.η (R.F₀ X)) D.∘ ϵ.η (L.F₀ (R.F₀ X))
       -- ϵ (L (R _)) ∘ L (η (R _) ∘ R x ∘ η (R _)) ∘ ϵ (L (R _))
       -- ϵLR_ ∘ LηR_ ∘ LRx ∘ LηR_ ∘ ϵLR_
       -- (ϵL R_ ∘ Lη R_) ∘ LRx ∘ LηR_ ∘ ϵLR_
@@ -56,8 +56,8 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
 
   _ : adjoint⇒comonad (O⊣C) ≡ record
     { F = record
-      { F₀ = λ x → R.F₀ (L.F₀ x)
-      ; F₁ = λ x → η.η (R.F₀ (L.F₀ _)) C.∘ R.F₁ (ϵ.η (L.F₀ _) D.∘ L.F₁ x D.∘ ϵ.η (L.F₀ _)) C.∘ η.η (R.F₀ (L.F₀ _))
+      { F₀ = λ X → R.F₀ (L.F₀ X)
+      ; F₁ = λ {X} {Y} (f : X C.⇒ R.F₀ (L.F₀ Y)) → η.η (R.F₀ (L.F₀ Y)) C.∘ R.F₁ (ϵ.η (L.F₀ Y) D.∘ L.F₁ f D.∘ ϵ.η (L.F₀ X)) C.∘ η.η (R.F₀ (L.F₀ X))
       -- η (R (L _)) ∘ R (ϵ (L _) ∘ L x ∘ ϵ (L _)) ∘ η (R (L _))
       -- ηRL_ ∘ RϵL_ ∘ RLx ∘ RϵL_ ∘ ηRL_
       -- ηRL_ ∘ RϵL_ ∘ RLx ∘ (Rϵ L_ ∘ ηR L_)
@@ -88,7 +88,7 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
 
   _ : Contextualise O⊣C ≡ record
     { F₀ = R.F₀
-    ; F₁ = λ f → (R.F₁ (ϵ.η (L.F₀ (R.F₀ _))) C.∘ R.F₁ (L.F₁ C.id)) C.∘ (R.F₁ (ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ _))))) C.∘ R.F₁ (L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ _))) C.∘ R.F₁ f C.∘ η.η (R.F₀ _)))) C.∘ C.id
+    ; F₁ = λ {X} {Y} (f : L.F₀ (R.F₀ X) D.⇒ L.F₀ (R.F₀ Y)) → (R.F₁ (ϵ.η (L.F₀ (R.F₀ Y))) C.∘ R.F₁ (L.F₁ C.id)) C.∘ (R.F₁ (ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ _))))) C.∘ R.F₁ (L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ Y))) C.∘ R.F₁ f C.∘ η.η (R.F₀ X)))) C.∘ C.id
     -- (R (ϵ (L (R _))) ∘ R (L 1)) ∘ (R (ϵ (L (R (L (R _))))) ∘ R (L (η (R (L (R _))) ∘ R f ∘ η (R _)))) ∘ 1
     -- RϵLR_ ∘ RϵLRLR_ ∘ RLηRLR_ ∘ RLRf ∘ RLηR_
     -- RϵLR_ ∘ (R ϵL RLR_ ∘ R Lη RLR_) ∘ RLRf ∘ RLηR_
@@ -98,7 +98,7 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
 
   _ : Operationalise O⊣C ≡ record
     { F₀ = L.F₀
-    ; F₁ = λ f → D.id D.∘ L.F₁ (R.F₁ ((ϵ.η (L.F₀ _) D.∘ L.F₁ f D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ _)))) D.∘ L.F₁ (R.F₁ D.id) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ _))))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ _)))
+    ; F₁ = λ {X} {Y} (f : R.F₀ (L.F₀ X) C.⇒ R.F₀ (L.F₀ Y)) → D.id D.∘ L.F₁ (R.F₁ ((ϵ.η (L.F₀ Y) D.∘ L.F₁ f D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ X)))) D.∘ L.F₁ (R.F₁ D.id) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ X))))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ X)))
     -- 1 ∘ L (R ((ϵ (L _) ∘ L f ∘ ϵ (L (R (L _)))) ∘ L (R 1) ∘ L (η (R (L _))))) ∘ L (η (R (L _)))
     -- LRϵL_ ∘ LRLf ∘ LRϵLRL_ ∘ LRLηRL_ ∘ LηRL_
     -- LRϵL_ ∘ LRLf ∘ (LR ϵL RL_ ∘ LR Lη RL_) ∘ LηRL_
