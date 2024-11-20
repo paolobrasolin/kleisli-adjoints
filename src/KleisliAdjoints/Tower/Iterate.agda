@@ -74,7 +74,8 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
 
   _ : Co1 ≡ record
     { F₀ = L.F₀
-    ; F₁ = λ f → ϵ.η (L.F₀ _) D.∘ L.F₁ f D.∘ ϵ.η (L.F₀ _)
+    ; F₁ = λ {X} {Y} (f : X C.⇒ R.F₀ (L.F₀ Y)) → ϵ.η (L.F₀ Y) D.∘ L.F₁ f D.∘ ϵ.η (L.F₀ X)
+    -- ϵLY ∘ Lf ∘ ϵLX where f : X → TY
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
 
@@ -84,5 +85,9 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     -- ϵLRLY ∘ ϵLRLRLY ∘ LRϵLRLRLY ∘ LRLηRLRLY ∘ LRLRϵLRLY ∘ LRLRLf ∘ LRLRϵLRLX ∘ LRLηRLRLX ∘ LRϵLRLRLX ∘ LRLRϵLRLRLX ∘ LRLRLηRLRLX ∘ LRLRLηRLX ∘ LRLRϵLRLX ∘ LRLηRLRLX ∘ LηRLRLX
     -- ϵLRLY ∘ ϵLRLRLY ∘ (LR ϵL RLRLY ∘ LR Lη RLRLY) ∘ LRLRϵLRLY ∘ LRLRLf ∘ (LRL Rϵ LRLX ∘ LRL ηR LRLX) ∘ LRϵLRLRLX ∘ (LRLR ϵL RLRLX ∘ LRLR Lη RLRLX) ∘ LRLRLηRLX ∘ (LRL Rϵ LRLX ∘ LRL ηR LRLX) ∘ LηRLRLX
     -- ϵLRLY ∘ ϵLRLRLY ∘ LRLRϵLRLY ∘ LRLRLf ∘ LRϵLRLRLX ∘ LRLRLηRLX ∘ LηRLRLX
+    -- ϵLTY ∘ (ϵLTTY ∘ LTμTY ∘ LTTf) ∘ (LμTTX ∘ LTTηTX) ∘ LηTTX
+    -- ϵLTY ∘ Lf ∘ ϵLTX ∘ (LTμX ∘ LμTTX ∘ LTTηTX ∘ LηTTX)
+    -- ϵLTY ∘ Lf ∘ ϵLTX ∘ (LT μ X ∘ LT Tη X ∘ L μ TX ∘ L ηT TX)
+    -- ϵLTY ∘ Lf ∘ ϵLTX where f : TX → TTY
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
