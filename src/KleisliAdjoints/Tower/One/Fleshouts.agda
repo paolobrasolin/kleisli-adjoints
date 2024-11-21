@@ -44,6 +44,7 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
       ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
     ; η = record
       { η = λ X → D.id
+      -- 1
       ; commute = {! !} ; sym-commute = {! !} }
     ; μ = record
       { η = λ X → ε.η (L.F₀ (R.F₀ X)) D.∘ L.F₁ C.id D.∘ ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ X))))
@@ -66,6 +67,7 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
       ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
     ; ε = record
       { η = λ X → C.id
+      -- 1
       ; commute = {! !} ; sym-commute = {! !} }
     ; δ = record
       { η = λ X → η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))) C.∘ R.F₁ D.id C.∘ η.η (R.F₀ (L.F₀ X))
