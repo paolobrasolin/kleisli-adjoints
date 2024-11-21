@@ -15,7 +15,7 @@ open import Categories.Comonad using (Comonad)
 open import Agda.Builtin.Equality using (_≡_; refl)
 
 open import KleisliAdjoints using (Operationalise; Contextualise; KleisliAdjoints)
-open import KleisliAdjoints.Tower.Bootstrap using (kOperationalise; kContextualise; kKleisliAdjoints)
+open import KleisliAdjoints.Tower.One.Bootstrap using (kOperationalise; kContextualise; kKleisliAdjoints)
 
 private
   variable

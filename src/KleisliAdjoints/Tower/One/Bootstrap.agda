@@ -1,5 +1,5 @@
 {-# OPTIONS --without-K --allow-unsolved-metas #-}
-module KleisliAdjoints.Tower.Bootstrap where
+module KleisliAdjoints.Tower.One.Bootstrap where
 
 open import Level
 

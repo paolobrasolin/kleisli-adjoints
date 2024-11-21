@@ -1,5 +1,5 @@
 {-# OPTIONS --without-K --allow-unsolved-metas #-}
-module KleisliAdjoints.Tower.Fleshouts where
+module KleisliAdjoints.Tower.One.Fleshouts where
 
 open import Level
 
