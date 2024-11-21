@@ -30,7 +30,6 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     module R = Functor R
     module S = Comonad (adjoint⇒comonad L⊣R)
     module T = Monad (adjoint⇒monad L⊣R)
-    O⊣C = KleisliAdjoints L⊣R
 
     -- NOTE: to get these we just open the (co)monad
     -- module ϵ = NaturalTransformation (Adjoint.counit L⊣R)
