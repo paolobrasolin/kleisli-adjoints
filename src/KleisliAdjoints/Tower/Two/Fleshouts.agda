@@ -47,28 +47,43 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
       ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
     ; η = record
       { η = λ X → η.η (R.F₀ (L.F₀ X))
+      -- η (R (L X))
+      -- ηRLX
       -- ηTX
       ; commute = {! !} ; sym-commute = {! !} }
     ; μ = record
       { η = λ X → (R.F₁ (ε.η (L.F₀ (R.F₀ (L.F₀ X)))) C.∘ R.F₁ (L.F₁ C.id)) C.∘ C.id
-      -- TODO
+      -- (R (ε (L (R (L X)))) ∘ R (L 1)) ∘ 1
+      -- RεLRLX
+      -- μTX
       ; commute = {! !} ; sym-commute = {! !} }
     ; assoc = {! !} ; sym-assoc = {! !} ; identityˡ = {! !} ; identityʳ = {! !} }
   _ = refl
 
   _ : kadjoint⇒comonad (O⊣C) ≡ record
     { F = record
-      { F₀ = ?
-      ; F₁ = ?
-      -- TODO
+      { F₀ = λ x → L.F₀ (R.F₀ x)
+      ; F₁ = λ {X} {Y} f → D.id D.∘ L.F₁ (R.F₁ ((ε.η (L.F₀ (R.F₀ Y)) D.∘ L.F₁ C.id D.∘ ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y))))) D.∘ L.F₁ (R.F₁ (ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y)))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ Y))) C.∘ R.F₁ f C.∘ η.η (R.F₀ X)) D.∘ ε.η (L.F₀ (R.F₀ X)))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ X)))))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ X))))
+      -- 1 ∘ L (R ((ε (L (R Y)) ∘ L 1 ∘ ε (L (R (L (R Y))))) ∘ L (R (ε (L (R (L (R Y)))) ∘ L (η (R (L (R Y))) ∘ R f ∘ η (R X)) ∘ ε (L (R X)))) ∘ L (η (R (L (R X)))))) ∘ L (η (R (L (R X))))
+      -- LRεLRY ∘ LRεLRLRY ∘ LRLRεLRLRY ∘ LRLRLηRLRY ∘ LRLRLRf ∘ LRLRLηRX ∘ LRLRεLRX ∘ LRLηRLRX ∘ LηRLRX
+      -- SεSY ∘ SεSSY ∘ SSεSSY ∘ SSδSY ∘ SSSf ∘ SSδX ∘ SSεSX ∘ SδSX ∘ δSX
+      -- SεSY ∘ SεSSY ∘ (SS εS SY ∘ SS δ SY) ∘ SSSf ∘ SSδX ∘ (S Sε SX ∘ S δ SX) ∘ δSX
+      -- SεSY ∘ (S εSSY ∘ S SSf) ∘ SSδX ∘ δSX
+      -- SεSY ∘ SSf ∘ (S εSSX ∘ S SδX) ∘ δSX
+      -- SεSY ∘ SSf ∘ SδX ∘ (Sε SX ∘ δ SX)
+      -- SεSY ∘ SSf ∘ SδX  where  f : SX → SY
       ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
     ; ε = record
-      { η = ?
-      -- TODO
+      { η = λ X → ε.η (L.F₀ (R.F₀ X))
+      -- ε (L (R X))
+      -- εLRX
+      -- εSX
       ; commute = {! !} ; sym-commute = {! !} }
     ; δ = record
-      { η = ?
-      -- TODO
+      { η = λ X → D.id D.∘ L.F₁ (R.F₁ D.id) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ X))))
+      -- 1 ∘ L (R 1) ∘ L (η (R (L (R X))))
+      -- LηRLRX
+      -- δSX
       ; commute = {! !} ; sym-commute = {! !} }
     ; assoc = {! !} ; sym-assoc = {! !} ; identityˡ = {! !} ; identityʳ = {! !} }
   _ = refl
