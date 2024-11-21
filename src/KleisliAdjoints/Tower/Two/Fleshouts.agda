@@ -37,8 +37,7 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     { F = record
       { F₀ = λ X → R.F₀ (L.F₀ X)
       -- TX
-      ; F₁ = λ {X} {Y} f →
-      (R.F₁ (ε.η (L.F₀ (R.F₀ (L.F₀ Y)))) C.∘ R.F₁ (L.F₁ (η.η (R.F₀ (L.F₀ Y)) C.∘ R.F₁ (ε.η (L.F₀ Y) D.∘ L.F₁ f D.∘ ε.η (L.F₀ (R.F₀ (L.F₀ X)))) C.∘ η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X))))))) C.∘ (R.F₁ (ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))))) C.∘ R.F₁ (L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))) C.∘ R.F₁ D.id C.∘ η.η (R.F₀ (L.F₀ X))))) C.∘ C.id
+      ; F₁ = λ {X} {Y} (f : R.F₀ (L.F₀ X) C.⇒ R.F₀ (L.F₀ Y)) → (R.F₁ (ε.η (L.F₀ (R.F₀ (L.F₀ Y)))) C.∘ R.F₁ (L.F₁ (η.η (R.F₀ (L.F₀ Y)) C.∘ R.F₁ (ε.η (L.F₀ Y) D.∘ L.F₁ f D.∘ ε.η (L.F₀ (R.F₀ (L.F₀ X)))) C.∘ η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X))))))) C.∘ (R.F₁ (ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))))) C.∘ R.F₁ (L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))) C.∘ R.F₁ D.id C.∘ η.η (R.F₀ (L.F₀ X))))) C.∘ C.id
       -- (R (ε (L (R (L Y)))) ∘ R (L (η (R (L Y)) ∘ R (ε (L Y) ∘ L f ∘ ε (L (R (L X)))) ∘ η (R (L (R (L X))))))) ∘ (R (ε (L (R (L (R (L X)))))) ∘ R (L (η (R (L (R (L X)))) ∘ R 1 ∘ η (R (L X))))) ∘ 1
       -- RεLRLY ∘ RLηRLY ∘ RLRεLY ∘ RLRLf ∘ RLRεLRLX ∘ RLηRLRLX ∘ RεLRLRLX ∘ RLηRLRLX ∘ RLηRLX
       -- μTY ∘ TηTY ∘ TμY ∘ TTf ∘ TμTX ∘ TηTTX ∘ μTTX ∘ TηTTX ∘ TηTX
@@ -62,8 +61,8 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
 
   _ : kadjoint⇒comonad (O⊣C) ≡ record
     { F = record
-      { F₀ = λ x → L.F₀ (R.F₀ x)
-      ; F₁ = λ {X} {Y} f → D.id D.∘ L.F₁ (R.F₁ ((ε.η (L.F₀ (R.F₀ Y)) D.∘ L.F₁ C.id D.∘ ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y))))) D.∘ L.F₁ (R.F₁ (ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y)))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ Y))) C.∘ R.F₁ f C.∘ η.η (R.F₀ X)) D.∘ ε.η (L.F₀ (R.F₀ X)))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ X)))))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ X))))
+      { F₀ = λ X → L.F₀ (R.F₀ X)
+      ; F₁ = λ {X} {Y} (f : L.F₀ (R.F₀ X) D.⇒ L.F₀ (R.F₀ Y)) → D.id D.∘ L.F₁ (R.F₁ ((ε.η (L.F₀ (R.F₀ Y)) D.∘ L.F₁ C.id D.∘ ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y))))) D.∘ L.F₁ (R.F₁ (ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y)))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ Y))) C.∘ R.F₁ f C.∘ η.η (R.F₀ X)) D.∘ ε.η (L.F₀ (R.F₀ X)))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ X)))))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ X))))
       -- 1 ∘ L (R ((ε (L (R Y)) ∘ L 1 ∘ ε (L (R (L (R Y))))) ∘ L (R (ε (L (R (L (R Y)))) ∘ L (η (R (L (R Y))) ∘ R f ∘ η (R X)) ∘ ε (L (R X)))) ∘ L (η (R (L (R X)))))) ∘ L (η (R (L (R X))))
       -- LRεLRY ∘ LRεLRLRY ∘ LRLRεLRLRY ∘ LRLRLηRLRY ∘ LRLRLRf ∘ LRLRLηRX ∘ LRLRεLRX ∘ LRLηRLRX ∘ LηRLRX
       -- SεSY ∘ SεSSY ∘ SSεSSY ∘ SSδSY ∘ SSSf ∘ SSδX ∘ SSεSX ∘ SδSX ∘ δSX
@@ -99,29 +98,40 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     O⊣C = KleisliAdjoints L⊣R
 
   _ : kContextualise O⊣C ≡ record
-    { F₀ = ?
-    -- TODO
-    ; F₁ = ?
-    -- TODO
+    { F₀ = L.F₀
+    ; F₁ = λ {X} {Y} (f : R.F₀ (L.F₀ X) C.⇒ R.F₀ (L.F₀ (R.F₀ (L.F₀ Y)))) → (ε.η (L.F₀ (R.F₀ (L.F₀ Y))) D.∘ L.F₁ C.id D.∘ ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ Y)))))) D.∘ L.F₁ (R.F₁ ((ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ Y))))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ Y)))) C.∘ R.F₁ (ε.η (L.F₀ (R.F₀ (L.F₀ Y))) D.∘ L.F₁ f D.∘ ε.η (L.F₀ (R.F₀ (L.F₀ X)))) C.∘ η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X))))) D.∘ ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))))) D.∘ L.F₁ (R.F₁ (ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ X))))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))) C.∘ R.F₁ D.id C.∘ η.η (R.F₀ (L.F₀ X))) D.∘ ε.η (L.F₀ (R.F₀ (L.F₀ X))))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X))))))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))))
+    -- (ε (L (R (L Y))) ∘ L 1 ∘ ε (L (R (L (R (L Y)))))) ∘ L (R ((ε (L (R (L (R (L Y))))) ∘ L (η (R (L (R (L Y)))) ∘ R (ε (L (R (L Y))) ∘ L f ∘ ε (L (R (L X)))) ∘ η (R (L (R (L X))))) ∘ ε (L (R (L (R (L X)))))) ∘ L (R (ε (L (R (L (R (L X))))) ∘ L (η (R (L (R (L X)))) ∘ R 1 ∘ η (R (L X))) ∘ ε (L (R (L X))))) ∘ L (η (R (L (R (L X))))))) ∘ L (η (R (L (R (L X)))))
+    -- εLRLY ∘ εLRLRLY ∘ LRεLRLRLY ∘ LRLηRLRLY ∘ LRLRεLRLY ∘ LRLRLf ∘ LRLRεLRLX ∘ LRLηRLRLX ∘ LRεLRLRLX ∘ LRLRεLRLRLX ∘ LRLRLηRLRLX ∘ LRLRLηRLX ∘ LRLRεLRLX ∘ LRLηRLRLX ∘ LηRLRLX
+    -- εLTY ∘ εLTTY ∘ LμTTY ∘ LTηTTY ∘ LTμTY ∘ LTTf ∘ LTμTX ∘ LTηTTX ∘ LμTTX ∘ LTμTTX ∘ LTTηTTX ∘ LTTηTX ∘ LTμTX ∘ LTηTTX ∘ LηTTX
+    -- εLTY ∘ εLTTY ∘ (L μ TTY ∘ L Tη TTY) ∘ LTμTY ∘ LTTf ∘ (LT μ TX ∘ LT ηT TX) ∘ LμTTX ∘ (LT μ TTX ∘ LT Tη TTX) ∘ LTTηTX ∘ (LT μ TX ∘ LT ηT TX) ∘ LηTTX
+    -- ϵLTY ∘ (ϵLTTY ∘ LTμTY ∘ LTTf) ∘ (LμTTX ∘ LTTηTX) ∘ LηTTX
+    -- ϵLTY ∘ Lf ∘ ϵLTX ∘ (LTμX ∘ LμTTX ∘ LTTηTX ∘ LηTTX)
+    -- ϵLTY ∘ Lf ∘ ϵLTX ∘ (LT μ X ∘ LT Tη X ∘ L μ TX ∘ L ηT TX)
+    -- ϵLTY ∘ Lf ∘ ϵLTX where f : TX → TTY
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
 
   _ : kOperationalise O⊣C ≡ record
-    { F₀ = ?
-    -- TODO
-    ; F₁ = ?
-    -- TODO
+    { F₀ = R.F₀
+    ; F₁ = λ {X} {Y} (f : L.F₀ (R.F₀ (L.F₀ (R.F₀ X))) D.⇒ L.F₀ (R.F₀ Y)) → (R.F₁ (ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y))))) C.∘ R.F₁ (L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ Y))) C.∘ R.F₁ (ε.η (L.F₀ (R.F₀ Y)) D.∘ L.F₁ C.id D.∘ ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y))))) C.∘ η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y)))))))) C.∘ (R.F₁ (ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y))))))) C.∘ R.F₁ (L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y))))) C.∘ R.F₁ (ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y)))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ Y))) C.∘ R.F₁ f C.∘ η.η (R.F₀ (L.F₀ (R.F₀ X)))) D.∘ ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ X))))) C.∘ η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ X)))))))) C.∘ η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ X))))) C.∘ R.F₁ D.id C.∘ η.η (R.F₀ (L.F₀ (R.F₀ X)))
+    -- (R (ε (L (R (L (R Y))))) ∘ R (L (η (R (L (R Y))) ∘ R (ε (L (R Y)) ∘ L 1 ∘ ε (L (R (L (R Y))))) ∘ η (R (L (R (L (R Y)))))))) ∘ (R (ε (L (R (L (R (L (R Y))))))) ∘ R (L (η (R (L (R (L (R Y))))) ∘ R (ε (L (R (L (R Y)))) ∘ L (η (R (L (R Y))) ∘ R f ∘ η (R (L (R X)))) ∘ ε (L (R (L (R X))))) ∘ η (R (L (R (L (R X)))))))) ∘ η (R (L (R (L (R X))))) ∘ R 1 ∘ η (R (L (R X)))
+    -- RεLRLRY ∘ RLηRLRY ∘ RLRεLRY ∘ RLRεLRLRY ∘ RLηRLRLRY ∘ RεLRLRLRY ∘ RLηRLRLRY ∘ RLRεLRLRY ∘ RLRLηRLRY ∘ RLRLRf ∘ RLRLηRLRX ∘ RLRεLRLRX ∘ RLηRLRLRX ∘ ηRLRLRX ∘ ηRLRX
+    -- RεSSY ∘ RδSY ∘ RSεSY ∘ RSεSSY ∘ RδSSY ∘ RεSSSY ∘ RδSSY ∘ RSεSSY ∘ RSδSY ∘ RSSf ∘ RSδSX ∘ RSεSSX ∘ RδSSX ∘ ηRSSX ∘ ηRSX
+    -- (R εS SY ∘ R δ SY) ∘ RSεSY ∘ (R Sε SSY ∘ R δ SSY) ∘ (R εS SSY ∘ R δ SSY) ∘ (RS εS SY ∘ RS δ SY) ∘ RSSf ∘ RSδSX ∘ (R Sε SSX ∘ R δ SSX) ∘ ηRSSX ∘ ηRSX
+    -- RSεSY ∘ RSSf ∘ RSδSX ∘ ηRSSX ∘ ηRSX
+    -- (RS f ∘ RS ϵSSX) ∘ RSδSX ∘ ηRSSX ∘ ηRSX
+    -- RSf ∘ (RS ϵS SX ∘ RS δ SX) ∘ ηRSSX ∘ ηRSX
+    -- (RSf ∘ ηRSSX) ∘ ηRSX
+    -- ηRSY ∘ Rf ∘ ηRSX where f : SSX → SY
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
 
   _ : kKleisliAdjoints O⊣C ≡ record
     { unit = record
-      { η = ?
-      -- TODO
+      { η = λ X → D.id
       ; commute = {! !} ; sym-commute = {! !} }
     ; counit = record
-      { η = ?
-      -- TODO
+      { η = λ X → C.id
       ; commute = {! !} ; sym-commute = {! !} }
     ; zig = {! !}
     ; zag = {! !}
