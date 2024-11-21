@@ -40,7 +40,8 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
       -- εLRY ∘ LηRY ∘ LRf ∘ LηRX ∘ εLRX
       -- εSY ∘ δY ∘ Sf ∘ δX ∘ εSX
       -- (εS Y ∘ δ Y) ∘ Sf ∘ δX ∘ εSX
-      -- Sf ∘ δX ∘ εSX  where  f : SX → Y
+      -- (Sf ∘ δX) ∘ εSX  where  f : SX → Y
+      -- fᵒ ∘ εSX  where  fᵒ : SX → SY
       ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
     ; η = record
       { η = λ X → D.id
@@ -63,7 +64,8 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
       -- ηRLY ∘ RεLY ∘ RLf ∘ RεLX ∘ ηRLX
       -- ηTY ∘ μY ∘ Tf ∘ μX ∘ ηTX
       -- ηTY ∘ μY ∘ Tf ∘ (μ X ∘ ηT X)
-      -- ηTY ∘ μY ∘ Tf  where  f : X → TY
+      -- ηTY ∘ (μY ∘ Tf)  where  f : X → TY
+      -- ηTY ∘ f*  where  f* : TX → TY
       ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
     ; ε = record
       { η = λ X → C.id
