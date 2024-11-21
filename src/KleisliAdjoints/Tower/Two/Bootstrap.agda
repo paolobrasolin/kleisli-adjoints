@@ -14,7 +14,7 @@ open import Categories.Adjoint.Properties using (adjoint⇒monad; adjoint⇒como
 open import Categories.Monad using (Monad)
 open import Categories.Comonad using (Comonad)
 
-open import KleisliAdjoints using (Operationalise; Contextualise; KleisliAdjoints)
+open import KleisliAdjoints using (KleisliAdjoints)
 open import KleisliAdjoints.Tower.One.Bootstrap using (kadjoint⇒monad; kadjoint⇒comonad; kOperationalise; kContextualise; kKleisliAdjoints)
 
 private
