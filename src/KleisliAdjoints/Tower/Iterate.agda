@@ -46,6 +46,10 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     Co3 = kContextualise O⊣C
     KA3 = kKleisliAdjoints O⊣C
 
+    Op4 = kOperationalise KA2
+    Co4 = kContextualise KA2
+    KA4 = kKleisliAdjoints KA2
+
   -- Ok, overall doing the following is much simpler: almost instantaneous and much simpler terms.
 
   _ : Op1 ≡ record
@@ -72,6 +76,18 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
 
+  _ : Op2 ≡ record
+    { F₀ = L.F₀
+    ; F₁ = λ {X} {Y} f → L.F₁ (R.F₁ (ϵ.η (L.F₀ Y))) D.∘ L.F₁ (R.F₁ (L.F₁ f)) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ X)))
+    -- L (R (ϵ (L Y))) ∘ L (R (L f)) ∘ L (η (R (L X)))
+    -- LRϵLY ∘ LRLf ∘ LηRLX
+    -- LμY ∘ LTf ∘ LηTX where f : TX → TY
+    ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
+  _ = refl
+
+  _ : Op4 ≡ ?
+  _ = refl
+
   _ : Co1 ≡ record
     { F₀ = L.F₀
     ; F₁ = λ {X} {Y} (f : X C.⇒ R.F₀ (L.F₀ Y)) → ϵ.η (L.F₀ Y) D.∘ L.F₁ f D.∘ ϵ.η (L.F₀ X)
@@ -91,3 +107,10 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     -- ϵLTY ∘ Lf ∘ ϵLTX where f : TX → TTY
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
+
+  _ : Co2 ≡ ?
+  _ = refl
+
+  _ : Co4 ≡ ?
+  _ = refl
+
