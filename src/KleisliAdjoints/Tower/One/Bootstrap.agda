@@ -39,7 +39,7 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
   kadjoint⇒monad = record
     { F = record
       { F₀ = S.F₀
-      ; F₁ = λ {X} {Y} (f : S.F₀ X ⇒ Y) → S.F₁ f ∘ δ.η X ∘ ε.η (S.F₀ X)
+      ; F₁ = λ {X} {Y} (f : S.F₀ X ⇒ Y) → S.F₁ f
       ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
     ; η = record
       { η = λ X → id {S.F₀ X}
@@ -55,7 +55,7 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
   kadjoint⇒comonad = record
     { F = record
       { F₀ = T.F₀
-      ; F₁ = λ {X} {Y} (f : X ⇒ T.F₀ Y) → η.η (T.F₀ Y) ∘ μ.η Y ∘ T.F₁ f
+      ; F₁ = λ {X} {Y} (f : X ⇒ T.F₀ Y) → T.F₁ f
       ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
     ; ε = record
       { η = λ X → id {T.F₀ X}
@@ -70,7 +70,7 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
   kContextualise : Functor (Kleisli (kadjoint⇒monad)) (CoKleisli (kadjoint⇒comonad))
   kContextualise = record
     { F₀ = R.F₀
-    ; F₁ = λ {X} {Y} (f : S.F₀ X D.⇒ S.F₀ Y) → R.F₁ (ε.η (S.F₀ Y)) ∘ R.F₁ (S.F₁ f) ∘ R.F₁ (δ.η X)
+    ; F₁ = λ {X} {Y} (f : S.F₀ X D.⇒ S.F₀ Y) → R.F₁ f
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
     where open C
           open S renaming (F to S)
@@ -78,7 +78,7 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
   kOperationalise : Functor (CoKleisli (kadjoint⇒comonad)) (Kleisli (kadjoint⇒monad))
   kOperationalise = record
     { F₀ = L.F₀
-    ; F₁ = λ {X} {Y} (f : T.F₀ X C.⇒ T.F₀ Y) → L.F₁ (μ.η Y) ∘ L.F₁ (T.F₁ f) ∘ L.F₁ (η.η (T.F₀ X))
+    ; F₁ = λ {X} {Y} (f : T.F₀ X C.⇒ T.F₀ Y) → L.F₁ f
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
     where open D
           open T renaming (F to T)

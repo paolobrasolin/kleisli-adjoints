@@ -36,7 +36,7 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
   kkadjoint⇒monad = record
     { F = record
       { F₀ = T.F₀
-      ; F₁ = λ {X} {Y} (f : T.F₀ X ⇒ T.F₀ Y) → T.F₁ (μ.η Y) ∘ T.F₁ (T.F₁ f) ∘ T.F₁ (η.η (T.F₀ X))
+      ; F₁ = λ {X} {Y} (f : T.F₀ X ⇒ T.F₀ Y) → T.F₁ f
       ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
     ; η = record
       { η = λ X → η.η (T.F₀ X)
@@ -52,7 +52,7 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
   kkadjoint⇒comonad = record
     { F = record
       { F₀ = S.F₀
-      ; F₁ = λ {X} {Y} (f : S.F₀ X ⇒ S.F₀ Y) → S.F₁ (ε.η (S.F₀ Y)) ∘ S.F₁ (S.F₁ f) ∘ S.F₁ (δ.η X)
+      ; F₁ = λ {X} {Y} (f : S.F₀ X ⇒ S.F₀ Y) → S.F₁ f
       ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
     ; ε = record
       { η = λ X → ε.η (S.F₀ X)
