@@ -14,7 +14,8 @@ open import Categories.Adjoint.Properties using (adjoint⇒monad; adjoint⇒como
 open import Categories.Monad using (Monad)
 open import Categories.Comonad using (Comonad)
 
-open import KleisliAdjoints using (KleisliAdjoints)
+open import KleisliAdjoints using (Operationalise; Contextualise; KleisliAdjoints)
+open import KleisliAdjoints.Tower.One.Bootstrap using (kadjoint⇒monad; kadjoint⇒comonad; kOperationalise; kContextualise; kKleisliAdjoints)
 open import KleisliAdjoints.Tower.Two.Bootstrap using (kkadjoint⇒monad; kkadjoint⇒comonad; kkOperationalise; kkContextualise; kkKleisliAdjoints)
 
 private
@@ -33,32 +34,44 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     module η = NaturalTransformation (Adjoint.unit L⊣R)
     O⊣C = KleisliAdjoints L⊣R
 
-  _ : kkadjoint⇒monad (O⊣C) ≡ record
+  -- TODO: apparently `adjoint⇒monad (kkKleisliAdjoints L⊣R)` reduces much better than `kkadjoint⇒monad (O⊣C)`; I should revise Tower.Two.Fleshouts.
+
+  _ : adjoint⇒monad (kkKleisliAdjoints L⊣R) ≡ record
     { F = record
-      { F₀ = ?
-      ; F₁ = ?
-      ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
+      { F₀ = λ X → L.F₀ (R.F₀ X)
+      ; F₁ = λ {X} {Y} (f : L.F₀ (R.F₀ (L.F₀ (R.F₀ X))) D.⇒ L.F₀ (R.F₀ Y)) → ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y)))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ Y))) C.∘ R.F₁ f C.∘ η.η (R.F₀ (L.F₀ (R.F₀ X)))) D.∘ ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ X)))) }
+      -- ε (L (R (L (R Y)))) ∘ L (η (R (L (R Y))) ∘ R f ∘ η (R (L (R X)))) ∘ ε (L (R (L (R X))))
+      -- εLRLRY ∘ LηRLRY ∘ LRf ∘ LηRLRX ∘ εLRLRX
+      -- εSSY ∘ δSY ∘ Sf ∘ δSX ∘ εSSX
+      -- (εS SY ∘ δ SY) ∘ Sf ∘ (δSX ∘ εSSX)
+      -- Sf ∘ (εS SSX ∘ δ SSX)
+      -- Sf where  f : SSX → SY
     ; η = record
-      { η = ?
-      ; commute = {! !} ; sym-commute = {! !} }
+      { η = λ X → D.id }
     ; μ = record
-      { η = ?
-      ; commute = {! !} ; sym-commute = {! !} }
-    ; assoc = {! !} ; sym-assoc = {! !} ; identityˡ = {! !} ; identityʳ = {! !} }
+      { η = λ X → ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ X)))) D.∘ L.F₁ C.id D.∘ ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ X)))))) } }
+      -- ε (L (R (L (R X)))) ∘ L 1 ∘ ε (L (R (L (R (L (R X))))))
+      -- εLRLRX ∘ εLRLRLRX
+      -- εSSX ∘ εSSSX
   _ = refl
 
-  _ : kkadjoint⇒comonad (O⊣C) ≡ record
+  _ : adjoint⇒comonad (kkKleisliAdjoints L⊣R) ≡ record
     { F = record
-      { F₀ = ?
-      ; F₁ = ?
-      ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
+      { F₀ = λ X → R.F₀ (L.F₀ X)
+      ; F₁ = λ {X} {Y} (f : R.F₀ (L.F₀ X) C.⇒ R.F₀ (L.F₀ (R.F₀ (L.F₀ Y)))) → η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ Y)))) C.∘ R.F₁ (ε.η (L.F₀ (R.F₀ (L.F₀ Y))) D.∘ L.F₁ f D.∘ ε.η (L.F₀ (R.F₀ (L.F₀ X)))) C.∘ η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))) }
+      -- η (R (L (R (L Y)))) ∘ R (ε (L (R (L Y))) ∘ L f ∘ ε (L (R (L X)))) ∘ η (R (L (R (L X))))
+      -- ηRLRLY ∘ RεLRLY ∘ RLf ∘ RεLRLX ∘ ηRLRLX
+      -- ηTTY ∘ μTY ∘ Tf ∘ μTX ∘ ηTTX
+      -- (ηTTY ∘ μTY) ∘ Tf ∘ (μ TX ∘ ηT TX)
+      -- (μ Y ∘ ηT Y) ∘ Tf
+      -- Tf  where  f : TX → TTY
     ; ε = record
-      { η = ?
-      ; commute = {! !} ; sym-commute = {! !} }
+      { η = λ X → C.id }
     ; δ = record
-      { η = ?
-      ; commute = {! !} ; sym-commute = {! !} }
-    ; assoc = {! !} ; sym-assoc = {! !} ; identityˡ = {! !} ; identityʳ = {! !} }
+      { η = λ X → η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))))) C.∘ R.F₁ D.id C.∘ η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))) } }
+      -- η (R (L (R (L (R (L X)))))) ∘ R 1 ∘ η (R (L (R (L X))))
+      -- ηRLRLRLX ∘ ηRLRLX
+      -- ηTTTX ∘ ηTTX
   _ = refl
 
 module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
@@ -71,27 +84,22 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     module η = NaturalTransformation (Adjoint.unit L⊣R)
     O⊣C = KleisliAdjoints L⊣R
 
-  _ : kkContextualise O⊣C ≡ record
-    { F₀ = ?
-    ; F₁ = ?
-    ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
+  _ : kContextualise (kKleisliAdjoints L⊣R) ≡ record
+    { F₀ = R.F₀
+    ; F₁ = λ {X} {Y} → R.F₁ }
   _ = refl
 
-  _ : kkOperationalise O⊣C ≡ record
-    { F₀ = ?
-    ; F₁ = ?
-    ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
+  _ : kOperationalise (kKleisliAdjoints L⊣R) ≡ record
+    { F₀ = L.F₀
+    ; F₁ = λ {X} {Y} → L.F₁ }
   _ = refl
 
-  _ : kkKleisliAdjoints O⊣C ≡ record
+  _ : kKleisliAdjoints (kKleisliAdjoints L⊣R) ≡ record
     { unit = record
-      { η = ?
-      ; commute = {! !} ; sym-commute = {! !} }
+      { η = λ X → η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))) }
+      -- ηTTX
     ; counit = record
-      { η = ?
-      ; commute = {! !} ; sym-commute = {! !} }
-    ; zig = {! !}
-    ; zag = {! !}
-    }
+      { η = λ X → ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ X)))) } }
+      -- εSSX
   _ = refl
 
