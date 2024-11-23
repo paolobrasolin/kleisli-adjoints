@@ -7,6 +7,8 @@ open import Agda.Builtin.Equality using (_≡_; refl)
 open import Categories.Category using (Category)
 open import Categories.Category.Construction.Kleisli using (Kleisli)
 open import Categories.Category.Construction.CoKleisli using (CoKleisli)
+open import Categories.Adjoint.Construction.CoKleisli using (Cofree) renaming (Forgetful to Coforgetful)
+open import Categories.Adjoint.Construction.Kleisli using (Forgetful; Free)
 open import Categories.Functor using (Functor)
 open import Categories.NaturalTransformation.Core using (NaturalTransformation)
 open import Categories.Adjoint using (Adjoint; _⊣_)
@@ -110,6 +112,27 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     }
   _ = refl
 
+  _ : Free (kadjoint⇒monad (L⊣R)) ≡ record
+    { F₀ = λ X → X
+    -- X
+    ; F₁ = λ {X} {Y} (f : L.F₀ (R.F₀ X) D.⇒ Y) → D.id D.∘ L.F₁ (R.F₁ f) D.∘ L.F₁ (η.η (R.F₀ X)) }
+    -- 1 ∘ L (R f) ∘ L (η (R X))
+    -- LRf ∘ LηRX
+    -- Sf ∘ δX  where  f : SX → Y
+  _ = refl
+
+  _ : Forgetful (kadjoint⇒monad (L⊣R)) ≡ record
+    { F₀ = λ X → L.F₀ (R.F₀ X)
+    -- SX
+    ; F₁ = λ {X} {Y} (f : L.F₀ (R.F₀ X) D.⇒ L.F₀ (R.F₀ Y)) → (ε.η (L.F₀ (R.F₀ Y)) D.∘ ε.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ Y))))) D.∘ L.F₁ (R.F₁ (L.F₁ (R.F₁ f))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ X)))) }
+    -- (ε (L (R Y)) ∘ ε (L (R (L (R Y))))) ∘ L (R (L (R f))) ∘ L (η (R (L (R X))))
+    -- εLRY ∘ εLRLRY ∘ LRLRf ∘ LηRLRX
+    -- εSY ∘ εSSY ∘ (SSf ∘ δSX)
+    -- εSY ∘ (εS SY ∘ δ SY) ∘ Sf
+    -- (εSY ∘ Sf)
+    -- f ∘ εSX  where  f : SX → SY
+  _ = refl
+
   _ : CoKleisli (kadjoint⇒comonad (L⊣R)) ≡ record
     { Obj = C.Obj
     ; _⇒_ = λ X Y → R.F₀ (L.F₀ X) C.⇒ R.F₀ (L.F₀ Y)
@@ -133,6 +156,27 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     ; equiv = C.equiv
     ; ∘-resp-≈ = {! !}
     }
+  _ = refl
+
+  _ : Cofree (kadjoint⇒comonad (L⊣R)) ≡ record
+    { F₀ = λ X → X
+    -- X
+    ; F₁ = λ {X} {Y} (f : X C.⇒ R.F₀ (L.F₀ Y)) → (R.F₁ (ε.η (L.F₀ Y)) C.∘ R.F₁ (L.F₁ f)) C.∘ C.id }
+    -- (R (ε (L Y)) ∘ R (L f)) ∘ 1
+    -- RεLY ∘ RLf
+    -- μY ∘ Tf  where  f : X → TY
+  _ = refl
+
+  _ : Coforgetful (kadjoint⇒comonad (L⊣R)) ≡ record
+    { F₀ = λ X → R.F₀ (L.F₀ X)
+    -- TX
+    ; F₁ = λ {X} {Y} (f : R.F₀ (L.F₀ X) C.⇒ R.F₀ (L.F₀ Y)) → (R.F₁ (ε.η (L.F₀ (R.F₀ (L.F₀ Y)))) C.∘ R.F₁ (L.F₁ (R.F₁ (L.F₁ f)))) C.∘ η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))) C.∘ η.η (R.F₀ (L.F₀ X)) }
+    -- (R (ε (L (R (L Y)))) ∘ R (L (R (L f)))) ∘ η (R (L (R (L X)))) ∘ η (R (L X))
+    -- RεLRLY ∘ RLRLf ∘ ηRLRLX ∘ ηRLX
+    -- (μTY ∘ TTf) ∘ ηTTX ∘ ηTX
+    -- Tf ∘ (μ TX ∘ ηT TX) ∘ ηTX
+    -- (Tf ∘ ηTX)
+    -- ηTY ∘ f  where  f : TX → TY
   _ = refl
 
 module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
