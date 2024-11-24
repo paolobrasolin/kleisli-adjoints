@@ -87,6 +87,25 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     module η = NaturalTransformation (Adjoint.unit L⊣R)
     O⊣C = KleisliAdjoints L⊣R
 
+  _ : Kleisli (adjoint⇒monad (L⊣R)) ≡ record
+    { Obj = C.Obj
+    ; _⇒_ = λ A B → A C.⇒ R.F₀ (L.F₀ B)
+    -- A → TB
+    ; _≈_ = C._≈_
+    ; id = λ { {A} → η.η A }
+    ; _∘_ = λ {A} {B} {C} f g → (R.F₁ (ε.η (L.F₀ C)) C.∘ R.F₁ (L.F₁ f)) C.∘ g
+    -- (μX ∘ Tf) ∘ g
+    -- f* ∘ g
+    ; assoc = {! !}
+    ; sym-assoc = {! !}
+    ; identityˡ = {! !}
+    ; identityʳ = {! !}
+    ; identity² = {! !}
+    ; equiv = C.equiv
+    ; ∘-resp-≈ = {! !}
+    }
+  _ = refl
+
   _ : Kleisli (kadjoint⇒monad (L⊣R)) ≡ record
     { Obj = D.Obj
     ; _⇒_ = λ X Y → L.F₀ (R.F₀ X) D.⇒ L.F₀ (R.F₀ Y)
