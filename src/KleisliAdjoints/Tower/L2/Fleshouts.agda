@@ -47,26 +47,6 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     }
   _ = refl
 
-  _ : adjoint⇒comonad (kKleisliAdjoints L⊣R) ≡ record
-    { F = record
-      { F₀ = λ X → L.F₀ (R.F₀ X) -- SX
-      ; F₁ = λ f → L.F₁ (R.F₁ f) } -- Sf
-    ; ε = record
-      { η = λ X → ε.η (L.F₀ (R.F₀ X)) } -- εSX
-    ; δ = record
-      { η = λ X → L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ X)))) } } -- δSX
-  _ = refl
-
-module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
-  private
-    module C = Category C
-    module D = Category D
-    module L = Functor L
-    module R = Functor R
-    module ε = NaturalTransformation (Adjoint.counit L⊣R)
-    module η = NaturalTransformation (Adjoint.unit L⊣R)
-    O⊣C = KleisliAdjoints L⊣R
-
   _ : Kleisli (kkadjoint⇒monad (L⊣R)) ≡ record
     { Obj = ? -- D.Obj
     ; _⇒_ = λ A B → R.F₀ (L.F₀ A) C.⇒ R.F₀ (L.F₀ (R.F₀ (L.F₀ B))) -- λ X Y → L.F₀ (R.F₀ X) D.⇒ L.F₀ (R.F₀ Y)
@@ -115,6 +95,26 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     -- μTY ∘ (μ TTY ∘ ηT TTY) ∘ Tf
     -- (μTY ∘ Tf)
     -- f ∘ μX  where  f : TX → TTY
+  _ = refl
+
+module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
+  private
+    module C = Category C
+    module D = Category D
+    module L = Functor L
+    module R = Functor R
+    module ε = NaturalTransformation (Adjoint.counit L⊣R)
+    module η = NaturalTransformation (Adjoint.unit L⊣R)
+    O⊣C = KleisliAdjoints L⊣R
+
+  _ : adjoint⇒comonad (kKleisliAdjoints L⊣R) ≡ record
+    { F = record
+      { F₀ = λ X → L.F₀ (R.F₀ X) -- SX
+      ; F₁ = λ f → L.F₁ (R.F₁ f) } -- Sf
+    ; ε = record
+      { η = λ X → ε.η (L.F₀ (R.F₀ X)) } -- εSX
+    ; δ = record
+      { η = λ X → L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ X)))) } } -- δSX
   _ = refl
 
   _ : CoKleisli (kkadjoint⇒comonad (L⊣R)) ≡ record

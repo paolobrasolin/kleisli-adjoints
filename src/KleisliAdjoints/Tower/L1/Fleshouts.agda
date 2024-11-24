@@ -56,56 +56,6 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
       -- εSX ∘ εSSX
   _ = refl
 
-  _ : adjoint⇒comonad (O⊣C) ≡ record
-    { F = record
-      { F₀ = λ X → R.F₀ (L.F₀ X)
-      -- TX
-      ; F₁ = λ {X} {Y} (f : X C.⇒ R.F₀ (L.F₀ Y)) → η.η (R.F₀ (L.F₀ Y)) C.∘ R.F₁ (ε.η (L.F₀ Y) D.∘ L.F₁ f D.∘ ε.η (L.F₀ X)) C.∘ η.η (R.F₀ (L.F₀ X)) }
-      -- η (R (L Y)) ∘ R (ε (L Y) ∘ L f ∘ ε (L X)) ∘ η (R (L X))
-      -- ηRLY ∘ RεLY ∘ RLf ∘ RεLX ∘ ηRLX
-      -- ηTY ∘ μY ∘ Tf ∘ μX ∘ ηTX
-      -- (ηTY ∘ μY) ∘ Tf ∘ (μ X ∘ ηT X)
-      -- (μ TY ∘ ηT TY) ∘ Tf
-      -- Tf  where  f : X → TY
-    ; ε = record
-      { η = λ X → C.id }
-      -- 1
-    ; δ = record
-      { η = λ X → η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))) C.∘ R.F₁ D.id C.∘ η.η (R.F₀ (L.F₀ X)) } }
-      -- η (R (L (R (L X)))) ∘ R 1 ∘ η (R (L X))
-      -- ηRLRLX ∘ ηRLX
-      -- ηTTX ∘ ηTX
-  _ = refl
-
-module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
-  private
-    module C = Category C
-    module D = Category D
-    module L = Functor L
-    module R = Functor R
-    module ε = NaturalTransformation (Adjoint.counit L⊣R)
-    module η = NaturalTransformation (Adjoint.unit L⊣R)
-    O⊣C = KleisliAdjoints L⊣R
-
-  _ : Kleisli (adjoint⇒monad (L⊣R)) ≡ record
-    { Obj = C.Obj
-    ; _⇒_ = λ A B → A C.⇒ R.F₀ (L.F₀ B)
-    -- A → TB
-    ; _≈_ = C._≈_
-    ; id = λ { {A} → η.η A }
-    ; _∘_ = λ {A} {B} {C} f g → (R.F₁ (ε.η (L.F₀ C)) C.∘ R.F₁ (L.F₁ f)) C.∘ g
-    -- (μX ∘ Tf) ∘ g
-    -- f* ∘ g
-    ; assoc = {! !}
-    ; sym-assoc = {! !}
-    ; identityˡ = {! !}
-    ; identityʳ = {! !}
-    ; identity² = {! !}
-    ; equiv = C.equiv
-    ; ∘-resp-≈ = {! !}
-    }
-  _ = refl
-
   _ : Kleisli (kadjoint⇒monad (L⊣R)) ≡ record
     { Obj = D.Obj
     ; _⇒_ = λ X Y → L.F₀ (R.F₀ X) D.⇒ L.F₀ (R.F₀ Y)
@@ -150,6 +100,37 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     -- εSY ∘ (εS SY ∘ δ SY) ∘ Sf
     -- (εSY ∘ Sf)
     -- f ∘ εSX  where  f : SX → SY
+  _ = refl
+
+module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
+  private
+    module C = Category C
+    module D = Category D
+    module L = Functor L
+    module R = Functor R
+    module ε = NaturalTransformation (Adjoint.counit L⊣R)
+    module η = NaturalTransformation (Adjoint.unit L⊣R)
+    O⊣C = KleisliAdjoints L⊣R
+
+  _ : adjoint⇒comonad (O⊣C) ≡ record
+    { F = record
+      { F₀ = λ X → R.F₀ (L.F₀ X)
+      -- TX
+      ; F₁ = λ {X} {Y} (f : X C.⇒ R.F₀ (L.F₀ Y)) → η.η (R.F₀ (L.F₀ Y)) C.∘ R.F₁ (ε.η (L.F₀ Y) D.∘ L.F₁ f D.∘ ε.η (L.F₀ X)) C.∘ η.η (R.F₀ (L.F₀ X)) }
+      -- η (R (L Y)) ∘ R (ε (L Y) ∘ L f ∘ ε (L X)) ∘ η (R (L X))
+      -- ηRLY ∘ RεLY ∘ RLf ∘ RεLX ∘ ηRLX
+      -- ηTY ∘ μY ∘ Tf ∘ μX ∘ ηTX
+      -- (ηTY ∘ μY) ∘ Tf ∘ (μ X ∘ ηT X)
+      -- (μ TY ∘ ηT TY) ∘ Tf
+      -- Tf  where  f : X → TY
+    ; ε = record
+      { η = λ X → C.id }
+      -- 1
+    ; δ = record
+      { η = λ X → η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))) C.∘ R.F₁ D.id C.∘ η.η (R.F₀ (L.F₀ X)) } }
+      -- η (R (L (R (L X)))) ∘ R 1 ∘ η (R (L X))
+      -- ηRLRLX ∘ ηRLX
+      -- ηTTX ∘ ηTX
   _ = refl
 
   _ : CoKleisli (kadjoint⇒comonad (L⊣R)) ≡ record
