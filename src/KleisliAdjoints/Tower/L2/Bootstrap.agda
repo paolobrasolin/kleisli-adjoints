@@ -7,6 +7,8 @@ open import Agda.Builtin.Equality using (_≡_; refl)
 open import Categories.Category using (Category)
 open import Categories.Category.Construction.Kleisli using (Kleisli)
 open import Categories.Category.Construction.CoKleisli using (CoKleisli)
+open import Categories.Adjoint.Construction.CoKleisli using (Cofree) renaming (Forgetful to Coforgetful)
+open import Categories.Adjoint.Construction.Kleisli using (Forgetful; Free)
 open import Categories.Functor using (Functor)
 open import Categories.NaturalTransformation.Core using (NaturalTransformation)
 open import Categories.Adjoint using (Adjoint; _⊣_)
@@ -48,6 +50,26 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     where open C
           open T renaming (F to T)
 
+  -- TODO: kkKleisli
+
+  -- NOTE: this is the type of `Free kkadjoint⇒monad`
+  kkFree : Functor (CoKleisli (kadjoint⇒comonad L⊣R)) (Kleisli kkadjoint⇒monad)
+  kkFree = record
+    { F₀ = λ X → X
+    ; F₁ = λ {X} {Y} (f : T.F₀ X ⇒ T.F₀ Y) → η.η (T.F₀ Y) ∘ f
+    ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
+    where open C
+          open T renaming (F to T)
+
+  -- NOTE: this is the type of `Forgetful kkadjoint⇒monad`
+  kkForgetful : Functor (Kleisli kkadjoint⇒monad) (CoKleisli (kadjoint⇒comonad L⊣R))
+  kkForgetful = record
+    { F₀ = T.F₀
+    ; F₁ = λ {X} {Y} (f : T.F₀ X ⇒ T.F₀ (T.F₀ Y)) → f ∘ μ.η X
+    ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
+    where open C
+          open T renaming (F to T)
+
 module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
   private
     module C = Category C
@@ -70,6 +92,26 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
       { η = λ X → δ.η (S.F₀ X)
       ; commute = {! !} ; sym-commute = {! !} }
     ; assoc = {! !} ; sym-assoc = {! !} ; identityˡ = {! !} ; identityʳ = {! !} }
+    where open D
+          open S renaming (F to S)
+
+  -- TODO: kkCoKleisli
+
+  -- NOTE: this is the type of `Cofree kkadjoint⇒comonad`
+  kkCofree : Functor (Kleisli (kadjoint⇒monad L⊣R)) (CoKleisli kkadjoint⇒comonad)
+  kkCofree = record
+    { F₀ = λ X → X
+    ; F₁ = λ {X} {Y} (f : S.F₀ X ⇒ S.F₀ Y) → f ∘ ε.η (S.F₀ X)
+    ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
+    where open D
+          open S renaming (F to S)
+
+  -- NOTE: this is the type of `Coforgetful kkadjoint⇒comonad`
+  kkCoforgetful : Functor (CoKleisli kkadjoint⇒comonad) (Kleisli (kadjoint⇒monad L⊣R))
+  kkCoforgetful = record
+    { F₀ = S.F₀
+    ; F₁ = λ {X} {Y} (f : S.F₀ (S.F₀ X) ⇒ S.F₀ Y) → δ.η Y ∘ f -- TODO: double check manual computation that produced this form
+    ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
     where open D
           open S renaming (F to S)
 
