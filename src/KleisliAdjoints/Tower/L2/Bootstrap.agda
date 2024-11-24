@@ -48,6 +48,15 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     where open C
           open T renaming (F to T)
 
+module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
+  private
+    module C = Category C
+    module D = Category D
+    module L = Functor L
+    module R = Functor R
+    module S = Comonad (adjoint⇒comonad L⊣R)
+    module T = Monad (adjoint⇒monad L⊣R)
+
   kkadjoint⇒comonad : Comonad (Kleisli (kadjoint⇒monad L⊣R))
   kkadjoint⇒comonad = record
     { F = record
@@ -64,7 +73,16 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     where open D
           open S renaming (F to S)
 
-  kkContextualise : Functor (Kleisli (kkadjoint⇒monad)) (CoKleisli (kkadjoint⇒comonad))
+module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
+  private
+    module C = Category C
+    module D = Category D
+    module L = Functor L
+    module R = Functor R
+    module S = Comonad (adjoint⇒comonad L⊣R)
+    module T = Monad (adjoint⇒monad L⊣R)
+
+  kkContextualise : Functor (Kleisli (kkadjoint⇒monad L⊣R)) (CoKleisli (kkadjoint⇒comonad L⊣R))
   kkContextualise = record
     { F₀ = L.F₀
     ; F₁ = λ {X} {Y} (f : T.F₀ X C.⇒ T.F₀ (T.F₀ Y)) → ε.η (L.F₀ (T.F₀ Y)) ∘ L.F₁ f ∘ ε.η (L.F₀ (T.F₀ X))
@@ -73,7 +91,7 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
           open S using (ε)
           open T renaming (F to T)
 
-  kkOperationalise : Functor (CoKleisli (kkadjoint⇒comonad)) (Kleisli (kkadjoint⇒monad))
+  kkOperationalise : Functor (CoKleisli (kkadjoint⇒comonad L⊣R)) (Kleisli (kkadjoint⇒monad L⊣R))
   kkOperationalise = record
     { F₀ = R.F₀
     ; F₁ = λ {X} {Y} (f : S.F₀ (S.F₀ X) D.⇒ S.F₀ Y) → η.η (R.F₀ (S.F₀ Y)) ∘ R.F₁ f ∘ η.η (R.F₀ (S.F₀ X))
