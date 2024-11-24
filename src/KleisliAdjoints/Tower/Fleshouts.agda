@@ -15,8 +15,8 @@ open import Categories.Monad using (Monad)
 open import Categories.Comonad using (Comonad)
 
 open import KleisliAdjoints using (Operationalise; Contextualise; KleisliAdjoints)
-open import KleisliAdjoints.Tower.One.Bootstrap using (kOperationalise; kContextualise; kKleisliAdjoints)
-open import KleisliAdjoints.Tower.Two.Bootstrap using (kkOperationalise; kkContextualise; kkKleisliAdjoints)
+open import KleisliAdjoints.Tower.L1.Bootstrap using (kOperationalise; kContextualise; kKleisliAdjoints)
+open import KleisliAdjoints.Tower.L2.Bootstrap using (kkOperationalise; kkContextualise; kkKleisliAdjoints)
 
 private
   variable

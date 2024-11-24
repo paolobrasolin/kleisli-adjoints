@@ -1,5 +1,5 @@
 {-# OPTIONS --without-K --allow-unsolved-metas #-}
-module KleisliAdjoints.Tower.One.Bootstrap where
+module KleisliAdjoints.Tower.L1.Bootstrap where
 
 open import Level
 open import Agda.Builtin.Equality using (_≡_; refl)

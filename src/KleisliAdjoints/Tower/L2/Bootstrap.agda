@@ -1,5 +1,5 @@
 {-# OPTIONS --without-K --allow-unsolved-metas #-}
-module KleisliAdjoints.Tower.Two.Bootstrap where
+module KleisliAdjoints.Tower.L2.Bootstrap where
 
 open import Level
 open import Agda.Builtin.Equality using (_≡_; refl)
@@ -15,7 +15,7 @@ open import Categories.Monad using (Monad)
 open import Categories.Comonad using (Comonad)
 
 open import KleisliAdjoints using (KleisliAdjoints)
-open import KleisliAdjoints.Tower.One.Bootstrap using (kadjoint⇒monad; kadjoint⇒comonad; kOperationalise; kContextualise; kKleisliAdjoints)
+open import KleisliAdjoints.Tower.L1.Bootstrap using (kadjoint⇒monad; kadjoint⇒comonad; kOperationalise; kContextualise; kKleisliAdjoints)
 
 private
   variable

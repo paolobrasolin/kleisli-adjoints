@@ -15,8 +15,8 @@ open import Categories.Monad using (Monad)
 open import Categories.Comonad using (Comonad)
 
 open import KleisliAdjoints using (Operationalise; Contextualise; KleisliAdjoints)
-open import KleisliAdjoints.Tower.One.Bootstrap using (kadjoint⇒monad; kadjoint⇒comonad; kOperationalise; kContextualise; kKleisliAdjoints)
-open import KleisliAdjoints.Tower.Two.Bootstrap using (kkadjoint⇒monad; kkadjoint⇒comonad; kkOperationalise; kkContextualise; kkKleisliAdjoints)
+open import KleisliAdjoints.Tower.L1.Bootstrap using (kadjoint⇒monad; kadjoint⇒comonad; kOperationalise; kContextualise; kKleisliAdjoints)
+open import KleisliAdjoints.Tower.L2.Bootstrap using (kkadjoint⇒monad; kkadjoint⇒comonad; kkOperationalise; kkContextualise; kkKleisliAdjoints)
 
 private
   variable
@@ -34,7 +34,7 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     module η = NaturalTransformation (Adjoint.unit L⊣R)
     O⊣C = KleisliAdjoints L⊣R
 
-  -- TODO: apparently `adjoint⇒monad (kkKleisliAdjoints L⊣R)` reduces much better than `kkadjoint⇒monad (O⊣C)`; I should revise Tower.Two.Fleshouts.
+  -- TODO: apparently `adjoint⇒monad (kkKleisliAdjoints L⊣R)` reduces much better than `kkadjoint⇒monad (O⊣C)`; I should revise Tower.L2.Fleshouts.
 
   _ : adjoint⇒monad (kkKleisliAdjoints L⊣R) ≡ record
     { F = record

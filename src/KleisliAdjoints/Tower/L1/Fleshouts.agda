@@ -1,5 +1,5 @@
 {-# OPTIONS --without-K #-}
-module KleisliAdjoints.Tower.One.Fleshouts where
+module KleisliAdjoints.Tower.L1.Fleshouts where
 
 open import Level
 open import Agda.Builtin.Equality using (_≡_; refl)
@@ -17,7 +17,7 @@ open import Categories.Monad using (Monad)
 open import Categories.Comonad using (Comonad)
 
 open import KleisliAdjoints using (Operationalise; Contextualise; KleisliAdjoints)
-open import KleisliAdjoints.Tower.One.Bootstrap using (kadjoint⇒monad; kadjoint⇒comonad)
+open import KleisliAdjoints.Tower.L1.Bootstrap using (kadjoint⇒monad; kadjoint⇒comonad)
 
 private
   variable
