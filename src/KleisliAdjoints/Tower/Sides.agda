@@ -67,37 +67,39 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     -- η (R (L B)) ∘ R (ϵ (L B)) ∘ R (L f)
     -- ηRLB ∘ RϵLB ∘ RLf
     -- ηTB ∘ μB ∘ Tf  where  f : A → TB
+    -- ηTB ∘ f*
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
 
   _ : (kCoforgetful L⊣R) ∘F (kkForgetful L⊣R) ≡ record
     { F₀ = λ x → R.F₀ (L.F₀ (R.F₀ (L.F₀ x)))
     -- TTX
-    ; F₁ = λ { {A} {B} f → η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ B)))) C.∘ f C.∘ R.F₁ (ϵ.η (L.F₀ A)) }
-    -- η (R (L (R (L B)))) ∘ f ∘ R (ϵ (L A))
-    -- ηRLRLB ∘ f ∘ RϵLA
-    -- ηTTB ∘ f ∘ μA  where  f : TA → TTB
+    ; F₁ = λ { {A} {B} f → η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ B)))) C.∘ R.F₁ (ϵ.η (L.F₀ (R.F₀ (L.F₀ B)))) C.∘ R.F₁ (L.F₁ f) }
+    -- η (R (L (R (L B)))) ∘ R (ϵ (L (R (L B)))) ∘ R (L f)
+    -- ηRLRLB ∘ RϵLRLB ∘ RLf
+    -- ηTTB ∘ μTB ∘ Tf  where  f : TA → TTB
+    -- ηTTB ∘ f*
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
 
   _ : (kkFree L⊣R) ∘F (kCofree L⊣R) ∘F (kCoforgetful L⊣R) ∘F (kkForgetful L⊣R) ≡ record
     { F₀ = λ X → R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))
     -- TTX
-    ; F₁ = λ { {A} {B} f → η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ B)))))) C.∘ R.F₁ (ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ B)))))) C.∘ R.F₁ (L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ B)))) C.∘ f C.∘ R.F₁ (ϵ.η (L.F₀ A)))) }
-    -- η (R (L (R (L (R (L B)))))) ∘ R (ϵ (L (R (L (R (L B)))))) ∘ R (L (η (R (L (R (L B)))) ∘ f ∘ R (ϵ (L A))))
-    -- ηRLRLRLB ∘ RϵLRLRLB ∘ RLηRLRLB ∘ RLf ∘ RLRϵLA
-    -- ηTTTB ∘ (μ TTB ∘ Tη TTB) ∘ Tf ∘ TμA
-    -- ηTTTB ∘ Tf ∘ TμA  where  f : TA → TTB
+    ; F₁ = λ { {A} {B} f → η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ B)))))) C.∘ R.F₁ (ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ B)))))) C.∘ R.F₁ (L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ B)))) C.∘ R.F₁ (ϵ.η (L.F₀ (R.F₀ (L.F₀ B)))) C.∘ R.F₁ (L.F₁ f))) }
+    -- η (R (L (R (L (R (L B)))))) ∘ R (ϵ (L (R (L (R (L B)))))) ∘ R (L (η (R (L (R (L B)))) ∘ R (ϵ (L (R (L B)))) ∘ R (L f)))
+    -- ηRLRLRLB ∘ RϵLRLRLB ∘ RLηRLRLB ∘ RLRϵLRLB ∘ RLRLf
+    -- ηTTTB ∘ (μ TTB ∘ Tη TTB) ∘ TμTB ∘ TTf
+    -- ηTTTB ∘ TμTB ∘ TTf  where  f : TA → TTB
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
 
   _ : (kCoforgetful L⊣R) ∘F (kkForgetful L⊣R) ∘F (kkFree L⊣R) ∘F (kCofree L⊣R) ≡ record
     { F₀ = λ X → R.F₀ (L.F₀ (R.F₀ (L.F₀ X)))
     -- TTX
-    ; F₁ = λ { {A} {B} f → η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ B)))) C.∘ (η.η (R.F₀ (L.F₀ B)) C.∘ R.F₁ (ϵ.η (L.F₀ B)) C.∘ R.F₁ (L.F₁ f)) C.∘ R.F₁ (ϵ.η (L.F₀ A)) }
-    -- η (R (L (R (L B)))) ∘ (η (R (L B)) ∘ R (ϵ (L B)) ∘ R (L f)) ∘ R (ϵ (L A))
-    -- ηRLRLB ∘ ηRLB ∘ RϵLB ∘ RLf ∘ RϵLA
-    -- ηTTB ∘ ηTB ∘ μB ∘ Tf ∘ μA  where  f : A → TB
+    ; F₁ = λ { {A} {B} f → η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ B)))) C.∘ R.F₁ (ϵ.η (L.F₀ (R.F₀ (L.F₀ B)))) C.∘ R.F₁ (L.F₁ (η.η (R.F₀ (L.F₀ B)) C.∘ R.F₁ (ϵ.η (L.F₀ B)) C.∘ R.F₁ (L.F₁ f))) }
+    -- η (R (L (R (L B)))) ∘ R (ϵ (L (R (L B)))) ∘ R (L (η (R (L B)) ∘ R (ϵ (L B)) ∘ R (L f)))
+    -- ηRLRLB ∘ RϵLRLB ∘ RLηRLB ∘ RLRϵLB ∘ RLRLf
+    -- ηTTB ∘ μTB ∘ TηTB ∘ TμB ∘ TTf  where  f : A → TB
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
 
@@ -108,16 +110,18 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     -- (L (R f) ∘ L (η (R A))) ∘ ϵ (L (R A))
     -- LRf ∘ LηRA ∘ ϵLRA
     -- Sf ∘ δA ∘ ϵSA  where  f : SA → B
+    -- fᵒ ∘ ϵS
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
 
   _ : (kForgetful L⊣R) ∘F (kkCoforgetful L⊣R) ≡ record
     { F₀ = λ x → L.F₀ (R.F₀ (L.F₀ (R.F₀ x)))
     -- SSX
-    ; F₁ = λ { {A} {B} f → (L.F₁ (η.η (R.F₀ B)) D.∘ f) D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ A)))) }
-    -- (L (η (R B)) ∘ f) ∘ ϵ (L (R (L (R A))))
-    -- LηRB ∘ f ∘ ϵLRLRA
-    -- δB ∘ f ∘ ϵSSA  where  f : SSA → SB
+    ; F₁ = λ { {A} {B} f → (L.F₁ (R.F₁ f) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ A))))) D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ A)))) }
+    -- (L (R f) ∘ L (η (R (L (R A))))) ∘ ϵ (L (R (L (R A))))
+    -- LRf ∘ LηRLRA ∘ ϵLRLRA
+    -- Sf ∘ δSA ∘ ϵSSA  where  f : SSA → SB
+    -- fᵒ ∘ ϵSSA
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
 
