@@ -65,7 +65,7 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
   kkForgetful : Functor (Kleisli kkadjoint⇒monad) (CoKleisli (kadjoint⇒comonad L⊣R))
   kkForgetful = record
     { F₀ = T.F₀
-    ; F₁ = λ {X} {Y} (f : T.F₀ X ⇒ T.F₀ (T.F₀ Y)) → f ∘ μ.η X
+    ; F₁ = λ {X} {Y} (f : T.F₀ X ⇒ T.F₀ (T.F₀ Y)) → μ.η (T.F₀ Y) ∘ (T.F₁ f)
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
     where open C
           open T renaming (F to T)
@@ -110,7 +110,7 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
   kkCoforgetful : Functor (CoKleisli kkadjoint⇒comonad) (Kleisli (kadjoint⇒monad L⊣R))
   kkCoforgetful = record
     { F₀ = S.F₀
-    ; F₁ = λ {X} {Y} (f : S.F₀ (S.F₀ X) ⇒ S.F₀ Y) → δ.η Y ∘ f -- TODO: double check manual computation that produced this form
+    ; F₁ = λ {X} {Y} (f : S.F₀ (S.F₀ X) ⇒ S.F₀ Y) → S.F₁ f ∘ δ.η (S.F₀ X)
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
     where open D
           open S renaming (F to S)
