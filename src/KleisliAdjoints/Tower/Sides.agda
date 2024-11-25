@@ -90,6 +90,7 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     -- ηRLRLRLB ∘ RϵLRLRLB ∘ RLηRLRLB ∘ RLRϵLRLB ∘ RLRLf
     -- ηTTTB ∘ (μ TTB ∘ Tη TTB) ∘ TμTB ∘ TTf
     -- ηTTTB ∘ TμTB ∘ TTf  where  f : TA → TTB
+    -- ηTTTB ∘ Tf*
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
 
@@ -99,7 +100,9 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     ; F₁ = λ { {A} {B} f → η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ B)))) C.∘ R.F₁ (ϵ.η (L.F₀ (R.F₀ (L.F₀ B)))) C.∘ R.F₁ (L.F₁ (η.η (R.F₀ (L.F₀ B)) C.∘ R.F₁ (ϵ.η (L.F₀ B)) C.∘ R.F₁ (L.F₁ f))) }
     -- η (R (L (R (L B)))) ∘ R (ϵ (L (R (L B)))) ∘ R (L (η (R (L B)) ∘ R (ϵ (L B)) ∘ R (L f)))
     -- ηRLRLB ∘ RϵLRLB ∘ RLηRLB ∘ RLRϵLB ∘ RLRLf
-    -- ηTTB ∘ μTB ∘ TηTB ∘ TμB ∘ TTf  where  f : A → TB
+    -- ηTTB ∘ (μ TB ∘ Tη TB) ∘ TμB ∘ TTf
+    -- ηTTB ∘ TμB ∘ TTf  where  f : A → TB
+    -- ηTTB ∘ Tf*
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
 
@@ -131,7 +134,9 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     ; F₁ = λ { {A} {B} f → (L.F₁ (R.F₁ ((L.F₁ (R.F₁ f) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ A))))) D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ A)))))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ A))))))) D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ A)))))) }
     -- (L (R ((L (R f) ∘ L (η (R (L (R A))))) ∘ ϵ (L (R (L (R A)))))) ∘ L (η (R (L (R (L (R A))))))) ∘ ϵ (L (R (L (R (L (R A))))))
     -- LRLRf ∘ LRLηRLRA ∘ LRϵLRLRA ∘ LηRLRLRA ∘ ϵLRLRLRA
-    -- SSf ∘ SδSA ∘ SϵSSA ∘ δSSA ∘ ϵSSSA  where  f : SSA → SB
+    -- SSf ∘ SδSA ∘ (Sϵ SSA ∘ δ SSA) ∘ ϵSSSA
+    -- SSf ∘ SδSA ∘ ϵSSSA  where  f : SSA → SB
+    -- Sfᵒ ∘ ϵSSSA
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
 
@@ -141,7 +146,9 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     ; F₁ = λ { {A} {B} f → (L.F₁ (R.F₁ ((L.F₁ (R.F₁ f) D.∘ L.F₁ (η.η (R.F₀ A))) D.∘ ϵ.η (L.F₀ (R.F₀ A)))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ A))))) D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ A)))) }
     -- (L (R ((L (R f) ∘ L (η (R A))) ∘ ϵ (L (R A)))) ∘ L (η (R (L (R A))))) ∘ ϵ (L (R (L (R A))))
     -- LRLRf ∘ LRLηRA ∘ LRϵLRA ∘ LηRLRA ∘ ϵLRLRA
-    -- SSf ∘ SδA ∘ SϵSA ∘ δSA ∘ ϵSSA  where  f : SA → B
+    -- SSf ∘ SδA ∘ (Sϵ SA ∘ δ SA) ∘ ϵSSA
+    -- SSf ∘ SδA ∘ ϵSSA  where  f : SA → B
+    -- Sfᵒ ∘ ϵSSA
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
 
