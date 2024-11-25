@@ -88,6 +88,7 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     -- 1 ∘ L (R f) ∘ L (η (R X))
     -- LRf ∘ LηRX
     -- Sf ∘ δX  where  f : SX → Y
+    -- fᵒ
   _ = refl
 
   _ : Forgetful (kadjoint⇒monad (L⊣R)) ≡ record
@@ -100,6 +101,7 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     -- εSY ∘ (εS SY ∘ δ SY) ∘ Sf
     -- (εSY ∘ Sf)
     -- f ∘ εSX  where  f : SX → SY
+    -- TODO: does this have a name?
   _ = refl
 
 module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
@@ -165,6 +167,7 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     -- (R (ε (L Y)) ∘ R (L f)) ∘ 1
     -- RεLY ∘ RLf
     -- μY ∘ Tf  where  f : X → TY
+    -- f*
   _ = refl
 
   _ : Coforgetful (kadjoint⇒comonad (L⊣R)) ≡ record
@@ -177,6 +180,7 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     -- Tf ∘ (μ TX ∘ ηT TX) ∘ ηTX
     -- (Tf ∘ ηTX)
     -- ηTY ∘ f  where  f : TX → TY
+    -- TODO: does this have a name?
   _ = refl
 
 module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
