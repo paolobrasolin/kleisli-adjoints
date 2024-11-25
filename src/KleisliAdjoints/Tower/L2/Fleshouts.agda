@@ -38,12 +38,16 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
 
   _ : adjoint⇒monad (kKleisliAdjoints L⊣R) ≡ record
     { F = record
-      { F₀ = λ X → R.F₀ (L.F₀ X) -- TX
-      ; F₁ = λ f → R.F₁ (L.F₁ f) } -- Tf
+      { F₀ = λ X → R.F₀ (L.F₀ X)
+      -- TX
+      ; F₁ = λ f → R.F₁ (L.F₁ f) }
+      -- Tf
     ; η = record
-      { η = λ X → η.η (R.F₀ (L.F₀ X)) } -- ηTX
+      { η = λ X → η.η (R.F₀ (L.F₀ X)) }
+      -- ηTX
     ; μ = record
-      { η = λ X → R.F₁ (ε.η (L.F₀ (R.F₀ (L.F₀ X)))) } -- μTX
+      { η = λ X → R.F₁ (ε.η (L.F₀ (R.F₀ (L.F₀ X)))) }
+      -- μTX
     }
   _ = refl
 
@@ -79,8 +83,9 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     -- (R (ε (L (R (L Y)))) ∘ R (L (η (R (L Y))))) ∘ (R (ε (L (R (L Y)))) ∘ R (L (R (L f)))) ∘ η (R (L (R (L X)))) ∘ η (R (L X))
     -- RεLRLY ∘ RLηRLY ∘ RεLRLY ∘ RLRLf ∘ ηRLRLX ∘ ηRLX
     -- (μ TY ∘ Tη TY) ∘ μTY ∘ (TTf ∘ ηTTX) ∘ ηTX
-    -- (μ TY ∘ ηT TY) ∘ (Tf ∘ ηTX)
-    -- ηTY ∘ f  where  f : TX → TY
+    -- (μ TY ∘ ηT TY) ∘ Tf ∘ ηTX
+    -- Tf ∘ ηTX  where  f : TX → TY
+    -- ηTY ∘ f
   _ = refl
 
   _ : Forgetful (kkadjoint⇒monad (L⊣R)) ≡ record
@@ -93,8 +98,8 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     -- (μTY ∘ TμTY) ∘ (μ TTTY ∘ ηT TTTY) ∘ (TTf ∘ ηTTX)
     -- μTY ∘ μTTY ∘ (μ TTTY ∘ ηT TTTY) ∘ (TTf ∘ ηTTX)
     -- μTY ∘ (μ TTY ∘ ηT TTY) ∘ Tf
-    -- (μTY ∘ Tf)
-    -- f ∘ μX  where  f : TX → TTY
+    -- μTY ∘ Tf  where  f : TX → TTY
+    -- NOTE: naturality cannot be applied to turn this into an extension
   _ = refl
 
 module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
@@ -109,12 +114,16 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
 
   _ : adjoint⇒comonad (kKleisliAdjoints L⊣R) ≡ record
     { F = record
-      { F₀ = λ X → L.F₀ (R.F₀ X) -- SX
-      ; F₁ = λ f → L.F₁ (R.F₁ f) } -- Sf
+      { F₀ = λ X → L.F₀ (R.F₀ X)
+      -- SX
+      ; F₁ = λ f → L.F₁ (R.F₁ f) }
+      -- Sf
     ; ε = record
-      { η = λ X → ε.η (L.F₀ (R.F₀ X)) } -- εSX
+      { η = λ X → ε.η (L.F₀ (R.F₀ X)) }
+      -- εSX
     ; δ = record
-      { η = λ X → L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ X)))) } } -- δSX
+      { η = λ X → L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ X)))) } }
+      -- δSX
   _ = refl
 
   _ : CoKleisli (kkadjoint⇒comonad (L⊣R)) ≡ record
@@ -150,8 +159,8 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     -- εLRY ∘ εLRLRY ∘ LRLRf ∘ LηRLRX ∘ LRεLRX ∘ LηRLRX
     -- εSY ∘ εSSY ∘ (SSf ∘ δSX) ∘ (Sε SX ∘ δ SX)
     -- εSY ∘ (εS SY ∘ δ SY) ∘ Sf
-    -- (εSY ∘ Sf)
-    -- f ∘ εSX  where  f : SX → SY
+    -- εSY ∘ Sf  where  f : SX → SY
+    -- f ∘ εSX
   _ = refl
 
   _ : Coforgetful (kkadjoint⇒comonad (L⊣R)) ≡ record
@@ -164,8 +173,8 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     -- εSSY ∘ (εSSSY ∘ SSSf) ∘ δSSSX ∘ SδSX ∘ δSX
     -- (εSSY ∘ SSf) ∘ (εS SSSY ∘ δ SSSX) ∘ (Sδ SX ∘ δ SX)
     -- Sf ∘ (εS SSX ∘ δ SSX) ∘ δSX
-    -- (Sf ∘ δSX)
-    -- δSY ∘ f  where  f : SSX → SY
+    -- Sf ∘ δSX  where  f : SSX → SY
+    -- NOTE: naturality cannot be applied to turn this into a coextension
   _ = refl
 
 module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
