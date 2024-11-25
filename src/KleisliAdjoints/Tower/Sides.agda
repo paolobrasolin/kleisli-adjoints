@@ -125,3 +125,23 @@ module _ {L : Functor C D} {R : Functor D C} (L⊣R : L ⊣ R) where
     ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
   _ = refl
 
+  _ : (kkCofree L⊣R) ∘F (kFree L⊣R) ∘F (kForgetful L⊣R) ∘F (kkCoforgetful L⊣R) ≡ record
+    { F₀ = λ X → L.F₀ (R.F₀ (L.F₀ (R.F₀ X)))
+    -- SSX
+    ; F₁ = λ { {A} {B} f → (L.F₁ (R.F₁ ((L.F₁ (R.F₁ f) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ A))))) D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ A)))))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ A))))))) D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ (L.F₀ (R.F₀ A)))))) }
+    -- (L (R ((L (R f) ∘ L (η (R (L (R A))))) ∘ ϵ (L (R (L (R A)))))) ∘ L (η (R (L (R (L (R A))))))) ∘ ϵ (L (R (L (R (L (R A))))))
+    -- LRLRf ∘ LRLηRLRA ∘ LRϵLRLRA ∘ LηRLRLRA ∘ ϵLRLRLRA
+    -- SSf ∘ SδSA ∘ SϵSSA ∘ δSSA ∘ ϵSSSA  where  f : SSA → SB
+    ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
+  _ = refl
+
+  _ : (kForgetful L⊣R) ∘F (kkCoforgetful L⊣R) ∘F (kkCofree L⊣R) ∘F (kFree L⊣R) ≡ record
+    { F₀ = λ X → L.F₀ (R.F₀ (L.F₀ (R.F₀ X)))
+    -- SSX
+    ; F₁ = λ { {A} {B} f → (L.F₁ (R.F₁ ((L.F₁ (R.F₁ f) D.∘ L.F₁ (η.η (R.F₀ A))) D.∘ ϵ.η (L.F₀ (R.F₀ A)))) D.∘ L.F₁ (η.η (R.F₀ (L.F₀ (R.F₀ A))))) D.∘ ϵ.η (L.F₀ (R.F₀ (L.F₀ (R.F₀ A)))) }
+    -- (L (R ((L (R f) ∘ L (η (R A))) ∘ ϵ (L (R A)))) ∘ L (η (R (L (R A))))) ∘ ϵ (L (R (L (R A))))
+    -- LRLRf ∘ LRLηRA ∘ LRϵLRA ∘ LηRLRA ∘ ϵLRLRA
+    -- SSf ∘ SδA ∘ SϵSA ∘ δSA ∘ ϵSSA  where  f : SA → B
+    ; identity = {! !} ; homomorphism = {! !} ; F-resp-≈ = {! !} }
+  _ = refl
+
